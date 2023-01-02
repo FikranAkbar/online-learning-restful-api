@@ -1,0 +1,207 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Online Learning RESTful API",
+    "description": "RESTful API Specification For Online Learning Backend Application",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Fikran Akbar",
+      "email": "fikranakbar756@gmail.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://{environment}/api",
+      "variables": {
+        "environment": {
+          "default": "localhost:8000",
+          "description": "Online Learning RESTful API Server",
+          "enum": [
+            "localhost:8000"
+          ]
+        }
+      }
+    }
+  ],
+  "tags": [
+    {
+      "name": "Authentication",
+      "description": "User authentication such login, register, logout"
+    }
+  ],
+  "externalDocs": {
+    "description": "Fikran Akbar's Github",
+    "url": "https://github.com/FikranAkbar"
+  },
+  "paths": {
+    "/users/login": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Login user with email and password",
+        "description": "Login user with registered email and password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "email": "fikranakbar756@gmail.com",
+                "password": "password"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "email": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "token": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": "200",
+                  "message": "Login successful",
+                  "data": {
+                    "email": "fikranakbar756@gmail.com",
+                    "name": "Fikran Akbar",
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiRmlrcmFuIEFrYmFyIiwiZW1haWwiOiJmaWtyYW5ha2Jhcjc1NkBnbWFpbC5jb20ifQ._tSgZvD3rl9gBwunH4JgwcHn1adyTMYSR6N2uHuWsqw"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Login failed. Email and password must be filled",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "status": 400,
+                  "message": "Login failed. Email must be type of email. Email and password must be filled",
+                  "data": "Error detail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Login failed. Wrong email or password",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "example": {
+                  "status": 403,
+                  "message": "Login failed. Wrong email or password",
+                  "data": null
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "status": 500,
+                  "message": "Internal server error",
+                  "data": "Error detail"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Logout user with JSON Web Token (JWT)",
+        "description": "Logout user with JSON Web Token (JWT)",
+        "responses": {
+
+        }
+      }
+    },
+    "/users/register": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Register user with email, password, firstname, lastname, date_birth, gender",
+        "description": "Register user with email, password, firstname, lastname, date_birth, gender",
+        "responses": {
+
+        }
+      }
+    }
+  }
+}
