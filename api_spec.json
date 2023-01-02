@@ -38,7 +38,7 @@
       "post": {
         "tags": ["Authentication"],
         "summary": "Login user with email and password",
-        "description": "Login user with registered email and password",
+        "description": "Login user with registered email and password. The API will return token to access protected route",
         "requestBody": {
           "content": {
             "application/json": {
@@ -46,10 +46,12 @@
                 "type": "object",
                 "properties": {
                   "email": {
-                    "type": "string"
+                    "type": "string",
+                    "required": true
                   },
                   "password": {
-                    "type": "string"
+                    "type": "string",
+                    "required": true
                   }
                 }
               },
@@ -92,7 +94,7 @@
                 },
                 "example": {
                   "status": "200",
-                  "message": "Login successful",
+                  "message": "OK",
                   "data": {
                     "email": "fikranakbar756@gmail.com",
                     "name": "Fikran Akbar",
@@ -122,8 +124,8 @@
                 },
                 "example": {
                   "status": 400,
-                  "message": "Login failed. Email must be type of email. Email and password must be filled",
-                  "data": "Error detail"
+                  "message": "BAD REQUEST",
+                  "data": "Login failed. Email must be type of email. Email and password must be filled"
                 }
               }
             }
@@ -148,8 +150,8 @@
                 },
                 "example": {
                   "status": 403,
-                  "message": "Login failed. Wrong email or password",
-                  "data": null
+                  "message": "FORBIDDEN",
+                  "data": "Login failed. Wrong email or password"
                 }
               }
             }
@@ -174,7 +176,167 @@
                 },
                 "example": {
                   "status": 500,
-                  "message": "Internal server error",
+                  "message": "INTERNAL SERVER ERROR",
+                  "data": "Error detail"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/register": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Register user with email, password, name, date_birth, gender",
+        "description": "Register user with email, password, name, date_birth, gender. This API will not auto-login the user, so will not return token for accessed protected route",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "password": {
+                    "type": "string",
+                    "required": true,
+                    "minLength": 8
+                  },
+                  "name": {
+                    "type": "string",
+                    "maxLength": 100,
+                    "required": true
+                  },
+                  "date_birth": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "gender": {
+                    "type": "string",
+                    "enum": ["Male", "Female"]
+                  }
+                }
+              },
+              "example": {
+                "email": "fikranakbar756@gmail.com",
+                "password": "password",
+                "name": "Fikran Akbar",
+                "date_birth": "2000-07-01",
+                "gender": "Male"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Register user successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": {
+                    "id": 1,
+                    "name": "Fikran Akbar",
+                    "email": "fikranakbar756@gmail.com"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Register user failed. All field must be filled or the given data was invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "Email error": {
+                    "value": {
+                      "status": 400,
+                      "message": "BAD REQUEST",
+                      "data": "Register failed. Email must be type of email"
+                    }
+                  },
+                  "Password minimum length error": {
+                    "value": {
+                      "status": 400,
+                      "message": "BAD REQUEST",
+                      "data": "Register failed. Password must be 8 character minimum"
+                    }
+                  },
+                  "Empty field error": {
+                    "value": {
+                      "status": 400,
+                      "message": "BAD REQUEST",
+                      "data": "Register failed. All field must be filled"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "status": 500,
+                  "message": "INTERNAL SERVER ERROR",
                   "data": "Error detail"
                 }
               }
@@ -188,16 +350,6 @@
         "tags": ["Authentication"],
         "summary": "Logout user with JSON Web Token (JWT)",
         "description": "Logout user with JSON Web Token (JWT)",
-        "responses": {
-
-        }
-      }
-    },
-    "/users/register": {
-      "post": {
-        "tags": ["Authentication"],
-        "summary": "Register user with email, password, firstname, lastname, date_birth, gender",
-        "description": "Register user with email, password, firstname, lastname, date_birth, gender",
         "responses": {
 
         }
