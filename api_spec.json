@@ -488,13 +488,7 @@
         "description": "Get all course from category by category id",
         "parameters": [
           {
-            "name": "categoryId",
-            "in": "path",
-            "schema": {
-              "type": "number"
-            },
-            "required": true,
-            "example": 1
+            "$ref": "#/components/parameters/CategoryIdPathParameter"
           }
         ],
         "responses": {
@@ -585,7 +579,7 @@
         "summary": "Get course detail by course id",
         "parameters": [
           {
-            "$ref": "#/components/parameters/CategoryIdPathParameter"
+            "$ref": "#/components/parameters/CourseIdPathParameter"
           }
         ],
         "requestBody": {
@@ -644,7 +638,7 @@
         "description": "Get course progression of a user",
         "parameters": [
           {
-            "$ref": "#/components/parameters/CategoryIdPathParameter"
+            "$ref": "#/components/parameters/CourseIdPathParameter"
           }
         ],
         "responses": {
@@ -728,7 +722,7 @@
         "description": "Get course review by course id",
         "parameters": [
           {
-            "$ref": "#/components/parameters/CategoryIdPathParameter"
+            "$ref": "#/components/parameters/CourseIdPathParameter"
           }
         ],
         "responses": {
@@ -800,8 +794,13 @@
     "/courses/:courseId/overview/webinar-session": {
       "get": {
         "tags": ["Course - Webinar Session"],
-        "description": "Get webinar sessions by course id",
+        "description": "Get overview of webinar sessions by course id",
         "summary": "Get webinar sessions by course id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CourseIdPathParameter"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Get webinar sessions success",
@@ -891,6 +890,97 @@
                 }
               }
             }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      }
+    },
+    "/courses/:courseId/learn/webinar-session/:webinarSessionId": {
+      "get": {
+        "tags": ["Course - Webinar Session"],
+        "summary": "Get detailed webinar session by course id and webinar session id",
+        "description": "Get detailed webinar session by course id and webinar session id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CourseIdPathParameter"
+          },
+          {
+            "$ref": "#/components/parameters/WebinarSessionIdPathParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get detailed webinar session success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "webinar_session_id": {
+                          "type": "number"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "desc": {
+                          "type": "string"
+                        },
+                        "cover": {
+                          "type": "string"
+                        },
+                        "zoom_link": {
+                          "type": "string"
+                        },
+                        "schedule_day": {
+                          "type": "string"
+                        },
+                        "schedule_date": {
+                          "type": "string"
+                        },
+                        "time_start": {
+                          "type": "string"
+                        },
+                        "time_finish": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": {
+                    "id": 1,
+                    "title": "Webinar Title 1",
+                    "desc": "Deskripsi dari Webinar Title 1 Deskripsi dari Webinar Title 1 Deskripsi dari Webinar Title 1 Deskripsi dari Webinar Title 1 Deskripsi dari Webinar Title 1",
+                    "cover": "https://images.unsplash.com/photo-1608231975456-2f2d9fb1b49b?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=800&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY0OTczNzM3MA&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1200",
+                    "zoom_link": "https://zoom.com",
+                    "schedule_day": "Monday",
+                    "schedule_date": "2022-10-05",
+                    "time_start": "09:00:00.000000",
+                    "time_finish": "11:00:00.000000"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401-Unauthorized"
           },
           "404": {
             "$ref": "#/components/responses/404-NotFound"
@@ -1217,7 +1307,7 @@
         "description": "Expert detail in long version",
         "value": {
           "name": "Brielle Hutchinson",
-          "description": "Saya adalah expert Ray Robinson di platform mojadipro",
+          "description": "Saya adalah expert Ray Robinson di platform online learning",
           "photo": "https://thumbs.dreamstime.com/b/young-woman-avatar-cartoon-character-profile-picture-young-brunette-woman-short-hair-avatar-cartoon-character-vector-149728784.jpg",
           "average_rate": 4.5,
           "total_course": 3,
@@ -1230,7 +1320,19 @@
         "name": "categoryId",
         "in": "path",
         "required": true,
-        "example": 5
+        "example": 1
+      },
+      "CourseIdPathParameter": {
+        "name": "courseId",
+        "in": "path",
+        "required": true,
+        "example": 1
+      },
+      "WebinarSessionIdPathParameter": {
+        "name": "webinarSessionId",
+        "in": "path",
+        "required": true,
+        "example": 1
       }
     }
   }
