@@ -914,8 +914,8 @@
     "/courses/:courseId/learn/webinar-sessions/:webinarSessionId": {
       "get": {
         "tags": ["Course - Webinar Session"],
-        "summary": "Get detailed webinar session by course id and webinar session id",
         "description": "Get detailed webinar session by course id and webinar session id",
+        "summary": "Get detailed webinar session by course id and webinar session id",
         "parameters": [
           {
             "$ref": "#/components/parameters/CourseIdPathParameter"
@@ -1005,8 +1005,8 @@
     "/courses/:courseId/overview/modules": {
       "get": {
         "tags": ["Course - Module"],
-        "summary": "Get overview of module by course id",
         "description": "Get overview of module by course id",
+        "summary": "Get overview of module by course id",
         "parameters": [
           {
             "$ref": "#/components/parameters/CourseIdPathParameter"
@@ -1074,6 +1074,169 @@
                       "overview": "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Bahasa Inggris."
                     }
                   ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      }
+    },
+    "/courses/:courseId/learn/modules/:moduleId": {
+      "get": {
+        "tags": ["Course - Module"],
+        "description": "Get detailed module by course id and webinar session id",
+        "summary": "Get detailed module",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CourseIdPathParameter"
+          },
+          {
+            "$ref": "#/components/parameters/ModuleIdPathParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get detailed module success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "module_id": {
+                          "type": "number"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "overview": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "content_link": {
+                          "type": "string"
+                        },
+                        "video": {
+                          "type": "object",
+                          "properties": {
+                            "video_id": {
+                              "type": "number"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "url": {
+                              "type": "string"
+                            },
+                            "last_video_progression": {
+                              "type": "number"
+                            },
+                            "course_id": {
+                              "type": "number"
+                            },
+                            "module_id": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        "is_answered": {
+                          "type": "boolean"
+                        },
+                        "quiz": {
+                          "type": "object",
+                          "properties": {
+                            "quiz_id": {
+                              "type": "number"
+                            },
+                            "question": {
+                              "type": "string"
+                            },
+                            "answers": {
+                              "$ref": "#/components/schemas/QuizAnswerSchema"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": {
+                    "module_id": 2,
+                    "title": "Title 2",
+                    "overview": "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Enterpreneurship.",
+                    "description": "\n                    <h2>JUDUL</h2>\n                    <p>Terdiri dari beberapa bagian part pembelajaran untuk mendapatkan pengetahuan dan pemahaman baru tentang bagaimana cara membangun usaha, hal-hal apa saja yang dibutuhkan dalam membangun usaha baik secara internal maupun eksternal,</p>\n                    <br>\n                    <p><img src=\"https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80\" alt=\"Testing Photo\"></p>\n                    <br>\n                    <h3>SUB JUDUL</h3>\n                    <p>Memulai dari awal dan dasar-dasar yang perlu dibangun atau fundamental dalam membangun Enterpreneurship dan juga melihat perkembangan zaman dan teknologi yang berdasarkan IoT sebagai pusat pembelajaran utama dalam masyarakat.</p>\n                ",
+                    "content_link": "http://service.mojadipro.com/course/1/learn/module/2/content",
+                    "video": {
+                      "video_id": 2,
+                      "name": "Video 2",
+                      "url": "'https://mojadi-public.s3-ap-southeast-1.amazonaws.com/videos/1647947115428Fitur-Vid-Sharing.mp4'",
+                      "last_video_progression": 0,
+                      "course_id": 1,
+                      "module_id": 2
+                    },
+                    "is_answered": true,
+                    "quiz": {
+                      "quiz_id": 2,
+                      "question": "Ini adalah deskripsi dari pertanyaan quiz. Berikut adalah pertanyaannya dan silahkan tuliskan jawaban quiznya, bagaimana pendapat anda mengenai materi yang baru saja anda pelajari ?",
+                      "answers": [
+                        {
+                          "answer_id": 5,
+                          "quiz_answer": "Quiz Answer number 5",
+                          "total_like": 0,
+                          "is_liked": false,
+                          "user_id": 1,
+                          "user_name": "Molly Potts",
+                          "user_photo": "https://thumbs.dreamstime.com/b/young-woman-avatar-cartoon-character-profile-picture-young-brunette-woman-short-hair-avatar-cartoon-character-vector-149728784.jpg"
+                        },
+                        {
+                          "answer_id": 6,
+                          "quiz_answer": "Quiz Answer number 6",
+                          "total_like": 0,
+                          "is_liked": false,
+                          "user_id": 2,
+                          "user_name": "Jack Guthrie",
+                          "user_photo": "https://image.winudf.com/v2/image1/Y29tLm1uaWRlbmMuYXZ0YXJtYWtlcl9zY3JlZW5fNF8xNTU0NjQ5MzE4XzAwMw/screen-4.jpg?fakeurl=1&type=.jpg"
+                        },
+                        {
+                          "answer_id": 7,
+                          "quiz_answer": "Quiz Answer number 7",
+                          "total_like": 0,
+                          "is_liked": false,
+                          "user_id": 3,
+                          "user_name": "Finn Rhodes",
+                          "user_photo": "https://tilomitra.com/wp-content/uploads/2014/08/avatar-cartoon.png"
+                        },
+                        {
+                          "answer_id": 8,
+                          "quiz_answer": "Quiz Answer number 8",
+                          "total_like": 0,
+                          "is_liked": false,
+                          "user_id": 4,
+                          "user_name": "Clare Levy",
+                          "user_photo": "https://thumbs.dreamstime.com/b/girl-avatar-cartoon-stock-vector-image-cute-beautiful-eyes-93364804.jpg"
+                        }
+                      ]
+                    }
+                  }
                 }
               }
             }
@@ -1312,6 +1475,35 @@
             }
           }
         }
+      },
+      "QuizAnswerSchema": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "answer_id": {
+              "type": "number"
+            },
+            "quiz_answer": {
+              "type": "string"
+            },
+            "total_like": {
+              "type": "number"
+            },
+            "is_liked": {
+              "type": "boolean"
+            },
+            "user_id": {
+              "type": "number"
+            },
+            "user_name": {
+              "type": "string"
+            },
+            "user_photo": {
+              "type": "string"
+            }
+          }
+        }
       }
     },
     "examples": {
@@ -1426,6 +1618,12 @@
       },
       "WebinarSessionIdPathParameter": {
         "name": "webinarSessionId",
+        "in": "path",
+        "required": true,
+        "example": 1
+      },
+      "ModuleIdPathParameter": {
+        "name": "moduleId",
         "in": "path",
         "required": true,
         "example": 1
