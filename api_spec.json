@@ -157,30 +157,7 @@
             }
           },
           "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "number"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "data": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "example": {
-                  "status": 500,
-                  "message": "INTERNAL SERVER ERROR",
-                  "data": "Error detail"
-                }
-              }
-            }
+            "$ref": "#/components/responses/500-InternalServerError"
           }
         }
       }
@@ -317,7 +294,19 @@
             }
           },
           "500": {
-            "description": "Internal server error",
+            "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Logout user with JSON Web Token (JWT)",
+        "description": "Logout user with JSON Web Token (JWT)",
+        "responses": {
+          "200": {
+            "description": "Logout success",
             "content": {
               "application/json": {
                 "schema": {
@@ -330,28 +319,80 @@
                       "type": "string"
                     },
                     "data": {
-                      "type": "string"
+                      "type": "null"
                     }
                   }
                 },
                 "example": {
-                  "status": 500,
-                  "message": "INTERNAL SERVER ERROR",
-                  "data": "Error detail"
+                  "status": 200,
+                  "message": "OK",
+                  "data": null
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/components/responses/401-Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-InternalServerError"
           }
         }
       }
-    },
-    "/users/logout": {
-      "post": {
-        "tags": ["Authentication"],
-        "summary": "Logout user with JSON Web Token (JWT)",
-        "description": "Logout user with JSON Web Token (JWT)",
-        "responses": {
-
+    }
+  },
+  "components": {
+    "responses": {
+      "401-Unauthorized": {
+        "description": "Unauthorized, Token already expired",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "number"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "null"
+                }
+              }
+            },
+            "example": {
+              "status": 401,
+              "message": "UNAUTHORIZED",
+              "data": null
+            }
+          }
+        }
+      },
+      "500-InternalServerError": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "number"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "string"
+                }
+              }
+            },
+            "example": {
+              "status": 500,
+              "message": "INTERNAL SERVER ERROR",
+              "data": "Error detail"
+            }
+          }
         }
       }
     }
