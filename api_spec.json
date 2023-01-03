@@ -43,6 +43,10 @@
     {
       "name": "Course - Detail Course",
       "description": "API list for show course detail and get user course progression "
+    },
+    {
+      "name": "Course - Review Course",
+      "description": "Get all the course's reviews"
     }
   ],
   "externalDocs": {
@@ -577,10 +581,7 @@
         "summary": "Get course detail by course id",
         "parameters": [
           {
-            "name": "categoryId",
-            "in": "path",
-            "required": true,
-            "example": 5
+            "$ref": "#/components/parameters/CategoryIdPathParameter"
           }
         ],
         "requestBody": {
@@ -637,6 +638,11 @@
         "tags": ["Course - Detail Course"],
         "summary": "Get course progression of a user",
         "description": "Get course progression of a user",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CategoryIdPathParameter"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Get course progression of a user success",
@@ -704,6 +710,82 @@
                 }
               }
             }
+          },
+          "500": {
+            "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      }
+    },
+    "/courses/:courseId/review": {
+      "get": {
+        "tags": ["Course - Review Course"],
+        "summary": "Get course review by course id",
+        "description": "Get course review by course id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CategoryIdPathParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get course review success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "user_id": {
+                            "type": "number"
+                          },
+                          "user_name": {
+                            "type": "string"
+                          },
+                          "review_rate": {
+                            "type": "number"
+                          },
+                          "review_desc": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": [
+                    {
+                      "user_id": 2,
+                      "user_name": "Jack Guthrie",
+                      "review_desc": "Belajar basic inggris mantaps",
+                      "review_rate": 4.9
+                    },
+                    {
+                      "user_id": 3,
+                      "user_name": "Finn Rhodes",
+                      "review_desc": "Kembali ngulang materi yang udah dipelajarin di sekolah dan diperdalam",
+                      "review_rate": 4.9
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-NotFound"
           },
           "500": {
             "$ref": "#/components/responses/500-InternalServerError"
@@ -1033,6 +1115,14 @@
           "total_course": 3,
           "total_participant": 60
         }
+      }
+    },
+    "parameters": {
+      "CategoryIdPathParameter": {
+        "name": "categoryId",
+        "in": "path",
+        "required": true,
+        "example": 5
       }
     }
   }
