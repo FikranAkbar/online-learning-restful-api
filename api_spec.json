@@ -26,7 +26,11 @@
   "tags": [
     {
       "name": "Authentication",
-      "description": "User authentication such login, register, logout"
+      "description": "API list of user authentication such login, register, logout"
+    },
+    {
+      "name": "Course - Category",
+      "description": "API to Show all courses category and get courses by category"
     }
   ],
   "externalDocs": {
@@ -339,6 +343,82 @@
           }
         }
       }
+    },
+    "/courses/categories": {
+      "get": {
+        "tags": ["Course - Category"],
+        "summary": "Get all courses category",
+        "description": "Get all courses category",
+        "responses": {
+          "200": {
+            "description": "Show all course categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "category_name": {
+                            "type": "string"
+                          },
+                          "category_photo_url": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": [
+                    {
+                      "id": 1,
+                      "category_name": "Entrepreneurship",
+                      "category_photo_url": ""
+                    },
+                    {
+                      "id": 2,
+                      "category_name": "Marketing",
+                      "category_photo_url": ""
+                    },
+                    {
+                      "id": 3,
+                      "category_name": "English",
+                      "category_photo_url": ""
+                    },
+                    {
+                      "id": 4,
+                      "category_name": "Creative",
+                      "category_photo_url": ""
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -364,6 +444,32 @@
             "example": {
               "status": 401,
               "message": "UNAUTHORIZED",
+              "data": null
+            }
+          }
+        }
+      },
+      "404-NotFound": {
+        "description": "Data not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "number"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "null"
+                }
+              }
+            },
+            "example": {
+              "status": "404",
+              "message": "NOT FOUND",
               "data": null
             }
           }
