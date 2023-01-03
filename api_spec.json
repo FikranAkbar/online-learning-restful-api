@@ -364,7 +364,18 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CourseCardSchema"
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/CourseCardSchema"
+                    }
+                  }
                 },
                 "examples": {
                   "CourseCardDataExample": {
@@ -501,7 +512,18 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CourseCardSchema"
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/CourseCardSchema"
+                    }
+                  }
                 },
                 "examples": {
                   "CourseCardDataExample": {
@@ -557,7 +579,18 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CourseCardSchema"
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/CourseCardSchema"
+                    }
+                  }
                 },
                 "examples": {
                   "CourseCardDataExample": {
@@ -613,7 +646,18 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DetailCourseSchema"
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/DetailCourseSchema"
+                    }
+                  }
                 },
                 "examples": {
                   "Detail course of owned course": {
@@ -1360,35 +1404,24 @@
     },
     "schemas": {
       "CourseCardSchema": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "number"
-          },
-          "message": {
-            "type": "string"
-          },
-          "data": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "number"
-                },
-                "course_name": {
-                  "type": "string"
-                },
-                "expert_name": {
-                  "type": "string"
-                },
-                "photo_url": {
-                  "type": "string"
-                },
-                "average_rate": {
-                  "type": "number"
-                }
-              }
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number"
+            },
+            "course_name": {
+              "type": "string"
+            },
+            "expert_name": {
+              "type": "string"
+            },
+            "photo_url": {
+              "type": "string"
+            },
+            "average_rate": {
+              "type": "number"
             }
           }
         }
@@ -1433,46 +1466,35 @@
       "DetailCourseSchema": {
         "type": "object",
         "properties": {
-          "status": {
+          "course_id": {
             "type": "number"
           },
-          "message": {
+          "course_name": {
             "type": "string"
           },
-          "data": {
-            "type": "object",
-            "properties": {
-              "course_id": {
-                "type": "number"
-              },
-              "course_name": {
-                "type": "string"
-              },
-              "description": {
-                "type": "string"
-              },
-              "photo_url": {
-                "type": "string"
-              },
-              "contents": {
-                "type": "string"
-              },
-              "average_rate": {
-                "type": "number"
-              },
-              "current_participant": {
-                "type": "number"
-              },
-              "maximum_participant": {
-                "type": "number"
-              },
-              "already_owned": {
-                "type": "boolean"
-              },
-              "expert": {
-                "$ref": "#/components/schemas/ExpertShortDetailSchema"
-              }
-            }
+          "description": {
+            "type": "string"
+          },
+          "photo_url": {
+            "type": "string"
+          },
+          "contents": {
+            "type": "string"
+          },
+          "average_rate": {
+            "type": "number"
+          },
+          "current_participant": {
+            "type": "number"
+          },
+          "maximum_participant": {
+            "type": "number"
+          },
+          "already_owned": {
+            "type": "boolean"
+          },
+          "expert": {
+            "$ref": "#/components/schemas/ExpertShortDetailSchema"
           }
         }
       },
