@@ -51,6 +51,10 @@
     {
       "name": "Course - Webinar Session",
       "description": "API list to get course's webinar sessions by course id"
+    },
+    {
+      "name": "Course - Module",
+      "description": "API List for get module detail and save video progression inside the module"
     }
   ],
   "externalDocs": {
@@ -631,7 +635,7 @@
         }
       }
     },
-    "/courses/:courseId/progression": {
+    "/courses/:courseId/progressions": {
       "get": {
         "tags": ["Course - Detail Course"],
         "summary": "Get course progression of a user",
@@ -715,7 +719,7 @@
         }
       }
     },
-    "/courses/:courseId/review": {
+    "/courses/:courseId/reviews": {
       "get": {
         "tags": ["Course - Review Course"],
         "summary": "Get course review by course id",
@@ -791,7 +795,7 @@
         }
       }
     },
-    "/courses/:courseId/overview/webinar-session": {
+    "/courses/:courseId/overview/webinar-sessions": {
       "get": {
         "tags": ["Course - Webinar Session"],
         "description": "Get overview of webinar sessions by course id",
@@ -820,6 +824,9 @@
                       "items": {
                         "type": "object",
                         "properties": {
+                          "course_id": {
+                            "type": "number"
+                          },
                           "webinar_session_id": {
                             "type": "number"
                           },
@@ -851,6 +858,7 @@
                   "message": "OK",
                   "data": [
                     {
+                      "course_id": 3,
                       "webinar_session_id": 25,
                       "title": "Webinar Title 1",
                       "cover": "https://images.unsplash.com/photo-1608229191360-7064b0afa639?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=800&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY0OTczNzcxMg&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1200",
@@ -860,6 +868,7 @@
                       "time_finish": "11:00:00.000000"
                     },
                     {
+                      "course_id": 3,
                       "webinar_session_id": 26,
                       "title": "Webinar Title 2",
                       "cover": "https://images.unsplash.com/photo-1606829192980-9a547ffc918c?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=800&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY0OTczNzcxOA&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1200",
@@ -869,6 +878,7 @@
                       "time_finish": "12:00:00.000000"
                     },
                     {
+                      "course_id": 3,
                       "webinar_session_id": 27,
                       "title": "Webinar Title 3",
                       "cover": "https://images.unsplash.com/photo-1605541885855-88863971e7b0?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=800&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY0OTczNzczOQ&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1200",
@@ -878,6 +888,7 @@
                       "time_finish": "13:00:00.000000"
                     },
                     {
+                      "course_id": 3,
                       "webinar_session_id": 28,
                       "title": "Webinar Title 4",
                       "cover": "https://images.unsplash.com/photo-1606829192980-9a547ffc918c?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=800&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY0OTczNzc0Ng&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1200",
@@ -900,7 +911,7 @@
         }
       }
     },
-    "/courses/:courseId/learn/webinar-session/:webinarSessionId": {
+    "/courses/:courseId/learn/webinar-sessions/:webinarSessionId": {
       "get": {
         "tags": ["Course - Webinar Session"],
         "summary": "Get detailed webinar session by course id and webinar session id",
@@ -930,7 +941,7 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "webinar_session_id": {
+                        "id": {
                           "type": "number"
                         },
                         "title": {
@@ -981,6 +992,91 @@
           },
           "401": {
             "$ref": "#/components/responses/401-Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      }
+    },
+    "/courses/:courseId/overview/modules": {
+      "get": {
+        "tags": ["Course - Module"],
+        "summary": "Get overview of module by course id",
+        "description": "Get overview of module by course id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CourseIdPathParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get overview module success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "course_id": {
+                          "type": "number"
+                        },
+                        "module_id": {
+                          "type": "number"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "overview": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": [
+                    {
+                      "course_id": 3,
+                      "module_id": 25,
+                      "title": "Title 1",
+                      "overview": "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Bahasa Inggris."
+                    },
+                    {
+                      "course_id": 3,
+                      "module_id": 26,
+                      "title": "Title 2",
+                      "overview": "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Bahasa Inggris."
+                    },
+                    {
+                      "course_id": 3,
+                      "module_id": 27,
+                      "title": "Title 3",
+                      "overview": "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Bahasa Inggris."
+                    },
+                    {
+                      "id_course": 3,
+                      "module_id": 28,
+                      "title": "Title 4",
+                      "overview": "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Bahasa Inggris."
+                    }
+                  ]
+                }
+              }
+            }
           },
           "404": {
             "$ref": "#/components/responses/404-NotFound"
