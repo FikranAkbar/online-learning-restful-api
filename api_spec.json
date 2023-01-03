@@ -46,7 +46,11 @@
     },
     {
       "name": "Course - Review Course",
-      "description": "Get all the course's reviews"
+      "description": "API to get course's reviews by course id"
+    },
+    {
+      "name": "Course - Webinar Session",
+      "description": "API list to get course's webinar sessions by course id"
     }
   ],
   "externalDocs": {
@@ -792,6 +796,110 @@
           }
         }
       }
+    },
+    "/courses/:courseId/overview/webinar-session": {
+      "get": {
+        "tags": ["Course - Webinar Session"],
+        "description": "Get webinar sessions by course id",
+        "summary": "Get webinar sessions by course id",
+        "responses": {
+          "200": {
+            "description": "Get webinar sessions success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "webinar_session_id": {
+                            "type": "number"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "cover": {
+                            "type": "string"
+                          },
+                          "schedule_day": {
+                            "type": "string"
+                          },
+                          "schedule_date": {
+                            "type": "string"
+                          },
+                          "time_start": {
+                            "type": "string"
+                          },
+                          "time_finish": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": [
+                    {
+                      "webinar_session_id": 25,
+                      "title": "Webinar Title 1",
+                      "cover": "https://images.unsplash.com/photo-1608229191360-7064b0afa639?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=800&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY0OTczNzcxMg&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1200",
+                      "schedule_day": "Monday",
+                      "schedule_date": "2022-07-21",
+                      "time_start": "09:00:00.000000",
+                      "time_finish": "11:00:00.000000"
+                    },
+                    {
+                      "webinar_session_id": 26,
+                      "title": "Webinar Title 2",
+                      "cover": "https://images.unsplash.com/photo-1606829192980-9a547ffc918c?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=800&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY0OTczNzcxOA&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1200",
+                      "schedule_day": "Tuesday",
+                      "schedule_date": "2022-04-07",
+                      "time_start": "10:00:00.000000",
+                      "time_finish": "12:00:00.000000"
+                    },
+                    {
+                      "webinar_session_id": 27,
+                      "title": "Webinar Title 3",
+                      "cover": "https://images.unsplash.com/photo-1605541885855-88863971e7b0?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=800&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY0OTczNzczOQ&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1200",
+                      "schedule_day": "Wednesday",
+                      "schedule_date": "2022-09-13",
+                      "time_start": "11:00:00.000000",
+                      "time_finish": "13:00:00.000000"
+                    },
+                    {
+                      "webinar_session_id": 28,
+                      "title": "Webinar Title 4",
+                      "cover": "https://images.unsplash.com/photo-1606829192980-9a547ffc918c?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=800&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY0OTczNzc0Ng&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1200",
+                      "schedule_day": "Thursday",
+                      "schedule_date": "2022-01-11",
+                      "time_start": "12:00:00.000000",
+                      "time_finish": "14:00:00.000000"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -862,14 +970,14 @@
                   "type": "string"
                 },
                 "data": {
-                  "type": "null"
+                  "type": "string"
                 }
               }
             },
             "example": {
               "status": "404",
               "message": "NOT FOUND",
-              "data": null
+              "data": "Error detail"
             }
           }
         }
