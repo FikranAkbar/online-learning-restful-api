@@ -34,7 +34,11 @@
     },
     {
       "name": "Course - Popular Course",
-      "description": "API to get the most popular courses, limit to 10"
+      "description": "API to get the most popular courses, limit to 5"
+    },
+    {
+      "name": "Course - Search Course",
+      "description": "API to search course by keyword"
     }
   ],
   "externalDocs": {
@@ -348,6 +352,70 @@
         }
       }
     },
+    "/courses": {
+      "get": {
+        "tags": ["Course - Search Course"],
+        "description": "Search course by keyword",
+        "summary": "Search course by keyword",
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": true,
+            "description": "keyword for searching course names"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search course success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CourseCardDataSchema"
+                },
+                "examples": {
+                  "CourseCardDataExample": {
+                    "$ref": "#/components/examples/CourseCardDataExample"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Search course failed, query cannot be empty",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "status": 400,
+                  "message": "BAD REQUEST",
+                  "data": "Query cannot be empty"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      }
+    },
     "/courses/categories": {
       "get": {
         "tags": ["Course - Category"],
@@ -603,6 +671,38 @@
         }
       }
     },
+    "examples": {
+      "CourseCardDataExample": {
+        "description": "Course Card Data Example",
+        "value": {
+          "status": 200,
+          "message": "OK",
+          "data": [
+            {
+              "id": 1,
+              "course_name": "Intro to Enterpreneurship",
+              "photo_url": "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1174&q=80",
+              "average_rate": 0,
+              "expert_name": "Ray Robinson"
+            },
+            {
+              "id": 5,
+              "name": "Intermediate to Enterpreneurship",
+              "photo_url": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+              "average_rate": 0,
+              "expert_name": "Brielle Hutchinson"
+            },
+            {
+              "id": 9,
+              "name": "Expert to Enterpreneurship",
+              "photo_url": "https://images.unsplash.com/photo-1533749871411-5e21e14bcc7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80",
+              "average_rate": 0,
+              "expert_name": "Ray Robinson"
+            }
+          ]
+        }
+      }
+    },
     "schemas": {
       "CourseCardDataSchema": {
         "type": "object",
@@ -636,38 +736,6 @@
               }
             }
           }
-        }
-      }
-    },
-    "examples": {
-      "CourseCardDataExample": {
-        "description": "Course Card Data Example",
-        "value": {
-          "status": 200,
-          "message": "OK",
-          "data": [
-            {
-              "id": 1,
-              "course_name": "Intro to Enterpreneurship",
-              "photo_url": "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1174&q=80",
-              "average_rate": 0,
-              "expert_name": "Ray Robinson"
-            },
-            {
-              "id": 5,
-              "name": "Intermediate to Enterpreneurship",
-              "photo_url": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-              "average_rate": 0,
-              "expert_name": "Brielle Hutchinson"
-            },
-            {
-              "id": 9,
-              "name": "Expert to Enterpreneurship",
-              "photo_url": "https://images.unsplash.com/photo-1533749871411-5e21e14bcc7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80",
-              "average_rate": 0,
-              "expert_name": "Ray Robinson"
-            }
-          ]
         }
       }
     }
