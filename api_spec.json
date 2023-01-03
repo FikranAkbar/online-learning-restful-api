@@ -631,6 +631,85 @@
           }
         }
       }
+    },
+    "/courses/:courseId/progression": {
+      "get": {
+        "tags": ["Course - Detail Course"],
+        "summary": "Get course progression of a user",
+        "description": "Get course progression of a user",
+        "responses": {
+          "200": {
+            "description": "Get course progression of a user success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "user_id": {
+                          "type": "number"
+                        },
+                        "course_id": {
+                          "type": "number"
+                        },
+                        "last_unlocked_module": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": {
+                    "user_id": 1,
+                    "course_id": 1,
+                    "last_unlocked_module": 1
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Get course progression failed. User was not owned the course",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "status": 403,
+                  "message": "FORBIDDEN",
+                  "data": "Get course progression failed. User was not owned the course"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      }
     }
   },
   "components": {
