@@ -1676,8 +1676,78 @@
                       "created_time": "12/07/2022 2:27 PM",
                       "user_name": "Molly Potts",
                       "user_photo": "https://thumbs.dreamstime.com/b/young-woman-avatar-cartoon-character-profile-picture-young-brunette-woman-short-hair-avatar-cartoon-character-vector-149728784.jpg"
-                    },
+                    }
                   ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401-Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Course - QnA"],
+        "description": "Create new QnA question by course id",
+        "summary": "Create new QnA question",
+        "parameters": [{
+          "$ref": "#/components/parameters/CourseIdPathParameter"
+        }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "question": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Create new QnA question success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "question_id": {
+                          "type": "number"
+                        },
+                        "question": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": {
+                    "question_id": 1,
+                    "question": "Ini pertanyaan saya (?)"
+                  }
                 }
               }
             }
