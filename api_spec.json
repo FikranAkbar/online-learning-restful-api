@@ -83,6 +83,14 @@
     {
       "name": "Expert",
       "description": "API for get expert detail and expert's courses"
+    },
+    {
+      "name": "Industry Insight",
+      "description": "API list to get industry insight and detail information"
+    },
+    {
+      "name": "Payment",
+      "description": "API list that related to the transaction of buying courses"
     }
   ],
   "externalDocs": {
@@ -2412,6 +2420,47 @@
           }
         }
       }
+    },
+    "/industry-insights": {
+      "get": {
+        "tags": ["Industry Insight"],
+        "description": "Get list of industry insight",
+        "summary": "Get list of industry insight",
+        "responses": {
+          "200": {
+            "description": "Get list of industry insight success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/IndustryInsightSchema"
+                    }
+                  }
+                },
+                "examples": {
+                  "IndustryInsightExample": {
+                    "$ref": "#/components/examples/IndustryInsightExample"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -2748,6 +2797,26 @@
             }
           }
         }
+      },
+      "IndustryInsightSchema": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "insight_id": {
+              "type": "number"
+            },
+            "title": {
+              "type": "string"
+            },
+            "cover": {
+              "type": "string"
+            },
+            "content": {
+              "type": "string"
+            }
+          }
+        }
       }
     },
     "examples": {
@@ -2875,6 +2944,39 @@
             }
           ]
         }
+      },
+      "IndustryInsightExample": {
+        "description": "List of industry insight data",
+        "value": [
+          {
+            "id": 1,
+            "title_insight": "Insight Title 1",
+            "cover_insight": "https://images.unsplash.com/photo-1517732306149-e8f829eb588a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+            "body_content": "Ini adalah deskripsi insight title 1 Ini adalah deskripsi insight title 1 Ini adalah deskripsi insight title 1 Ini adalah deskripsi insight title 1 Ini adalah deskripsi insight title 1 Ini adalah deskripsi insight title 1 Ini adalah deskripsi insight title 1 Ini adalah deskripsi insight title 1 Ini adalah deskripsi insight title 1",
+            "id_user_author": 1
+          },
+          {
+            "id": 2,
+            "title_insight": "Insight Title 2",
+            "cover_insight": "https://images.unsplash.com/photo-1518398046578-8cca57782e17?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+            "body_content": "Ini adalah deskripsi insight title 2 Ini adalah deskripsi insight title 2 Ini adalah deskripsi insight title 2 Ini adalah deskripsi insight title 2 Ini adalah deskripsi insight title 2 Ini adalah deskripsi insight title 2 Ini adalah deskripsi insight title 2 Ini adalah deskripsi insight title 2 Ini adalah deskripsi insight title 2",
+            "id_user_author": 2
+          },
+          {
+            "id": 3,
+            "title_insight": "Insight Title 3",
+            "cover_insight": "https://images.unsplash.com/photo-1521517407911-565264e7d82d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+            "body_content": "Ini adalah deskripsi insight title 3 Ini adalah deskripsi insight title 3 Ini adalah deskripsi insight title 3 Ini adalah deskripsi insight title 3 Ini adalah deskripsi insight title 3 Ini adalah deskripsi insight title 3 Ini adalah deskripsi insight title 3 Ini adalah deskripsi insight title 3 Ini adalah deskripsi insight title 3",
+            "id_user_author": 3
+          },
+          {
+            "id": 4,
+            "title_insight": "Insight Title 4",
+            "cover_insight": "https://images.unsplash.com/photo-1508480408285-812f971170b3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+            "body_content": "Ini adalah deskripsi insight title 4 Ini adalah deskripsi insight title 4 Ini adalah deskripsi insight title 4 Ini adalah deskripsi insight title 4 Ini adalah deskripsi insight title 4 Ini adalah deskripsi insight title 4 Ini adalah deskripsi insight title 4 Ini adalah deskripsi insight title 4 Ini adalah deskripsi insight title 4",
+            "id_user_author": 4
+          }
+        ]
       }
     },
     "parameters": {
