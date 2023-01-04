@@ -1293,6 +1293,102 @@
           }
         }
       }
+    },
+    "/courses/:courseId/learn/modules/:moduleId/save-video-progressions": {
+      "post": {
+        "tags": ["Course - Module"],
+        "description": "Save video progression in module. Client send progression in milliseconds with integer format",
+        "summary": "Save video progression in module",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CourseIdPathParameter"
+          },
+          {
+            "$ref": "#/components/parameters/ModuleIdPathParameter"
+          }
+        ],
+        "requestBody": {
+          "description": "Client must send the progression video and a boolean to indicate whether the video is completed or not",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "progression": {
+                    "type": "number"
+                  },
+                  "is_complete": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "example": {
+                "progression": 30102,
+                "is_complete": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Save video progression in module success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "video_id": {
+                          "type": "number"
+                        },
+                        "user_id": {
+                          "type": "number"
+                        },
+                        "progression": {
+                          "type": "number"
+                        },
+                        "is_complete": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": {
+                    "video_id": 1,
+                    "user_id": 1,
+                    "progression": 30102,
+                    "is_complete": false
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401-Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/403-Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1344,7 +1440,7 @@
             "example": {
               "status": 403,
               "message": "FORBIDDEN",
-              "data": "Wrong credentials, such like email, password, etc"
+              "data": "Error detail"
             }
           }
         }
