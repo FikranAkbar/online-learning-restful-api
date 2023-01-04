@@ -1467,8 +1467,82 @@
         "tags": ["Course - Quiz"],
         "description": "Add new quiz answer to quiz inside module",
         "summary": "Add new quiz answer",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CourseIdPathParameter"
+          },
+          {
+            "$ref": "#/components/parameters/ModuleIdPathParameter"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "answer": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "answer": "Haiyaaa Fuiyohh"
+              }
+            }
+          }
+        },
         "responses": {
-
+          "200": {
+            "description": "Add new quiz answer success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "quiz_id": {
+                          "type": "number"
+                        },
+                        "user_id": {
+                          "type": "number"
+                        },
+                        "quiz_answer": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": {
+                    "quiz_id": 1,
+                    "user_id": 1,
+                    "quiz_answer": "Haiyaa Fuiyohh"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401-Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-InternalServerError"
+          }
         }
       }
     }
