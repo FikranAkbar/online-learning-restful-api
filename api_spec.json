@@ -2231,6 +2231,45 @@
         }
       }
     },
+    "/users/courses": {
+      "get": {
+        "tags": ["User - Course"],
+        "description": "Get user registered course. There is 3 type of course status, which is not started, ongoing, completed",
+        "summary": "Get user registered course",
+        "parameters": [{
+          "$ref": "#/components/parameters/CourseTypeQueryParameter"
+        }],
+        "responses": {
+          "200": {
+            "description": "Get user registered course success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CourseCardsSchema"
+                },
+                "examples": {
+                  "CourseCardExample": {
+                    "$ref": "#/components/examples/CourseCardDataExample"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400-BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/401-Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      }
+    },
     "/experts/:expertId": {
       "get": {
         "tags": ["Expert"],
@@ -2886,6 +2925,25 @@
         "in": "path",
         "required": true,
         "example": 1
+      },
+      "CourseTypeQueryParameter": {
+        "name": "type",
+        "in": "query",
+        "required": true,
+        "examples": {
+          "not_started": {
+            "description": "Get not started course",
+            "value": "not_started"
+          },
+          "ongoing": {
+            "description": "Get ongoing course",
+            "value": "ongoing"
+          },
+          "completed": {
+            "description": "Get completed course",
+            "value": "completed"
+          }
+        }
       }
     }
   }
