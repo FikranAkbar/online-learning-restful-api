@@ -65,7 +65,7 @@
       "description": "API to get Coming soon courses"
     },
     {
-      "name": "Course -QnA",
+      "name": "Course - QnA",
       "description": "API list to get and create both question and answer for course QnA"
     },
     {
@@ -376,10 +376,7 @@
         "summary": "Search course by keyword",
         "parameters": [
           {
-            "name": "keyword",
-            "in": "query",
-            "required": true,
-            "description": "keyword for searching course names"
+            "$ref": "#/components/parameters/KeywordQueryParameter"
           }
         ],
         "responses": {
@@ -397,7 +394,7 @@
                       "type": "string"
                     },
                     "data": {
-                      "$ref": "#/components/schemas/CourseCardSchema"
+                      "$ref": "#/components/schemas/CourseCardsSchema"
                     }
                   }
                 },
@@ -545,7 +542,7 @@
                       "type": "string"
                     },
                     "data": {
-                      "$ref": "#/components/schemas/CourseCardSchema"
+                      "$ref": "#/components/schemas/CourseCardsSchema"
                     }
                   }
                 },
@@ -612,7 +609,7 @@
                       "type": "string"
                     },
                     "data": {
-                      "$ref": "#/components/schemas/CourseCardSchema"
+                      "$ref": "#/components/schemas/CourseCardsSchema"
                     }
                   }
                 },
@@ -1236,7 +1233,7 @@
                               "type": "string"
                             },
                             "answers": {
-                              "$ref": "#/components/schemas/QuizAnswerSchema"
+                              "$ref": "#/components/schemas/QuizAnswersSchema"
                             }
                           }
                         }
@@ -1425,7 +1422,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/QuizAnswerSchema"
+                  "$ref": "#/components/schemas/QuizAnswersSchema"
                 },
                 "example": {
                   "status": 200,
@@ -1567,7 +1564,136 @@
       }
     },
     // TODO this is the place for courses api
-
+    "/courses/coming-soon": {
+      "get": {
+        "tags": ["Course - Coming Soon"],
+        "description": "Get coming soon courses. User can search certain course by send the query keyword",
+        "summary": "Get coming soon courses",
+        "parameters": [{
+            "$ref": "#/components/parameters/KeywordQueryParameter"
+        }],
+        "responses": {
+          "200": {
+            "description": "Get coming soon courses success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/CourseCardsSchema"
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": [
+                    {
+                      "id": 1,
+                      "course_name": "Intro to Enterpreneurship",
+                      "photo_url": "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1174&q=80",
+                      "average_rate": 0,
+                      "expert_name": "Ray Robinson"
+                    },
+                    {
+                      "id": 5,
+                      "name": "Intermediate to Enterpreneurship",
+                      "photo_url": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+                      "average_rate": 0,
+                      "expert_name": "Brielle Hutchinson"
+                    },
+                    {
+                      "id": 9,
+                      "name": "Expert to Enterpreneurship",
+                      "photo_url": "https://images.unsplash.com/photo-1533749871411-5e21e14bcc7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80",
+                      "average_rate": 0,
+                      "expert_name": "Ray Robinson"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      }
+    },
+    "/courses/:courseId/qna-questions": {
+      "get": {
+        "tags": ["Course - QnA"],
+        "description": "Get list of QnA questions by course id",
+        "summary": "Get list of QnA questions",
+        "parameters": [{
+          "$ref": "#/components/parameters/CourseIdPathParameter"
+        }],
+        "responses": {
+          "200": {
+            "description": "Get list of QnA questions success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/QnaQuestionsSchema"
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": [
+                    {
+                      "question_id": 1,
+                      "question": "Ini pertanyaan saya (?)",
+                      "responses": 0,
+                      "created_time": "12/07/2022 2:20 PM",
+                      "user_name": "Molly Potts",
+                      "user_photo": "https://thumbs.dreamstime.com/b/young-woman-avatar-cartoon-character-profile-picture-young-brunette-woman-short-hair-avatar-cartoon-character-vector-149728784.jpg"
+                    },
+                    {
+                      "question_id": 2,
+                      "question": "Ini pertanyaan saya (?)",
+                      "responses": 0,
+                      "created_time": "12/07/2022 2:27 PM",
+                      "user_name": "Molly Potts",
+                      "user_photo": "https://thumbs.dreamstime.com/b/young-woman-avatar-cartoon-character-profile-picture-young-brunette-woman-short-hair-avatar-cartoon-character-vector-149728784.jpg"
+                    },
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401-Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      }
+    },
     "/experts/:expertId": {
       "get": {
         "tags": ["Expert"],
@@ -1668,7 +1794,7 @@
                       "type": "string"
                     },
                     "data": {
-                      "$ref": "#/components/schemas/CourseCardSchema"
+                      "$ref": "#/components/schemas/CourseCardsSchema"
                     }
                   }
                 },
@@ -1820,7 +1946,7 @@
       }
     },
     "schemas": {
-      "CourseCardSchema": {
+      "CourseCardsSchema": {
         "type": "array",
         "items": {
           "type": "object",
@@ -1915,7 +2041,7 @@
           }
         }
       },
-      "QuizAnswerSchema": {
+      "QuizAnswersSchema": {
         "type": "array",
         "items": {
           "type": "object",
@@ -1941,6 +2067,32 @@
             "user_photo": {
               "type": "string"
             }
+          }
+        }
+      },
+      "QnaQuestionsSchema": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "qna_question_id": {
+              "type": "number"
+            },
+            "user_name": {
+              "type": "string"
+            },
+            "user_photo": {
+              "type": "string"
+            },
+            "question": {
+              "type": "string"
+            },
+            "responses": {
+              "type": "number"
+            },
+            "created_time": {
+              "type": "string"
+            },
           }
         }
       }
@@ -2043,6 +2195,12 @@
       }
     },
     "parameters": {
+      "KeywordQueryParameter": {
+        "name": "keyword",
+        "in": "query",
+        "required": true,
+        "description": "keyword for searching course names"
+      },
       "CategoryIdPathParameter": {
         "name": "categoryId",
         "in": "path",
