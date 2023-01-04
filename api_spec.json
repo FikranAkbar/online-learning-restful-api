@@ -2047,6 +2047,117 @@
         }
       }
     },
+    "/users/edit-profile": {
+      "post": {
+        "tags": ["User - Edit Profile"],
+        "description": "Edit user profile by sending minimum one changes",
+        "summary": "Edit user profile",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "date_birth": {
+                    "type": "string"
+                  },
+                  "gender": {
+                    "type": "string"
+                  },
+                  "photo": {
+                    "type": "string"
+                  },
+                  "province_name": {
+                    "type": "string"
+                  },
+                  "city_name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Edit user profile success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "user_id": {
+                          "type": "number"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "phone": {
+                          "type": "string"
+                        },
+                        "date_birth": {
+                          "type": "string"
+                        },
+                        "gender": {
+                          "type": "string"
+                        },
+                        "photo_url": {
+                          "type": "string"
+                        },
+                        "province_id": {
+                          "type": "number"
+                        },
+                        "city_id":{
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": {
+                    "user_id": 1,
+                    "name": "Molly Potts",
+                    "phone": "085228473617",
+                    "date_birth": "2020-12-12",
+                    "gender": "Male",
+                    "photo_url": "https://thumbs.dreamstime.com/b/young-woman-avatar-cartoon-character-profile-picture-young-brunette-woman-short-hair-avatar-cartoon-character-vector-149728784.jpg",
+                    "province_id": 14,
+                    "city_id": 210
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400-BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/401-Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      }
+    },
     "/users/edit-profile/provice": {
       "get": {
         "tags": ["User - Edit Profile"],
@@ -2266,6 +2377,32 @@
   },
   "components": {
     "responses": {
+      "400-BadRequest": {
+        "description": "Bad request, request body or parameter is not valid",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "number"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "null"
+                }
+              }
+            },
+            "example": {
+              "status": 400,
+              "message": "BAD REQUEST",
+              "data": null
+            }
+          }
+        }
+      },
       "401-Unauthorized": {
         "description": "Unauthorized, Token already expired",
         "content": {
