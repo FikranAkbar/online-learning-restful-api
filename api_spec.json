@@ -59,6 +59,26 @@
     {
       "name": "Course - Quiz",
       "description": "API list for get all quiz answer, add new quiz answer, and like or unlike quiz answer"
+    },
+    {
+      "name": "Course - Coming Soon",
+      "description": "API to get Coming soon courses"
+    },
+    {
+      "name": "Course -QnA",
+      "description": "API list to get and create both question and answer for course QnA"
+    },
+    {
+      "name": "Course - Summary",
+      "description": "API to get course module's summary"
+    },
+    {
+      "name": "User",
+      "description": "API list to edit user profile and see user's courses"
+    },
+    {
+      "name": "Expert",
+      "description": "API for get expert detail and expert's courses"
     }
   ],
   "externalDocs": {
@@ -1545,6 +1565,151 @@
           }
         }
       }
+    },
+    // TODO this is the place for courses api
+
+    "/experts/:expertId": {
+      "get": {
+        "tags": ["Expert"],
+        "description": "Get expert detail by expert id",
+        "summary": "Get expert detail",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ExpertIdPathParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get expert detail success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "expert_id": {
+                          "type": "number"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "profile_description": {
+                          "type": "string"
+                        },
+                        "photo": {
+                          "type": "string"
+                        },
+                        "average_rate": {
+                          "type": "number"
+                        },
+                        "total_student": {
+                          "type": "number"
+                        },
+                        "total_course": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": {
+                    "expert_id": 1,
+                    "name": "Ray Robinson",
+                    "profile_description": "Saya adalah expert Ray Robinson di platform online learning",
+                    "photo": "https://tilomitra.com/wp-content/uploads/2014/08/avatar-cartoon.png",
+                    "average_rate": 5.0,
+                    "total_student": 100,
+                    "total_course": 4
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      }
+    },
+    "/experts/:expertId/courses": {
+      "get": {
+        "tags": ["Expert"],
+        "description": "Get expert's courses by expert id",
+        "summary": "Get expert's courses",
+        "parameters": [{
+          "$ref": "#/components/parameters/ExpertIdPathParameter"
+        }],
+        "responses": {
+          "200": {
+            "description": "Get expert's courses success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/CourseCardSchema"
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": [
+                    {
+                      "id": 1,
+                      "course_name": "Intro to Enterpreneurship",
+                      "photo_url": "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1174&q=80",
+                      "average_rate": 0,
+                      "expert_name": "Ray Robinson"
+                    },
+                    {
+                      "id": 5,
+                      "name": "Intermediate to Enterpreneurship",
+                      "photo_url": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+                      "average_rate": 0,
+                      "expert_name": "Brielle Hutchinson"
+                    },
+                    {
+                      "id": 9,
+                      "name": "Expert to Enterpreneurship",
+                      "photo_url": "https://images.unsplash.com/photo-1533749871411-5e21e14bcc7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80",
+                      "average_rate": 0,
+                      "expert_name": "Ray Robinson"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1898,6 +2063,12 @@
       },
       "ModuleIdPathParameter": {
         "name": "moduleId",
+        "in": "path",
+        "required": true,
+        "example": 1
+      },
+      "ExpertIdPathParameter": {
+        "name": "expertId",
         "in": "path",
         "required": true,
         "example": 1
