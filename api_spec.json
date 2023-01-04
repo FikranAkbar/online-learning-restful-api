@@ -73,8 +73,12 @@
       "description": "API to get course module's summary"
     },
     {
-      "name": "User",
-      "description": "API list to edit user profile and see user's courses"
+      "name": "User - Edit Profile",
+      "description": "API list to edit user profile"
+    },
+    {
+      "name": "User - Course",
+      "description": "API to get user registered course"
     },
     {
       "name": "Expert",
@@ -88,7 +92,9 @@
   "paths": {
     "/users/login": {
       "post": {
-        "tags": ["Authentication"],
+        "tags": [
+          "Authentication"
+        ],
         "summary": "Login user with email and password",
         "description": "Login user with registered email and password. The API will return token to access protected route",
         "requestBody": {
@@ -193,7 +199,9 @@
     },
     "/users/register": {
       "post": {
-        "tags": ["Authentication"],
+        "tags": [
+          "Authentication"
+        ],
         "summary": "Register user with email, password, name, date_birth, gender",
         "description": "Register user with email, password, name, date_birth, gender. This API will not auto-login the user, so will not return token for accessed protected route",
         "requestBody": {
@@ -222,7 +230,10 @@
                   },
                   "gender": {
                     "type": "string",
-                    "enum": ["Male", "Female"]
+                    "enum": [
+                      "Male",
+                      "Female"
+                    ]
                   }
                 }
               },
@@ -330,7 +341,9 @@
     },
     "/users/logout": {
       "post": {
-        "tags": ["Authentication"],
+        "tags": [
+          "Authentication"
+        ],
         "summary": "Logout user with JSON Web Token (JWT)",
         "description": "Logout user with JSON Web Token (JWT)",
         "responses": {
@@ -371,7 +384,9 @@
     },
     "/courses": {
       "get": {
-        "tags": ["Course - Search Course"],
+        "tags": [
+          "Course - Search Course"
+        ],
         "description": "Search course by keyword",
         "summary": "Search course by keyword",
         "parameters": [
@@ -443,7 +458,9 @@
     },
     "/courses/categories": {
       "get": {
-        "tags": ["Course - Category"],
+        "tags": [
+          "Course - Category"
+        ],
         "summary": "Get all courses category",
         "description": "Get all courses category",
         "responses": {
@@ -519,7 +536,9 @@
     },
     "/courses/categories/:categoryId": {
       "get": {
-        "tags": ["Course - Category"],
+        "tags": [
+          "Course - Category"
+        ],
         "summary": "Get courses by category id",
         "description": "Get all course from category by category id",
         "parameters": [
@@ -591,7 +610,9 @@
     },
     "/courses/popular": {
       "get": {
-        "tags": ["Course - Popular Course"],
+        "tags": [
+          "Course - Popular Course"
+        ],
         "summary": "Get the most popular courses",
         "description": "Get the most popular courses, limit to 5",
         "responses": {
@@ -632,7 +653,9 @@
     },
     "/courses/:courseId": {
       "get": {
-        "tags": ["Course - Detail Course"],
+        "tags": [
+          "Course - Detail Course"
+        ],
         "description": "Get course detail by course id. Client can send JWT token and user id in request body. If the user id inside JWT token matches with user id client send in request body, the field 'already_owned' in the response become true.",
         "summary": "Get course detail by course id",
         "parameters": [
@@ -702,7 +725,9 @@
     },
     "/courses/:courseId/progressions": {
       "get": {
-        "tags": ["Course - Detail Course"],
+        "tags": [
+          "Course - Detail Course"
+        ],
         "summary": "Get course progression of a user",
         "description": "Get course progression of a user",
         "parameters": [
@@ -786,7 +811,9 @@
     },
     "/courses/:courseId/reviews": {
       "get": {
-        "tags": ["Course - Review Course"],
+        "tags": [
+          "Course - Review Course"
+        ],
         "summary": "Get course review by course id",
         "description": "Get course review by course id",
         "parameters": [
@@ -862,7 +889,9 @@
     },
     "/courses/:courseId/overview/webinar-sessions": {
       "get": {
-        "tags": ["Course - Webinar Session"],
+        "tags": [
+          "Course - Webinar Session"
+        ],
         "description": "Get overview of webinar sessions by course id",
         "summary": "Get webinar sessions by course id",
         "parameters": [
@@ -978,7 +1007,9 @@
     },
     "/courses/:courseId/learn/webinar-sessions/:webinarSessionId": {
       "get": {
-        "tags": ["Course - Webinar Session"],
+        "tags": [
+          "Course - Webinar Session"
+        ],
         "description": "Get detailed webinar session by course id and webinar session id",
         "summary": "Get detailed webinar session by course id and webinar session id",
         "parameters": [
@@ -1069,7 +1100,9 @@
     },
     "/courses/:courseId/overview/modules": {
       "get": {
-        "tags": ["Course - Module"],
+        "tags": [
+          "Course - Module"
+        ],
         "description": "Get overview of module by course id",
         "summary": "Get overview of module by course id",
         "parameters": [
@@ -1154,7 +1187,9 @@
     },
     "/courses/:courseId/learn/modules/:moduleId": {
       "get": {
-        "tags": ["Course - Module"],
+        "tags": [
+          "Course - Module"
+        ],
         "description": "Get detailed module by course id and webinar session id",
         "summary": "Get detailed module",
         "parameters": [
@@ -1317,7 +1352,9 @@
     },
     "/courses/:courseId/learn/modules/:moduleId/save-video-progressions": {
       "post": {
-        "tags": ["Course - Module"],
+        "tags": [
+          "Course - Module"
+        ],
         "description": "Save video progression in module. Client send progression in milliseconds with integer format",
         "summary": "Save video progression in module",
         "parameters": [
@@ -1413,7 +1450,9 @@
     },
     "/courses/:courseId/learn/modules/:moduleId/quiz-answers": {
       "get": {
-        "tags": ["Course - Quiz"],
+        "tags": [
+          "Course - Quiz"
+        ],
         "description": "Get all quiz answers from the module",
         "summary": "Get all quiz answers",
         "responses": {
@@ -1481,7 +1520,9 @@
         }
       },
       "post": {
-        "tags": ["Course - Quiz"],
+        "tags": [
+          "Course - Quiz"
+        ],
         "description": "Add new quiz answer to quiz inside module",
         "summary": "Add new quiz answer",
         "parameters": [
@@ -1565,12 +1606,16 @@
     },
     "/courses/coming-soon": {
       "get": {
-        "tags": ["Course - Coming Soon"],
+        "tags": [
+          "Course - Coming Soon"
+        ],
         "description": "Get coming soon courses. User can search certain course by send the query keyword",
         "summary": "Get coming soon courses",
-        "parameters": [{
+        "parameters": [
+          {
             "$ref": "#/components/parameters/KeywordQueryParameter"
-        }],
+          }
+        ],
         "responses": {
           "200": {
             "description": "Get coming soon courses success",
@@ -1631,12 +1676,16 @@
     },
     "/courses/:courseId/qna-questions": {
       "get": {
-        "tags": ["Course - QnA"],
+        "tags": [
+          "Course - QnA"
+        ],
         "description": "Get list of QnA questions by course id",
         "summary": "Get list of QnA questions",
-        "parameters": [{
-          "$ref": "#/components/parameters/CourseIdPathParameter"
-        }],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CourseIdPathParameter"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Get list of QnA questions success",
@@ -1693,12 +1742,16 @@
         }
       },
       "post": {
-        "tags": ["Course - QnA"],
+        "tags": [
+          "Course - QnA"
+        ],
         "description": "Create new QnA question by course id",
         "summary": "Create new QnA question",
-        "parameters": [{
-          "$ref": "#/components/parameters/CourseIdPathParameter"
-        }],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CourseIdPathParameter"
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1765,12 +1818,16 @@
     },
     "/courses/:courseId/qna-questions/:qnaQuestionId": {
       "get": {
-        "tags": ["Course - QnA"],
+        "tags": [
+          "Course - QnA"
+        ],
         "description": "Get QnA question detail by qna question id",
         "summary": "Get QnA question detail",
-        "parameters": [{
-          "$ref": "#/components/parameters/QnaQuestionIdPathParameter"
-        }],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/QnaQuestionIdPathParameter"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Get QnA question detail success",
@@ -1851,7 +1908,9 @@
     },
     "/courses/:courseId/qna-questions/:qnaQuestionId/answers": {
       "post": {
-        "tags": ["Course - QnA"],
+        "tags": [
+          "Course - QnA"
+        ],
         "description": "Create new QnA answer by qna question id",
         "summary": "Create new QnA answer",
         "parameters": [
@@ -1931,12 +1990,16 @@
     },
     "/courses/:courseId/summary": {
       "get": {
-        "tags": ["Course - Summary"],
+        "tags": [
+          "Course - Summary"
+        ],
         "description": "Get module summary in format pdf",
         "summary": "Get module summary",
-        "parameters": [{
-          "$ref": "#/components/parameters/CourseIdPathParameter"
-        }],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CourseIdPathParameter"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Get module summary success",
@@ -1980,6 +2043,41 @@
           },
           "500": {
             "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      }
+    },
+    "/users/edit-profile/provice": {
+      "get": {
+        "tags": ["User - Edit Profile"],
+        "description": "Get all provinces data",
+        "summary": "Get all provinces data",
+        "responses": {
+          "200": {
+            "description": "Get all provinces data success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/ProvincesSchema"
+                    }
+                  }
+                },
+                "examples": {
+                  "ProvincesExample": {
+                    "$ref": "#/components/examples/ProvincesExample"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -2408,6 +2506,20 @@
             }
           }
         }
+      },
+      "ProvincesSchema": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "province_id": {
+              "type": "number"
+            },
+            "province_name": {
+              "type": "string"
+            }
+          }
+        }
       }
     },
     "examples": {
@@ -2504,6 +2616,23 @@
           "average_rate": 4.5,
           "total_course": 3,
           "total_participant": 60
+        }
+      },
+      "ProvincesExample": {
+        "description": "List of province data",
+        "value": {
+          "status": 200,
+          "message": "Get province data successful",
+          "data": [
+            {
+              "id": 1,
+              "province_name": "ACEH",
+              "created_at": null,
+              "updated_at": null,
+              "id_user_create": 1,
+              "id_user_update": 1
+            }
+          ]
         }
       }
     },
