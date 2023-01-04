@@ -2082,6 +2082,44 @@
         }
       }
     },
+    "/users/edit-profile/province/:provinceId/city": {
+      "get": {
+        "tags": ["User - Edit Profile"],
+        "description": "Get cities data by province id",
+        "summary": "Get cities data",
+        "parameters": [{
+          "$ref": "#/components/parameters/ProvinceIdPathParameter"
+        }],
+        "responses": {
+          "200": {
+            "description": "Get cities data success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/CitiesSchema"
+                    }
+                  }
+                },
+                "examples": {
+                  "CitiesExample": {
+                    "$ref": "#/components/examples/CitiesExample"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/experts/:expertId": {
       "get": {
         "tags": ["Expert"],
@@ -2520,6 +2558,20 @@
             }
           }
         }
+      },
+      "CitiesSchema": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "city_id": {
+              "type": "number"
+            },
+            "city_name": {
+              "type": "string"
+            }
+          }
+        }
       }
     },
     "examples": {
@@ -2634,6 +2686,19 @@
             }
           ]
         }
+      },
+      "CitiesExample": {
+        "description": "List of city data",
+        "value": {
+          "status": 200,
+          "message": "OK",
+          "data": [
+            {
+              "city_id": 1,
+              "city_name": "PIDIE JAYA"
+            }
+          ]
+        }
       }
     },
     "parameters": {
@@ -2675,6 +2740,12 @@
       },
       "QnaQuestionIdPathParameter": {
         "name": "qnaQuestionId",
+        "in": "path",
+        "required": true,
+        "example": 1
+      },
+      "ProvinceIdPathParameter": {
+        "name": "provinceId",
         "in": "path",
         "required": true,
         "example": 1
