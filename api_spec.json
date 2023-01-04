@@ -55,6 +55,10 @@
     {
       "name": "Course - Module",
       "description": "API List for get module detail and save video progression inside the module"
+    },
+    {
+      "name": "Course - Quiz",
+      "description": "API list for get all quiz answer, add new quiz answer, and like or unlike quiz answer"
     }
   ],
   "externalDocs": {
@@ -1387,6 +1391,84 @@
           "500": {
             "$ref": "#/components/responses/500-InternalServerError"
           }
+        }
+      }
+    },
+    "/courses/:courseId/learn/modules/:moduleId/quiz-answers": {
+      "get": {
+        "tags": ["Course - Quiz"],
+        "description": "Get all quiz answers from the module",
+        "summary": "Get all quiz answers",
+        "responses": {
+          "200": {
+            "description": "Get all quiz answers success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuizAnswerSchema"
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": [
+                    {
+                      "answer_id": 5,
+                      "quiz_answer": "Quiz Answer number 5",
+                      "total_like": 0,
+                      "is_liked": false,
+                      "user_id": 1,
+                      "user_name": "Molly Potts",
+                      "user_photo": "https://thumbs.dreamstime.com/b/young-woman-avatar-cartoon-character-profile-picture-young-brunette-woman-short-hair-avatar-cartoon-character-vector-149728784.jpg"
+                    },
+                    {
+                      "answer_id": 6,
+                      "quiz_answer": "Quiz Answer number 6",
+                      "total_like": 0,
+                      "is_liked": false,
+                      "user_id": 2,
+                      "user_name": "Jack Guthrie",
+                      "user_photo": "https://image.winudf.com/v2/image1/Y29tLm1uaWRlbmMuYXZ0YXJtYWtlcl9zY3JlZW5fNF8xNTU0NjQ5MzE4XzAwMw/screen-4.jpg?fakeurl=1&type=.jpg"
+                    },
+                    {
+                      "answer_id": 7,
+                      "quiz_answer": "Quiz Answer number 7",
+                      "total_like": 0,
+                      "is_liked": false,
+                      "user_id": 3,
+                      "user_name": "Finn Rhodes",
+                      "user_photo": "https://tilomitra.com/wp-content/uploads/2014/08/avatar-cartoon.png"
+                    },
+                    {
+                      "answer_id": 8,
+                      "quiz_answer": "Quiz Answer number 8",
+                      "total_like": 0,
+                      "is_liked": false,
+                      "user_id": 4,
+                      "user_name": "Clare Levy",
+                      "user_photo": "https://thumbs.dreamstime.com/b/girl-avatar-cartoon-stock-vector-image-cute-beautiful-eyes-93364804.jpg"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401-Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Course - Quiz"],
+        "description": "Add new quiz answer to quiz inside module",
+        "summary": "Add new quiz answer",
+        "responses": {
+
         }
       }
     }
