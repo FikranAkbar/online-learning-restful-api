@@ -1764,6 +1764,92 @@
         }
       }
     },
+    "/courses/:courseId/qna_questions/:qnaQuestionId": {
+      "get": {
+        "tags": ["Course - QnA"],
+        "description": "Get QnA question detail by qna question id",
+        "summary": "Get QnA question detail",
+        "parameters": [{
+          "$ref": "#/components/parameters/QnaQuestionIdPathParameter"
+        }],
+        "responses": {
+          "200": {
+            "description": "Get QnA question detail success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "qnaQuestionId": {
+                          "type": "number"
+                        },
+                        "question": {
+                          "type": "string"
+                        },
+                        "created_time": {
+                          "type": "string"
+                        },
+                        "user_id": {
+                          "type": "number"
+                        },
+                        "user_name": {
+                          "type": "string"
+                        },
+                        "user_photo": {
+                          "type": "string"
+                        },
+                        "answers": {
+                          "$ref": "#/components/schemas/QnaAnswersSchema"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": {
+                    "question_id": 1,
+                    "question": "test",
+                    "created_time": "13/07/2022 9:11 PM",
+                    "user_id": 1,
+                    "user_name": "Molly Potts",
+                    "user_photo": "https://thumbs.dreamstime.com/b/young-woman-avatar-cartoon-character-profile-picture-young-brunette-woman-short-hair-avatar-cartoon-character-vector-149728784.jpg",
+                    "answers": [
+                      {
+                        "answer": "Ini jawaban!",
+                        "created_time": "14/07/2022 3:08 PM",
+                        "user_id": 1,
+                        "user_name": "Molly Potts",
+                        "user_photo": "https://thumbs.dreamstime.com/b/young-woman-avatar-cartoon-character-profile-picture-young-brunette-woman-short-hair-avatar-cartoon-character-vector-149728784.jpg"
+                      }
+                    ],
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401-Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      }
+    },
     "/experts/:expertId": {
       "get": {
         "tags": ["Expert"],
@@ -2165,6 +2251,29 @@
             },
           }
         }
+      },
+      "QnaAnswersSchema": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "answer": {
+              "type": "string"
+            },
+            "created_time": {
+              "type": "string"
+            },
+            "user_id": {
+              "type": "number"
+            },
+            "user_name": {
+              "type": "string"
+            },
+            "user_photo": {
+              "type": "string"
+            }
+          }
+        }
       }
     },
     "examples": {
@@ -2297,6 +2406,12 @@
       },
       "ExpertIdPathParameter": {
         "name": "expertId",
+        "in": "path",
+        "required": true,
+        "example": 1
+      },
+      "QnaQuestionIdPathParameter": {
+        "name": "qnaQuestionId",
         "in": "path",
         "required": true,
         "example": 1
