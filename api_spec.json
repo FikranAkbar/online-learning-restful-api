@@ -1563,7 +1563,6 @@
         }
       }
     },
-    // TODO this is the place for courses api
     "/courses/coming-soon": {
       "get": {
         "tags": ["Course - Coming Soon"],
@@ -1764,7 +1763,7 @@
         }
       }
     },
-    "/courses/:courseId/qna_questions/:qnaQuestionId": {
+    "/courses/:courseId/qna-questions/:qnaQuestionId": {
       "get": {
         "tags": ["Course - QnA"],
         "description": "Get QnA question detail by qna question id",
@@ -1832,7 +1831,7 @@
                         "user_name": "Molly Potts",
                         "user_photo": "https://thumbs.dreamstime.com/b/young-woman-avatar-cartoon-character-profile-picture-young-brunette-woman-short-hair-avatar-cartoon-character-vector-149728784.jpg"
                       }
-                    ],
+                    ]
                   }
                 }
               }
@@ -1840,6 +1839,141 @@
           },
           "401": {
             "$ref": "#/components/responses/401-Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      }
+    },
+    "/courses/:courseId/qna-questions/:qnaQuestionId/answers": {
+      "post": {
+        "tags": ["Course - QnA"],
+        "description": "Create new QnA answer by qna question id",
+        "summary": "Create new QnA answer",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CourseIdPathParameter"
+          },
+          {
+            "$ref": "#/components/parameters/QnaQuestionIdPathParameter"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "answer": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "answer": "Ini jawaban!"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Create new QnA answer success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "answer_id": {
+                          "type": "number"
+                        },
+                        "answer": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": {
+                    "answer_id": 1,
+                    "answer": "Ini jawaban!"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401-Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      }
+    },
+    "/courses/:courseId/summary": {
+      "get": {
+        "tags": ["Course - Summary"],
+        "description": "Get module summary in format pdf",
+        "summary": "Get module summary",
+        "parameters": [{
+          "$ref": "#/components/parameters/CourseIdPathParameter"
+        }],
+        "responses": {
+          "200": {
+            "description": "Get module summary success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "summary_id": {
+                          "type": "number"
+                        },
+                        "doc_url": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": {
+                    "summary_id": 1,
+                    "doc_url": "http://www.africau.edu/images/default/sample.pdf"
+                  }
+                }
+              }
+            }
           },
           "404": {
             "$ref": "#/components/responses/404-NotFound"
@@ -2248,7 +2382,7 @@
             },
             "created_time": {
               "type": "string"
-            },
+            }
           }
         }
       },
