@@ -1,6 +1,9 @@
 package domain
 
-import "online-learning-restful-api/core"
+import (
+	"database/sql"
+	"online-learning-restful-api/core"
+)
 
 type MasterWebinarSession struct {
 	core.DomainModel
@@ -10,8 +13,8 @@ type MasterWebinarSession struct {
 	Cover        string
 	ZoomLink     string
 	ScheduleDay  uint `gorm:"not null"`
-	ScheduleDate string
-	TimeStart    string
-	TimeFinish   string
+	ScheduleDate sql.NullTime
+	TimeStart    sql.NullTime
+	TimeFinish   sql.NullTime
 	IsPublished  bool `gorm:"default:false"`
 }

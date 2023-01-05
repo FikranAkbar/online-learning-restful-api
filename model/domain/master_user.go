@@ -1,6 +1,9 @@
 package domain
 
-import "online-learning-restful-api/core"
+import (
+	"database/sql"
+	"online-learning-restful-api/core"
+)
 
 type MasterUser struct {
 	core.DomainModel
@@ -9,6 +12,6 @@ type MasterUser struct {
 	Name       string `gorm:"type:varchar(300)"`
 	Phone      string `gorm:"type:varchar(20)"`
 	Gender     string `gorm:"type:varchar(10)"`
-	BirthDate  string
+	BirthDate  sql.NullTime
 	PhotoURL   string
 }
