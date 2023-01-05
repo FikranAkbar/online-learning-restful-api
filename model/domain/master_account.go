@@ -6,6 +6,6 @@ import (
 
 type MasterAccount struct {
 	core.DomainModel
-	Email    string `json:"email" gorm:"not null" validate:"required,email"`
-	Password string `json:"password" gorm:"not null" validate:"required"`
+	Email    string `gorm:"not null,email"`
+	Password string `gorm:"not null"`
 }
