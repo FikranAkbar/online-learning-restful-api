@@ -6,7 +6,11 @@ import (
 
 type MasterAccount struct {
 	core.DomainModel
-	Email    string `gorm:"type:varchar(255);not null;email;unique_index"`
-	Password string `gorm:"type:varchar(20);not null"`
+	Email    string `gorm:"type:varchar(300);not null;email;unique_index"`
+	Password string `gorm:"type:varchar(300);not null"`
 	Role     uint
+}
+
+func (MasterAccount) TableName() string {
+	return "master_accounts"
 }
