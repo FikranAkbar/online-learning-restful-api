@@ -2,7 +2,7 @@ package domain
 
 import "online-learning-restful-api/core"
 
-type MasterCourseStatus struct {
+type MasterLikeableType struct {
 	core.DomainModel
-	Name string `gorm:"type:varchar(100)"`
+	LikeableName string `gorm:"varchar(50)"`
 }

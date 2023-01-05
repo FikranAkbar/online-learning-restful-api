@@ -15,6 +15,21 @@ func Migrate() {
 		&MasterCategory{},
 		&MasterCity{},
 		&MasterCourse{},
+		&MasterCourseComingSoon{},
+		&MasterCourseReview{},
+		&MasterCourseStatus{},
+		&MasterCourseSummary{},
+		&MasterDay{},
+		&MasterElearningModule{},
+		&MasterExpert{},
+		&MasterIndustryInsight{},
+		&MasterInsightAttachment{},
+		&MasterLikeableType{},
+		&MasterPaymentChannel{},
+		&MasterPaymentStatus{},
+		&MasterPromo{},
+		&MasterProvince{},
+		&MasterQuiz{},
 	)
 	helper.PanicIfError(err)
 
