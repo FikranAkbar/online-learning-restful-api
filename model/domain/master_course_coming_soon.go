@@ -7,7 +7,7 @@ import (
 
 type MasterCourseComingSoon struct {
 	core.DomainModel
-	Name        string `gorm:"not null"`
+	Name        string `gorm:"type:varchar(200);not null"`
 	Description sql.NullString
 	Cover       sql.NullString
 	IsPublished bool `gorm:"default:false"`
