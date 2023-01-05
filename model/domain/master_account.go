@@ -6,6 +6,6 @@ import (
 
 type MasterAccount struct {
 	core.DomainModel
-	Email    string `gorm:"not null,email"`
-	Password string `gorm:"not null"`
+	Email    string `gorm:"type:varchar(255);not null;email;unique_index"`
+	Password string `gorm:"type:varchar(20);not null"`
 }
