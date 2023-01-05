@@ -1,6 +1,8 @@
 package domain
 
-import "online-learning-restful-api/core"
+import (
+	"online-learning-restful-api/core"
+)
 
 type MasterAccount struct {
 	core.DomainModel

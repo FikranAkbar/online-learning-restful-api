@@ -11,9 +11,9 @@ type MasterCourse struct {
 	PhotoURL           string  `json:"photo_url" gorm:"not null" validate:"required"`
 	AverageRate        float32 `json:"average_rate" gorm:"default:0.0"`
 	Price              uint    `json:"price" gorm:"not null" validate:"required"`
-	TotalRate          uint    `json:"total_rate" gorm:"default:0.0" validate:"required"`
+	TotalRate          uint    `json:"total_rate" gorm:"default:0" validate:"required"`
 	TotalDuration      float32 `json:"total_duration" gorm:"default:0.0" validate:"required"`
-	CurrentParticipant uint    `json:"current_participant" gorm:"default:0.0" validate:"required"`
+	CurrentParticipant uint    `json:"current_participant" gorm:"default:0" validate:"required"`
 	MaximumParticipant uint    `json:"maximum_participant" gorm:"not null" validate:"required"`
 	IsPublished        bool    `json:"is_published" gorm:"default:false" validate:"required"`
 }

@@ -10,7 +10,12 @@ func Migrate() {
 	log.Printf("Migrate Start")
 	db := NewDB()
 
-	err := db.AutoMigrate(&MasterAccount{})
+	err := db.AutoMigrate(
+		&MasterAccount{},
+		&MasterCategory{},
+		&MasterCity{},
+		&MasterCourse{},
+	)
 	helper.PanicIfError(err)
 
 	log.Printf("Migrate: Success")
