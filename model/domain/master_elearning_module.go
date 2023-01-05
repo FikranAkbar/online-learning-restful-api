@@ -8,5 +8,5 @@ type MasterElearningModule struct {
 	ModuleTitle       string `gorm:"type:varchar(100)"`
 	ModuleOverview    string
 	ModuleDescription string
-	IsPublished       bool
+	IsPublished       bool `gorm:"default:false"`
 }
