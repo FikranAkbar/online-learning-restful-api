@@ -2461,6 +2461,77 @@
           }
         }
       }
+    },
+    "/industry-insights/:industryInsightId": {
+      "get": {
+        "tags": ["Industry Insight"],
+        "description": "Get industry insight detail by industry insight id",
+        "summary": "Get industry insight detail",
+        "parameters": [{
+          "$ref": "#/components/parameters/IndustryInsightIdPathParameter"
+        }],
+        "responses": {
+          "200": {
+            "description": "Get industry insight detail success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "industry_insight_id": {
+                          "type": "number"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "cover": {
+                          "type": "string"
+                        },
+                        "body_content": {
+                          "type": "string"
+                        },
+                        "attachment_name": {
+                          "type": "string"
+                        },
+                        "attachment_url": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": {
+                    "industry_insight_id": 1,
+                    "title": "Insight Title 1",
+                    "cover": "https://images.unsplash.com/photo-1517732306149-e8f829eb588a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+                    "body_content": "Ini adalah deskripsi insight title 1 Ini adalah deskripsi insight title 1 Ini adalah deskripsi insight title 1 Ini adalah deskripsi insight title 1 Ini adalah deskripsi insight title 1 Ini adalah deskripsi insight title 1 Ini adalah deskripsi insight title 1 Ini adalah deskripsi insight title 1 Ini adalah deskripsi insight title 1",
+                    "attachment_name": "Attachment 1",
+                    "attachment_url": "http://www.africau.edu/images/default/sample.pdf"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -3046,6 +3117,12 @@
             "value": "completed"
           }
         }
+      },
+      "IndustryInsightIdPathParameter": {
+        "name": "industryInsightId",
+        "in": "path",
+        "required": true,
+        "example": 1
       }
     }
   }
