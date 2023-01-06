@@ -3,7 +3,7 @@ package entity
 import "online-learning-restful-api/core"
 
 type TrxIndustryInsightAttachment struct {
-	core.EntityModel
+	core.EntityModel    `gorm:"embedded"`
 	IndustryInsightId   uint `gorm:"not null"`
 	InsightAttachmentId uint `gorm:"not null"`
 }

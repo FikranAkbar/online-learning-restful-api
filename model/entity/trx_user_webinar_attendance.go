@@ -6,7 +6,7 @@ import (
 )
 
 type TrxUserWebinarAttendance struct {
-	core.EntityModel
+	core.EntityModel `gorm:"embedded"`
 	WebinarSessionId uint `gorm:"not null"`
 	UserId           uint `gorm:"not null"`
 	FirstJoinTime    time.Time

@@ -3,9 +3,9 @@ package entity
 import "online-learning-restful-api/core"
 
 type MasterInsightAttachment struct {
-	core.EntityModel
-	AttachmentName string `gorm:"type:varchar(100)"`
-	DocURL         string
+	core.EntityModel `gorm:"embedded"`
+	AttachmentName   string `gorm:"type:varchar(100);not null"`
+	DocURL           string `gorm:"not null"`
 }
 
 func (MasterInsightAttachment) TableName() string {

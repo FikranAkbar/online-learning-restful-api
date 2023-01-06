@@ -1,13 +1,16 @@
 package entity
 
-import "online-learning-restful-api/core"
+import (
+	"database/sql"
+	"online-learning-restful-api/core"
+)
 
 type MasterElearningModule struct {
-	core.EntityModel
+	core.EntityModel  `gorm:"embedded"`
 	CourseId          uint   `gorm:"not null"`
-	ModuleTitle       string `gorm:"type:varchar(100)"`
-	ModuleOverview    string
-	ModuleDescription string
+	ModuleTitle       string `gorm:"type:varchar(100);not null"`
+	ModuleOverview    sql.NullString
+	ModuleDescription sql.NullString
 	IsPublished       bool `gorm:"default:false"`
 }
 

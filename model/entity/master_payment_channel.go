@@ -3,8 +3,8 @@ package entity
 import "online-learning-restful-api/core"
 
 type MasterPaymentChannel struct {
-	core.EntityModel
-	PaymentChannel string `gorm:"type:varchar(100)"`
+	core.EntityModel `gorm:"embedded"`
+	PaymentChannel   string `gorm:"type:varchar(100);not null"`
 }
 
 func (MasterPaymentChannel) TableName() string {

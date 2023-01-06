@@ -6,17 +6,17 @@ import (
 )
 
 type MasterExpert struct {
-	core.EntityModel
-	Name               string `gorm:"type:varchar(300)"`
-	Profession         string `gorm:"type:varchar(200)"`
-	ProfileDescription string
-	Phone              string `gorm:"type:varchar(20)"`
-	Address            string
-	Gender             string `gorm:"type:varchar(20)"`
+	core.EntityModel   `gorm:"embedded"`
+	Name               string         `gorm:"type:varchar(300);not null"`
+	Profession         sql.NullString `gorm:"type:varchar(200)"`
+	ProfileDescription sql.NullString
+	Phone              sql.NullString `gorm:"type:varchar(20)"`
+	Address            sql.NullString
+	Gender             string `gorm:"type:varchar(20);not null"`
 	BirthDate          sql.NullTime
-	Photo              string
-	AverageRate        float32 `gorm:"type:float(10)"`
-	TotalStudent       uint
+	Photo              sql.NullString
+	AverageRate        float32 `gorm:"type:float(10);default:0.0"`
+	TotalStudent       int     `gorm:"default:0"`
 }
 
 func (MasterExpert) TableName() string {

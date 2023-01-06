@@ -6,14 +6,14 @@ import (
 )
 
 type MasterUser struct {
-	core.EntityModel
-	CityId     uint   `gorm:"not null"`
-	ProvinceId uint   `gorm:"not null"`
-	Name       string `gorm:"type:varchar(300)"`
-	Phone      string `gorm:"type:varchar(20)"`
-	Gender     string `gorm:"type:varchar(10)"`
-	BirthDate  sql.NullTime
-	PhotoURL   string
+	core.EntityModel `gorm:"embedded"`
+	CityId           uint           `gorm:"not null"`
+	ProvinceId       uint           `gorm:"not null"`
+	Name             string         `gorm:"type:varchar(300);not null"`
+	Phone            sql.NullString `gorm:"type:varchar(20)"`
+	Gender           string         `gorm:"type:varchar(10);not null"`
+	BirthDate        sql.NullTime
+	PhotoURL         sql.NullString
 }
 
 func (MasterUser) TableName() string {

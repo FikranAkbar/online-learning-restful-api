@@ -6,11 +6,11 @@ import (
 )
 
 type MasterCourseComingSoon struct {
-	core.EntityModel
-	Name        string `gorm:"type:varchar(200);not null"`
-	Description sql.NullString
-	Cover       sql.NullString
-	IsPublished bool `gorm:"default:false"`
+	core.EntityModel `gorm:"embedded"`
+	Name             string `gorm:"type:varchar(200);not null"`
+	Description      sql.NullString
+	Cover            sql.NullString
+	IsPublished      bool `gorm:"default:false;not null"`
 }
 
 func (MasterCourseComingSoon) TableName() string {

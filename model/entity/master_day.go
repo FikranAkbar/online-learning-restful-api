@@ -3,8 +3,8 @@ package entity
 import "online-learning-restful-api/core"
 
 type MasterDay struct {
-	core.EntityModel
-	DayName string `gorm:"type:varchar(20)"`
+	core.EntityModel `gorm:"embedded"`
+	DayName          string `gorm:"type:varchar(20);not null"`
 }
 
 func (MasterDay) TableName() string {

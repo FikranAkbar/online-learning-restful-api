@@ -3,9 +3,9 @@ package entity
 import "online-learning-restful-api/core"
 
 type TrxExpertCategory struct {
-	core.EntityModel
-	ExpertId   uint `gorm:"not null"`
-	CategoryId uint `gorm:"not null"`
+	core.EntityModel `gorm:"embedded"`
+	ExpertId         uint `gorm:"not null"`
+	CategoryId       uint `gorm:"not null"`
 }
 
 func (TrxExpertCategory) TableName() string {
