@@ -10,6 +10,8 @@ import (
 func Migrate(db *gorm.DB) {
 	log.Printf("Migrate Start")
 
+	helper.PanicIfError(db.SetupJoinTable(&MasterExpert{}, "Categories", &TrxExpertCategory{}))
+
 	err := db.AutoMigrate(
 		&MasterAccount{},
 		&MasterCategory{},
@@ -34,21 +36,21 @@ func Migrate(db *gorm.DB) {
 		&MasterUserType{},
 		&MasterVideo{},
 		&MasterWebinarSession{},
-		&TrxCourseCategory{},
-		&TrxCourseQnaAnswer{},
-		&TrxCourseQnaQuestion{},
-		&TrxElearningModuleSequence{},
+		//&TrxCourseCategory{},
+		//&TrxCourseQnaAnswer{},
+		//&TrxCourseQnaQuestion{},
+		//&TrxElearningModuleSequence{},
 		&TrxExpertCategory{},
-		&TrxForgotPassword{},
-		&TrxIndustryInsightAttachment{},
-		&TrxQuizUserAnswer{},
-		&TrxUserCart{},
-		&TrxUserCourse{},
-		&TrxUserLike{},
-		&TrxUserPaymentHistory{},
-		&TrxUserVideoProgression{},
-		&TrxUserWebinarAttendance{},
-		&TrxWebinarSessionSequence{},
+		//&TrxForgotPassword{},
+		//&TrxIndustryInsightAttachment{},
+		//&TrxQuizUserAnswer{},
+		//&TrxUserCart{},
+		//&TrxUserCourse{},
+		//&TrxUserLike{},
+		//&TrxUserPaymentHistory{},
+		//&TrxUserVideoProgression{},
+		//&TrxUserWebinarAttendance{},
+		//&TrxWebinarSessionSequence{},
 	)
 	helper.PanicIfError(err)
 

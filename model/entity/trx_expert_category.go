@@ -1,13 +1,15 @@
 package entity
 
-import "online-learning-restful-api/core"
+import (
+	"gorm.io/gorm"
+	"time"
+)
 
 type TrxExpertCategory struct {
-	core.EntityModel `gorm:"embedded"`
-	ExpertId         uint             `gorm:"not null"`
-	MasterExpert     []MasterExpert   `gorm:"foreignKey:ExpertId"`
-	CategoryId       uint             `gorm:"not null"`
-	MasterCategory   []MasterCategory `gorm:"foreignKey:CategoryId"`
+	ExpertId   uint `gorm:"primaryKey"`
+	CategoryId uint `gorm:"primaryKey"`
+	CreatedAt  time.Time
+	DeletedAt  gorm.DeletedAt
 }
 
 func (TrxExpertCategory) TableName() string {

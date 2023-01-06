@@ -15,8 +15,9 @@ type MasterExpert struct {
 	Gender             string `gorm:"type:varchar(20);not null"`
 	BirthDate          sql.NullTime
 	Photo              sql.NullString
-	AverageRate        float32 `gorm:"type:float(10);default:0.0"`
-	TotalStudent       int     `gorm:"default:0"`
+	AverageRate        float32          `gorm:"type:float(10);default:0.0"`
+	TotalStudent       int              `gorm:"default:0"`
+	Categories         []MasterCategory `gorm:"many2many:trx_expert_category;foreignKey:ID;joinForeignKey:ExpertId;references:ID;joinReferences:CategoryId"`
 }
 
 func (MasterExpert) TableName() string {
