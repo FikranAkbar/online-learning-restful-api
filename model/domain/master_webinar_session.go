@@ -18,3 +18,7 @@ type MasterWebinarSession struct {
 	TimeFinish   sql.NullTime
 	IsPublished  bool `gorm:"default:false"`
 }
+
+func (MasterWebinarSession) TableName() string {
+	return "master_webinar_session"
+}

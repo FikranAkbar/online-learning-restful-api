@@ -10,3 +10,7 @@ type MasterVideo struct {
 	VideoUrl    string
 	IsPublished bool `gorm:"default:false"`
 }
+
+func (MasterVideo) TableName() string {
+	return "master_video"
+}

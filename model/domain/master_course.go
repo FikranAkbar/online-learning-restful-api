@@ -17,3 +17,7 @@ type MasterCourse struct {
 	MaximumParticipant uint    `gorm:"not null"`
 	IsPublished        bool    `gorm:"default:false"`
 }
+
+func (MasterCourse) TableName() string {
+	return "master_course"
+}

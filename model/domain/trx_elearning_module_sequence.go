@@ -7,3 +7,7 @@ type TrxElearningModuleSequence struct {
 	ModuleId       uint `gorm:"not null"`
 	SequenceNumber uint `gorm:"type:int(10)"`
 }
+
+func (TrxElearningModuleSequence) TableName() string {
+	return "trx_elearning_module_sequence"
+}

@@ -9,3 +9,7 @@ type TrxCourseQnaAnswer struct {
 	UserType      uint `gorm:"not null"`
 	Answer        string
 }
+
+func (TrxCourseQnaAnswer) TableName() string {
+	return "trx_course_qna_answer"
+}

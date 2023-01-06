@@ -15,3 +15,7 @@ type TrxUserPaymentHistory struct {
 	PaymentInstructionUrl string
 	IsExpired             bool `gorm:"default:false"`
 }
+
+func (TrxUserPaymentHistory) TableName() string {
+	return "trx_user_payment_history"
+}

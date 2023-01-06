@@ -7,3 +7,7 @@ type TrxExpertCategory struct {
 	ExpertId   uint `gorm:"not null"`
 	CategoryId uint `gorm:"not null"`
 }
+
+func (TrxExpertCategory) TableName() string {
+	return "trx_expert_category"
+}

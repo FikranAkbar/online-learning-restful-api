@@ -9,3 +9,7 @@ type MasterCourseReview struct {
 	ReviewDesc string  `gorm:"not null"`
 	ReviewRate float32 `gorm:"not null"`
 }
+
+func (MasterCourseReview) TableName() string {
+	return "master_course_review"
+}

@@ -6,3 +6,7 @@ type MasterDay struct {
 	core.DomainModel
 	DayName string `gorm:"type:varchar(20)"`
 }
+
+func (MasterDay) TableName() string {
+	return "master_day"
+}

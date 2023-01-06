@@ -7,3 +7,7 @@ type TrxUserCart struct {
 	UserId   uint `gorm:"not null"`
 	CourseId uint `gorm:"not null"`
 }
+
+func (TrxUserCart) TableName() string {
+	return "trx_user_cart"
+}

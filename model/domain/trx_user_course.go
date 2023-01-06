@@ -10,3 +10,7 @@ type TrxUserCourse struct {
 	TotalWebinarAttended uint `gorm:"type:int(10)"`
 	GraduatedAt          string
 }
+
+func (TrxUserCourse) TableName() string {
+	return "trx_user_course"
+}

@@ -9,3 +9,7 @@ type TrxUserVideoProgression struct {
 	Progression float32
 	IsComplete  bool `gorm:"default:false"`
 }
+
+func (TrxUserVideoProgression) TableName() string {
+	return "trx_user_video_progression"
+}

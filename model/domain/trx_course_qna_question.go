@@ -8,3 +8,7 @@ type TrxCourseQnaQuestion struct {
 	UserId   uint `gorm:"not null"`
 	Question string
 }
+
+func (TrxCourseQnaQuestion) TableName() string {
+	return "trx_course_qna_question"
+}

@@ -6,3 +6,7 @@ type MasterProvince struct {
 	core.DomainModel
 	ProvinceName string `gorm:"type:varchar(100)"`
 }
+
+func (MasterProvince) TableName() string {
+	return "master_province"
+}

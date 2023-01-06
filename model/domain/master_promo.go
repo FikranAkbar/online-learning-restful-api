@@ -7,3 +7,7 @@ type MasterPromo struct {
 	PromoName string `gorm:"type:varchar(200)"`
 	Discount  float32
 }
+
+func (MasterPromo) TableName() string {
+	return "master_promo"
+}

@@ -13,3 +13,7 @@ type TrxUserWebinarAttendance struct {
 	LastLeaveTime    time.Time
 	JoinDuration     uint
 }
+
+func (TrxUserWebinarAttendance) TableName() string {
+	return "trx_user_webinar_attendance"
+}

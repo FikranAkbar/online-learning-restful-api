@@ -10,3 +10,7 @@ type MasterIndustryInsight struct {
 	BodyContent  string
 	IsPublished  bool `gorm:"default:false"`
 }
+
+func (MasterIndustryInsight) TableName() string {
+	return "master_industry_insight"
+}

@@ -12,5 +12,5 @@ type MasterAccount struct {
 }
 
 func (MasterAccount) TableName() string {
-	return "master_accounts"
+	return "master_account"
 }

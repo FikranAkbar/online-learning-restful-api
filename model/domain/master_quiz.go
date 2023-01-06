@@ -8,3 +8,7 @@ type MasterQuiz struct {
 	QuizQuestion string
 	IsPublished  bool `gorm:"default:false"`
 }
+
+func (MasterQuiz) TableName() string {
+	return "master_quiz"
+}

@@ -18,3 +18,7 @@ type MasterExpert struct {
 	AverageRate        float32 `gorm:"type:float(10)"`
 	TotalStudent       uint
 }
+
+func (MasterExpert) TableName() string {
+	return "master_expert"
+}

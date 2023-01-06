@@ -9,3 +9,7 @@ type TrxUserLike struct {
 	UserId         uint `gorm:"not null"`
 	IsLike         bool `gorm:"default:false"`
 }
+
+func (TrxUserLike) TableName() string {
+	return "trx_user_like"
+}

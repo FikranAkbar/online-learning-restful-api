@@ -12,3 +12,7 @@ type MasterCourseComingSoon struct {
 	Cover       sql.NullString
 	IsPublished bool `gorm:"default:false"`
 }
+
+func (MasterCourseComingSoon) TableName() string {
+	return "master_course_coming_soon"
+}

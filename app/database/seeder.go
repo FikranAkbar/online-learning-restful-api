@@ -16,6 +16,6 @@ func SeedDB(db *gorm.DB) {
 	truncateErr := seedersStack.Clear()
 	helper.PanicIfError(truncateErr)
 
-	seedErr := seedersStack.Seed()
-	helper.PanicIfError(seedErr)
+	//seedErr := seedersStack.Seed()
+	//helper.PanicIfError(seedErr)
 }

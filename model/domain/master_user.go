@@ -15,3 +15,7 @@ type MasterUser struct {
 	BirthDate  sql.NullTime
 	PhotoURL   string
 }
+
+func (MasterUser) TableName() string {
+	return "master_user"
+}

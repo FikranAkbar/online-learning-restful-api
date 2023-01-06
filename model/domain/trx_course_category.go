@@ -7,3 +7,7 @@ type TrxCourseCategory struct {
 	CourseId   uint `gorm:"not null"`
 	CategoryId uint `gorm:"not null"`
 }
+
+func (TrxCourseCategory) TableName() string {
+	return "trx_course_category"
+}

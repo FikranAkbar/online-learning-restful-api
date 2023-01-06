@@ -10,3 +10,7 @@ type MasterElearningModule struct {
 	ModuleDescription string
 	IsPublished       bool `gorm:"default:false"`
 }
+
+func (MasterElearningModule) TableName() string {
+	return "master_elearning_module"
+}

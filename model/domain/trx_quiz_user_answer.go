@@ -8,3 +8,7 @@ type TrxQuizUserAnswer struct {
 	UserId     uint `gorm:"not null"`
 	QuizAnswer string
 }
+
+func (TrxQuizUserAnswer) TableName() string {
+	return "trx_quiz_user_answer"
+}
