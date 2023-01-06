@@ -1,0 +1,12 @@
+package entity
+
+import "online-learning-restful-api/core"
+
+type MasterPaymentChannel struct {
+	core.EntityModel
+	PaymentChannel string `gorm:"type:varchar(100)"`
+}
+
+func (MasterPaymentChannel) TableName() string {
+	return "master_payment_channel"
+}

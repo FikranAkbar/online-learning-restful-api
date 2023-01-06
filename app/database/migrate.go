@@ -1,14 +1,14 @@
 package database
 
 import (
+	"gorm.io/gorm"
 	"log"
 	"online-learning-restful-api/helper"
-	. "online-learning-restful-api/model/domain"
+	. "online-learning-restful-api/model/entity"
 )
 
-func Migrate() {
+func Migrate(db *gorm.DB) {
 	log.Printf("Migrate Start")
-	db := NewDB()
 
 	err := db.AutoMigrate(
 		&MasterAccount{},
@@ -53,10 +53,4 @@ func Migrate() {
 	helper.PanicIfError(err)
 
 	log.Printf("Migrate: Success")
-
-	log.Printf("Seed: Start")
-
-	SeedDB(db)
-
-	log.Printf("Seed: Success")
 }
