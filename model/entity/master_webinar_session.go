@@ -8,8 +8,9 @@ import (
 
 type MasterWebinarSession struct {
 	core.EntityModel `gorm:"embedded"`
-	CourseId         uint   `gorm:"not null"`
-	Title            string `gorm:"type:varchar(200);not null"`
+	CourseId         uint         `gorm:"not null"`
+	MasterCourse     MasterCourse `gorm:"foreignKey:CourseId"`
+	Title            string       `gorm:"type:varchar(200);not null"`
 	Desc             sql.NullString
 	Cover            sql.NullString
 	ZoomLink         sql.NullString

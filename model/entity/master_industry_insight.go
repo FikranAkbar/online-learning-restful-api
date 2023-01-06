@@ -7,8 +7,9 @@ import (
 
 type MasterIndustryInsight struct {
 	core.EntityModel `gorm:"embedded"`
-	UserAuthorId     uint   `gorm:"not null"`
-	TitleInsight     string `gorm:"type:varchar(100);not null"`
+	UserAuthorId     uint       `gorm:"not null"`
+	MasterUser       MasterUser `gorm:"foreignKey:UserAuthorId"`
+	TitleInsight     string     `gorm:"type:varchar(100);not null"`
 	CoverInsight     sql.NullString
 	BodyContent      sql.NullString
 	IsPublished      bool `gorm:"default:false"`

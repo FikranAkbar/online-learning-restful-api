@@ -24,12 +24,6 @@ func TestFindDataAndRelationshipData(t *testing.T) {
 	db.Preload(clause.Associations).Find(&accounts)
 
 	for _, val := range accounts {
-		fmt.Println()
 		fmt.Printf("Name %v Role %v\n", val.Email, val.MasterUserType.UserType)
 	}
-
-	var account entity.MasterAccount
-	_ = db.Model(&entity.MasterAccount{}).Association("Role").Find(&account)
-
-	fmt.Println(account)
 }
