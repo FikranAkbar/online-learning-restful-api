@@ -2987,7 +2987,7 @@
         "schema": {
           "type": "integer"
         },
-        "example": 1
+        "example": 1,
       }
     }
   }
