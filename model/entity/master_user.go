@@ -2,20 +2,20 @@ package entity
 
 import (
 	"database/sql"
-	"online-learning-restful-api/core"
+	"gorm.io/gorm"
 )
 
 type MasterUser struct {
-	core.EntityModel `gorm:"embedded"`
-	CityId           uint           `gorm:"not null"`
-	MasterCity       MasterCity     `gorm:"foreignKey:CityId"`
-	ProvinceId       uint           `gorm:"not null"`
-	MasterProvince   MasterProvince `gorm:"foreignKey:ProvinceId"`
-	Name             string         `gorm:"type:varchar(300);not null"`
-	Phone            sql.NullString `gorm:"type:varchar(20)"`
-	Gender           string         `gorm:"type:varchar(10);not null"`
-	BirthDate        sql.NullTime
-	PhotoURL         sql.NullString
+	gorm.Model     `gorm:"embedded"`
+	CityId         uint           `gorm:"column:city_id;not null"`
+	MasterCity     MasterCity     `gorm:"foreignKey:CityId"`
+	ProvinceId     uint           `gorm:"column:province_id;not null"`
+	MasterProvince MasterProvince `gorm:"foreignKey:ProvinceId"`
+	Name           string         `gorm:"column:name;type:varchar(300);not null"`
+	Phone          sql.NullString `gorm:"column:phone;type:varchar(20)"`
+	Gender         string         `gorm:"column:gender;type:varchar(10);not null"`
+	BirthDate      sql.NullTime   `gorm:"column:birth_date"`
+	PhotoURL       sql.NullString `gorm:"column:photo_url"`
 }
 
 func (MasterUser) TableName() string {

@@ -1,16 +1,16 @@
 package entity
 
 import (
-	"online-learning-restful-api/core"
+	"gorm.io/gorm"
 )
 
 type MasterAccount struct {
-	core.EntityModel  `gorm:"embedded"`
-	Email             string `gorm:"type:varchar(300);not null;unique_index"`
-	Password          string `gorm:"type:varchar(300);not null"`
-	Role              uint
+	gorm.Model        `gorm:"embedded"`
+	Email             string              `gorm:"column:email;type:varchar(300);not null;unique_index"`
+	Password          string              `gorm:"column:password;type:varchar(300);not null"`
+	Role              uint                `gorm:"column:role"`
 	MasterUserType    MasterUserType      `gorm:"foreignKey:Role"`
-	TrxForgotPassword []TrxForgotPassword `gorm:"foreignKey:AccountId"`
+	TrxForgotPassword []TrxForgotPassword `gorm:"foreignKey:AccountId;references:ID"`
 }
 
 func (MasterAccount) TableName() string {

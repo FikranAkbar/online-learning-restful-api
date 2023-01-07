@@ -2,17 +2,17 @@ package entity
 
 import (
 	"database/sql"
-	"online-learning-restful-api/core"
+	"gorm.io/gorm"
 )
 
 type MasterElearningModule struct {
-	core.EntityModel  `gorm:"embedded"`
-	CourseId          uint         `gorm:"not null"`
-	MasterCourse      MasterCourse `gorm:"foreignKey:CourseId"`
-	ModuleTitle       string       `gorm:"type:varchar(100);not null"`
-	ModuleOverview    sql.NullString
-	ModuleDescription sql.NullString
-	IsPublished       bool `gorm:"default:false"`
+	gorm.Model        `gorm:"embedded"`
+	CourseId          uint           `gorm:"column:course_id;not null"`
+	MasterCourse      MasterCourse   `gorm:"foreignKey:CourseId;references:ID"`
+	ModuleTitle       string         `gorm:"column:module_title;type:varchar(100);not null"`
+	ModuleOverview    sql.NullString `gorm:"column:module_overview;"`
+	ModuleDescription sql.NullString `gorm:"column:module_description"`
+	IsPublished       bool           `gorm:"default:false"`
 }
 
 func (MasterElearningModule) TableName() string {

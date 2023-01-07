@@ -4,18 +4,16 @@ import (
 	"fmt"
 	"gorm.io/gorm/clause"
 	"online-learning-restful-api/app/database"
+	"online-learning-restful-api/helper"
 	"online-learning-restful-api/model/entity"
 	"testing"
 )
 
-func TestFindData(t *testing.T) {
+func TestFirstData(t *testing.T) {
 	db := database.NewDB()
-	var accounts *[]entity.MasterAccount
-	db.Find(&accounts)
-
-	for _, val := range *accounts {
-		fmt.Println(val)
-	}
+	var account *entity.MasterAccount
+	db.Preload("MasterUserType").First(&account)
+	fmt.Print(helper.StringModel(*account))
 }
 
 func TestFindDataAndRelationshipData(t *testing.T) {

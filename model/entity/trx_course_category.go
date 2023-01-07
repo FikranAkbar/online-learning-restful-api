@@ -4,9 +4,9 @@ import "online-learning-restful-api/core"
 
 type TrxCourseCategory struct {
 	core.EntityModel `gorm:"embedded"`
-	CourseId         uint           `gorm:"not null"`
+	CourseId         uint           `gorm:"column:course_id;not null"`
 	MasterCourse     MasterCourse   `gorm:"foreignKey:CourseId"`
-	CategoryId       uint           `gorm:"not null"`
+	CategoryId       uint           `gorm:"column:category_id;not null"`
 	MasterCategory   MasterCategory `gorm:"foreignKey:CategoryId"`
 }
 

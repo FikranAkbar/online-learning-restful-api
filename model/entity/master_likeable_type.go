@@ -1,10 +1,12 @@
 package entity
 
-import "online-learning-restful-api/core"
+import (
+	"gorm.io/gorm"
+)
 
 type MasterLikeableType struct {
-	core.EntityModel `gorm:"embedded"`
-	LikeableName     string `gorm:"varchar(50);not null"`
+	gorm.Model   `gorm:"embedded"`
+	LikeableName string `gorm:"column:likeable_name;type:varchar(50);not null"`
 }
 
 func (MasterLikeableType) TableName() string {

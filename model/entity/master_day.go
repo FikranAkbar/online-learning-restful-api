@@ -1,10 +1,12 @@
 package entity
 
-import "online-learning-restful-api/core"
+import (
+	"gorm.io/gorm"
+)
 
 type MasterDay struct {
-	core.EntityModel `gorm:"embedded"`
-	DayName          string `gorm:"type:varchar(20);not null"`
+	gorm.Model `gorm:"embedded"`
+	DayName    string `gorm:"column:day_name;type:varchar(20);not null"`
 }
 
 func (MasterDay) TableName() string {

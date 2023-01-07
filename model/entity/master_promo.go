@@ -1,11 +1,13 @@
 package entity
 
-import "online-learning-restful-api/core"
+import (
+	"gorm.io/gorm"
+)
 
 type MasterPromo struct {
-	core.EntityModel `gorm:"embedded"`
-	PromoName        string  `gorm:"type:varchar(200);not null"`
-	Discount         float32 `gorm:"not null"`
+	gorm.Model `gorm:"embedded"`
+	PromoName  string  `gorm:"column:promo_name;type:varchar(200);not null"`
+	Discount   float32 `gorm:"column:discount;not null"`
 }
 
 func (MasterPromo) TableName() string {

@@ -2,15 +2,15 @@ package entity
 
 import (
 	"database/sql"
-	"online-learning-restful-api/core"
+	"gorm.io/gorm"
 )
 
 type MasterCourseComingSoon struct {
-	core.EntityModel `gorm:"embedded"`
-	Name             string `gorm:"type:varchar(200);not null"`
-	Description      sql.NullString
-	Cover            sql.NullString
-	IsPublished      bool `gorm:"default:false;not null"`
+	gorm.Model  `gorm:"embedded"`
+	Name        string         `gorm:"column:name;type:varchar(200);not null"`
+	Description sql.NullString `gorm:"column:description"`
+	Cover       sql.NullString `gorm:"column:cover"`
+	IsPublished bool           `gorm:"column:is_published;default:false;not null"`
 }
 
 func (MasterCourseComingSoon) TableName() string {

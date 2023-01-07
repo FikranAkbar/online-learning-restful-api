@@ -2,17 +2,17 @@ package entity
 
 import (
 	"database/sql"
-	"online-learning-restful-api/core"
+	"gorm.io/gorm"
 )
 
 type MasterIndustryInsight struct {
-	core.EntityModel `gorm:"embedded"`
-	UserAuthorId     uint       `gorm:"not null"`
-	MasterUser       MasterUser `gorm:"foreignKey:UserAuthorId"`
-	TitleInsight     string     `gorm:"type:varchar(100);not null"`
-	CoverInsight     sql.NullString
-	BodyContent      sql.NullString
-	IsPublished      bool `gorm:"default:false"`
+	gorm.Model   `gorm:"embedded"`
+	UserAuthorId uint           `gorm:"column:user_author_id;not null"`
+	MasterUser   MasterUser     `gorm:"foreignKey:UserAuthorId;joinForeignKey:ID"`
+	TitleInsight string         `gorm:"column:title_insight;type:varchar(100);not null"`
+	CoverInsight sql.NullString `gorm:"column:cover_insight"`
+	BodyContent  sql.NullString `gorm:"column:body_content"`
+	IsPublished  bool           `gorm:"column:is_published;default:false"`
 }
 
 func (MasterIndustryInsight) TableName() string {

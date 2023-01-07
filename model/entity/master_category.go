@@ -1,10 +1,12 @@
 package entity
 
-import "online-learning-restful-api/core"
+import (
+	"gorm.io/gorm"
+)
 
 type MasterCategory struct {
-	core.EntityModel `gorm:"embedded"`
-	CategoryName     string `gorm:"type:varchar(100);not null"`
+	gorm.Model   `gorm:"embedded"`
+	CategoryName string `gorm:"column:category_name;type:varchar(100);not null"`
 }
 
 func (MasterCategory) TableName() string {

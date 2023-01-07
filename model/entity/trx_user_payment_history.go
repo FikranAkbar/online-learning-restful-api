@@ -3,24 +3,24 @@ package entity
 import "database/sql"
 
 type TrxUserPaymentHistory struct {
-	PaymentId             string               `gorm:"type:varchar(100);primaryKey"`
-	UserId                uint                 `gorm:"not null"`
+	PaymentId             string               `gorm:"column:payment_id;type:varchar(100);primaryKey"`
+	UserId                uint                 `gorm:"column:user_id;not null"`
 	MasterUser            MasterUser           `gorm:"foreignKey:UserId"`
-	CourseId              string               `gorm:"not null"`
-	DayId                 uint                 `gorm:"not null"`
+	CourseId              string               `gorm:"column:course_id;not null"`
+	DayId                 uint                 `gorm:"column:day_id;not null"`
 	MasterDay             MasterDay            `gorm:"foreignKey:DayId"`
-	PaymentChannelId      uint                 `gorm:"not null"`
+	PaymentChannelId      uint                 `gorm:"column:payment_channel_id;not null"`
 	MasterPaymentChannel  MasterPaymentChannel `gorm:"foreignKey:PaymentChannelId"`
-	PaymentStatusId       uint                 `gorm:"not null"`
+	PaymentStatusId       uint                 `gorm:"column:payment_status_id;not null"`
 	MasterPaymentStatus   MasterPaymentStatus  `gorm:"foreignKey:PaymentStatusId"`
-	PromoId               sql.NullInt64
-	MasterPromo           MasterPromo `gorm:"foreignKey:PromoId"`
-	Price                 uint        `gorm:"not null"`
-	TotalPrice            uint        `gorm:"not null"`
-	PaymentMethod         uint        `gorm:"not null"`
-	PaymentNumber         string
-	PaymentInstructionUrl string
-	IsExpired             bool `gorm:"default:false"`
+	PromoId               sql.NullInt64        `gorm:"column:promo_id"`
+	MasterPromo           MasterPromo          `gorm:"foreignKey:PromoId"`
+	Price                 uint                 `gorm:"column:price;not null"`
+	TotalPrice            uint                 `gorm:"column:total_price;not null"`
+	PaymentMethod         uint                 `gorm:"column:payment_method;not null"`
+	PaymentNumber         string               `gorm:"column:payment_number"`
+	PaymentInstructionUrl string               `gorm:"column:payment_instruction_url"`
+	IsExpired             bool                 `gorm:"column:is_expired;default:false"`
 }
 
 func (TrxUserPaymentHistory) TableName() string {

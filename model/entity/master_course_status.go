@@ -1,10 +1,12 @@
 package entity
 
-import "online-learning-restful-api/core"
+import (
+	"gorm.io/gorm"
+)
 
 type MasterCourseStatus struct {
-	core.EntityModel `gorm:"embedded"`
-	Name             string `gorm:"type:varchar(100);not null"`
+	gorm.Model `gorm:"embedded"`
+	Name       string `gorm:"column:name;type:varchar(100);not null"`
 }
 
 func (MasterCourseStatus) TableName() string {

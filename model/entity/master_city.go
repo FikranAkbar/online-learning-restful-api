@@ -1,12 +1,14 @@
 package entity
 
-import "online-learning-restful-api/core"
+import (
+	"gorm.io/gorm"
+)
 
 type MasterCity struct {
-	core.EntityModel `gorm:"embedded"`
-	CityName         string `gorm:"type:varchar(100);not null"`
-	ProvinceId       uint
-	MasterProvince   MasterProvince `gorm:"foreignKey:ProvinceId"`
+	gorm.Model     `gorm:"embedded"`
+	CityName       string         `gorm:"column:city_name;type:varchar(100);not null"`
+	ProvinceId     uint           `gorm:"column:province_id"`
+	MasterProvince MasterProvince `gorm:"foreignKey:ProvinceId;references:ID"`
 }
 
 func (MasterCity) TableName() string {

@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	gormseeder "github.com/kachit/gorm-seeder"
 	"gorm.io/gorm"
-	"online-learning-restful-api/core"
 	"online-learning-restful-api/model/entity"
 )
 
@@ -19,7 +18,7 @@ func NewMasterExpertSeeder(cfg gormseeder.SeederConfiguration) *MasterExpertSeed
 func (s *MasterExpertSeeder) Seed(db *gorm.DB) error {
 	experts := []entity.MasterExpert{
 		{
-			EntityModel:        core.EntityModel{ID: 1},
+			Model:              gorm.Model{ID: 1},
 			Name:               "Ray Robinson",
 			Profession:         sql.NullString{},
 			ProfileDescription: sql.NullString{String: "Saya adalah expert Ray Robinson di platform online learning"},
@@ -33,7 +32,7 @@ func (s *MasterExpertSeeder) Seed(db *gorm.DB) error {
 			Categories:         nil,
 		},
 		{
-			EntityModel:        core.EntityModel{ID: 2},
+			Model:              gorm.Model{ID: 2},
 			Name:               "Ivana Mcintosh",
 			Profession:         sql.NullString{},
 			ProfileDescription: sql.NullString{String: "Saya adalah expert Ivana Mcintosh di platform online learning"},
@@ -47,7 +46,7 @@ func (s *MasterExpertSeeder) Seed(db *gorm.DB) error {
 			Categories:         nil,
 		},
 		{
-			EntityModel:        core.EntityModel{ID: 3},
+			Model:              gorm.Model{ID: 3},
 			Name:               "Brielle Hutchinson",
 			Profession:         sql.NullString{},
 			ProfileDescription: sql.NullString{String: "Saya adalah expert Brielle Hutchinson di platform online learning"},
@@ -61,7 +60,7 @@ func (s *MasterExpertSeeder) Seed(db *gorm.DB) error {
 			Categories:         nil,
 		},
 		{
-			EntityModel:        core.EntityModel{ID: 4},
+			Model:              gorm.Model{ID: 4},
 			Name:               "Naomi Fadel",
 			Profession:         sql.NullString{},
 			ProfileDescription: sql.NullString{String: "Saya adalah expert Naomi Fadel di platform online learning"},

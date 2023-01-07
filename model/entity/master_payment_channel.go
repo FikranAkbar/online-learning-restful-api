@@ -1,10 +1,12 @@
 package entity
 
-import "online-learning-restful-api/core"
+import (
+	"gorm.io/gorm"
+)
 
 type MasterPaymentChannel struct {
-	core.EntityModel `gorm:"embedded"`
-	PaymentChannel   string `gorm:"type:varchar(100);not null"`
+	gorm.Model     `gorm:"embedded"`
+	PaymentChannel string `gorm:"column:payment_channel;type:varchar(100);not null"`
 }
 
 func (MasterPaymentChannel) TableName() string {

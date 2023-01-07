@@ -1,13 +1,15 @@
 package entity
 
-import "online-learning-restful-api/core"
+import (
+	"gorm.io/gorm"
+)
 
 type MasterQuiz struct {
-	core.EntityModel      `gorm:"embedded"`
-	ModuleId              uint                  `gorm:"not null"`
+	gorm.Model            `gorm:"embedded"`
+	ModuleId              uint                  `gorm:"column:module_id;not null"`
 	MasterElearningModule MasterElearningModule `gorm:"foreignKey:ModuleId"`
-	QuizQuestion          string                `gorm:"not null"`
-	IsPublished           bool                  `gorm:"default:false"`
+	QuizQuestion          string                `gorm:"column:quiz_question;not null"`
+	IsPublished           bool                  `gorm:"column:is_published;default:false"`
 }
 
 func (MasterQuiz) TableName() string {

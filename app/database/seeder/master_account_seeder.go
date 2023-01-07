@@ -3,7 +3,6 @@ package seeder
 import (
 	gormseeder "github.com/kachit/gorm-seeder"
 	"gorm.io/gorm"
-	"online-learning-restful-api/core"
 	"online-learning-restful-api/model/entity"
 )
 
@@ -18,28 +17,28 @@ func NewMasterAccountSeeder(cfg gormseeder.SeederConfiguration) *MasterAccountSe
 func (s *MasterAccountSeeder) Seed(db *gorm.DB) error {
 	accounts := []entity.MasterAccount{
 		{
-			EntityModel: core.EntityModel{ID: 1},
-			Email:       "mollypotts@gmail.com",
-			Password:    "Password",
-			Role:        2,
+			Model:    gorm.Model{ID: 1},
+			Email:    "mollypotts@gmail.com",
+			Password: "Password",
+			Role:     2,
 		},
 		{
-			EntityModel: core.EntityModel{ID: 2},
-			Email:       "jackguthrie@gmail.com",
-			Password:    "Password",
-			Role:        2,
+			Model:    gorm.Model{ID: 2},
+			Email:    "jackguthrie@gmail.com",
+			Password: "Password",
+			Role:     2,
 		},
 		{
-			EntityModel: core.EntityModel{ID: 3},
-			Email:       "finnrhodes@gmail.com",
-			Password:    "Password",
-			Role:        2,
+			Model:    gorm.Model{ID: 3},
+			Email:    "finnrhodes@gmail.com",
+			Password: "Password",
+			Role:     2,
 		},
 		{
-			EntityModel: core.EntityModel{ID: 4},
-			Email:       "claralevy@gmail.com",
-			Password:    "Password",
-			Role:        2,
+			Model:    gorm.Model{ID: 4},
+			Email:    "claralevy@gmail.com",
+			Password: "Password",
+			Role:     2,
 		},
 	}
 

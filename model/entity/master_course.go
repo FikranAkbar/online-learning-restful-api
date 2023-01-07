@@ -1,23 +1,26 @@
 package entity
 
-import "online-learning-restful-api/core"
+import (
+	"database/sql"
+	"gorm.io/gorm"
+)
 
 type MasterCourse struct {
-	core.EntityModel   `gorm:"embedded"`
-	ExpertId           uint               `gorm:"not null"`
-	MasterExpert       MasterExpert       `gorm:"foreignKey:ExpertId"`
-	StatusId           uint               `gorm:"not null"`
-	MasterCourseStatus MasterCourseStatus `gorm:"foreignKey:StatusId"`
-	Name               string             `gorm:"type:varchar(100);not null;unique_index"`
-	Description        string             `gorm:"not null"`
-	PhotoURL           string             `gorm:"not null"`
-	AverageRate        float32            `gorm:"type:float(10);default:0.0;not null"`
-	Price              uint               `gorm:"not null"`
-	TotalRate          uint               `gorm:"default:0"`
-	TotalDuration      float32            `gorm:"type:float(10);default:0.0;not null"`
-	CurrentParticipant uint               `gorm:"default:0;not null"`
-	MaximumParticipant uint               `gorm:"not null"`
-	IsPublished        bool               `gorm:"default:false;not null"`
+	gorm.Model         `gorm:"embedded"`
+	ExpertId           uint               `gorm:"column:expert_id;not null"`
+	MasterExpert       MasterExpert       `gorm:"foreignKey:ExpertId;references:ID"`
+	StatusId           uint               `gorm:"column:status_id;not null"`
+	MasterCourseStatus MasterCourseStatus `gorm:"foreignKey:StatusId;references:ID"`
+	Name               string             `gorm:"column:name;type:varchar(100);not null;unique_index"`
+	Description        sql.NullString     `gorm:"column:description"`
+	PhotoURL           sql.NullString     `gorm:"column:photo_url"`
+	AverageRate        float32            `gorm:"column:average_rate;type:float(10);default:0.0;not null"`
+	Price              uint               `gorm:"column:price;not null"`
+	TotalRate          uint               `gorm:"column:total_rate;default:0;not null"`
+	TotalDuration      float32            `gorm:"column:total_duration;type:float(10);default:0.0;not null"`
+	CurrentParticipant uint               `gorm:"column:current_participant;default:0;not null"`
+	MaximumParticipant uint               `gorm:"column:maximum_participant;default:30;not null"`
+	IsPublished        bool               `gorm:"column:is_published;default:false;not null"`
 }
 
 func (MasterCourse) TableName() string {

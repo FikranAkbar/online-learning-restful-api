@@ -3,7 +3,6 @@ package seeder
 import (
 	gormseeder "github.com/kachit/gorm-seeder"
 	"gorm.io/gorm"
-	"online-learning-restful-api/core"
 	"online-learning-restful-api/model/entity"
 )
 
@@ -17,12 +16,12 @@ func NewMasterUserTypeSeeder(cfg gormseeder.SeederConfiguration) *MasterUserType
 
 func (s *MasterUserTypeSeeder) Seed(db *gorm.DB) error {
 	adminRole := entity.MasterUserType{
-		EntityModel: core.EntityModel{ID: 1},
-		UserType:    "admin",
+		Model:    gorm.Model{ID: 1},
+		UserType: "admin",
 	}
 	userRole := entity.MasterUserType{
-		EntityModel: core.EntityModel{ID: 2},
-		UserType:    "user",
+		Model:    gorm.Model{ID: 2},
+		UserType: "user",
 	}
 
 	userTypes := []entity.MasterUserType{adminRole, userRole}

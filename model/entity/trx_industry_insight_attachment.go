@@ -4,9 +4,9 @@ import "online-learning-restful-api/core"
 
 type TrxIndustryInsightAttachment struct {
 	core.EntityModel        `gorm:"embedded"`
-	IndustryInsightId       uint                    `gorm:"not null"`
+	IndustryInsightId       uint                    `gorm:"column:industry_insight_id;not null"`
 	MasterIndustryInsight   MasterIndustryInsight   `gorm:"foreignKey:IndustryInsightId"`
-	InsightAttachmentId     uint                    `gorm:"not null"`
+	InsightAttachmentId     uint                    `gorm:"column:insight_attachment_id;not null"`
 	MasterInsightAttachment MasterInsightAttachment `gorm:"foreignKey:InsightAttachmentId"`
 }
 

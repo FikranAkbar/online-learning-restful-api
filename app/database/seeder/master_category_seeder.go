@@ -3,7 +3,6 @@ package seeder
 import (
 	gormseeder "github.com/kachit/gorm-seeder"
 	"gorm.io/gorm"
-	"online-learning-restful-api/core"
 	"online-learning-restful-api/model/entity"
 )
 
@@ -18,19 +17,19 @@ func NewMasterCategorySeeder(cfg gormseeder.SeederConfiguration) *MasterCategory
 func (s *MasterCategorySeeder) Seed(db *gorm.DB) error {
 	categories := []entity.MasterCategory{
 		{
-			EntityModel:  core.EntityModel{ID: 1},
+			Model:        gorm.Model{ID: 1},
 			CategoryName: "Entrepreneurship",
 		},
 		{
-			EntityModel:  core.EntityModel{ID: 2},
+			Model:        gorm.Model{ID: 2},
 			CategoryName: "Marketing",
 		},
 		{
-			EntityModel:  core.EntityModel{ID: 3},
+			Model:        gorm.Model{ID: 3},
 			CategoryName: "English",
 		},
 		{
-			EntityModel:  core.EntityModel{ID: 4},
+			Model:        gorm.Model{ID: 4},
 			CategoryName: "Creative",
 		},
 	}
