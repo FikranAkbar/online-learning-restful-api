@@ -7,7 +7,7 @@ import (
 type TrxWebinarSessionSequence struct {
 	gorm.Model       `gorm:"embedded"`
 	WebinarSessionId uint `gorm:"column:webinar_session_id;not null"`
-	SequenceNumber   uint `gorm:"column:sequence_number;not null"`
+	OrderNumber      uint `gorm:"column:order_number;not null"`
 }
 
 func (TrxWebinarSessionSequence) TableName() string {
