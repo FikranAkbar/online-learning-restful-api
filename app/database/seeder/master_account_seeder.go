@@ -14,8 +14,8 @@ func NewMasterAccountSeeder(cfg gormseeder.SeederConfiguration) *MasterAccountSe
 	return &MasterAccountSeeder{gormseeder.NewSeederAbstract(cfg)}
 }
 
-func (s *MasterAccountSeeder) Seed(db *gorm.DB) error {
-	accounts := []entity.MasterAccount{
+func InitAccountData() []entity.MasterAccount {
+	return []entity.MasterAccount{
 		{
 			Model:    gorm.Model{ID: 1},
 			Email:    "mollypotts@gmail.com",
@@ -41,6 +41,10 @@ func (s *MasterAccountSeeder) Seed(db *gorm.DB) error {
 			Role:     2,
 		},
 	}
+}
+
+func (s *MasterAccountSeeder) Seed(db *gorm.DB) error {
+	accounts := InitAccountData()
 
 	return db.CreateInBatches(accounts, len(accounts)).Error
 }

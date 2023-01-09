@@ -15,8 +15,8 @@ func NewTrxExpertCategorySeeder(cfg gormseeder.SeederConfiguration) *TrxExpertCa
 	return &TrxExpertCategorySeeder{gormseeder.SeederAbstract{Configuration: cfg}}
 }
 
-func (s *TrxExpertCategorySeeder) Seed(db *gorm.DB) error {
-	expertCategories := []entity.TrxExpertCategory{
+func InitExpertCategoryData() []entity.TrxExpertCategory {
+	return []entity.TrxExpertCategory{
 		{
 			ExpertId:   1,
 			CategoryId: 1,
@@ -66,6 +66,10 @@ func (s *TrxExpertCategorySeeder) Seed(db *gorm.DB) error {
 			DeletedAt:  gorm.DeletedAt{},
 		},
 	}
+}
+
+func (s *TrxExpertCategorySeeder) Seed(db *gorm.DB) error {
+	expertCategories := InitExpertCategoryData()
 
 	return db.CreateInBatches(expertCategories, len(expertCategories)).Error
 }

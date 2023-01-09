@@ -14,8 +14,8 @@ func NewTrxCourseCategorySeeder(cfg gormseeder.SeederConfiguration) *TrxCourseCa
 	return &TrxCourseCategorySeeder{gormseeder.SeederAbstract{Configuration: cfg}}
 }
 
-func (s *TrxCourseCategorySeeder) Seed(db *gorm.DB) error {
-	data := []entity.TrxCourseCategory{
+func InitCourseCategoryData() []entity.TrxCourseCategory {
+	return []entity.TrxCourseCategory{
 		{
 			CourseId:   1,
 			CategoryId: 1,
@@ -61,6 +61,10 @@ func (s *TrxCourseCategorySeeder) Seed(db *gorm.DB) error {
 			CategoryId: 4,
 		},
 	}
+}
+
+func (s *TrxCourseCategorySeeder) Seed(db *gorm.DB) error {
+	data := InitCourseCategoryData()
 
 	return db.CreateInBatches(data, len(data)).Error
 }

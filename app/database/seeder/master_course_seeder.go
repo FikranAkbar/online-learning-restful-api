@@ -15,8 +15,8 @@ func NewMasterCourseSeeder(cfg gormseeder.SeederConfiguration) *MasterCourseSeed
 	return &MasterCourseSeeder{gormseeder.SeederAbstract{Configuration: cfg}}
 }
 
-func (s *MasterCourseSeeder) Seed(db *gorm.DB) error {
-	courses := []entity.MasterCourse{
+func InitCourseData() []entity.MasterCourse {
+	return []entity.MasterCourse{
 		{
 			Model:    gorm.Model{ID: 1},
 			ExpertId: 1,
@@ -222,6 +222,10 @@ func (s *MasterCourseSeeder) Seed(db *gorm.DB) error {
 			IsPublished:        true,
 		},
 	}
+}
+
+func (s *MasterCourseSeeder) Seed(db *gorm.DB) error {
+	courses := InitCourseData()
 
 	return db.CreateInBatches(courses, len(courses)).Error
 }

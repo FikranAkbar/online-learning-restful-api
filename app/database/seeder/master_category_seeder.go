@@ -14,8 +14,8 @@ func NewMasterCategorySeeder(cfg gormseeder.SeederConfiguration) *MasterCategory
 	return &MasterCategorySeeder{gormseeder.SeederAbstract{Configuration: cfg}}
 }
 
-func (s *MasterCategorySeeder) Seed(db *gorm.DB) error {
-	categories := []entity.MasterCategory{
+func InitCategoryData() []entity.MasterCategory {
+	return []entity.MasterCategory{
 		{
 			Model:        gorm.Model{ID: 1},
 			CategoryName: "Entrepreneurship",
@@ -33,6 +33,10 @@ func (s *MasterCategorySeeder) Seed(db *gorm.DB) error {
 			CategoryName: "Creative",
 		},
 	}
+}
+
+func (s *MasterCategorySeeder) Seed(db *gorm.DB) error {
+	categories := InitCategoryData()
 
 	return db.CreateInBatches(categories, len(categories)).Error
 }

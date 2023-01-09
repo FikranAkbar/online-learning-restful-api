@@ -15,8 +15,8 @@ func NewMasterExpertSeeder(cfg gormseeder.SeederConfiguration) *MasterExpertSeed
 	return &MasterExpertSeeder{gormseeder.SeederAbstract{Configuration: cfg}}
 }
 
-func (s *MasterExpertSeeder) Seed(db *gorm.DB) error {
-	experts := []entity.MasterExpert{
+func InitExpertData() []entity.MasterExpert {
+	return []entity.MasterExpert{
 		{
 			Model:              gorm.Model{ID: 1},
 			Name:               "Ray Robinson",
@@ -74,6 +74,10 @@ func (s *MasterExpertSeeder) Seed(db *gorm.DB) error {
 			Categories:         nil,
 		},
 	}
+}
+
+func (s *MasterExpertSeeder) Seed(db *gorm.DB) error {
+	experts := InitExpertData()
 
 	return db.CreateInBatches(experts, len(experts)).Error
 }

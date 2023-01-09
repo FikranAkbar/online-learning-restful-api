@@ -14,8 +14,8 @@ func NewMasterCourseStatusSeeder(cfg gormseeder.SeederConfiguration) *MasterCour
 	return &MasterCourseStatusSeeder{gormseeder.SeederAbstract{Configuration: cfg}}
 }
 
-func (s *MasterCourseStatusSeeder) Seed(db *gorm.DB) error {
-	courseStatuses := []entity.MasterCourseStatus{
+func InitCourseStatusData() []entity.MasterCourseStatus {
+	return []entity.MasterCourseStatus{
 		{
 			Model: gorm.Model{ID: 1},
 			Name:  "not_started",
@@ -29,6 +29,10 @@ func (s *MasterCourseStatusSeeder) Seed(db *gorm.DB) error {
 			Name:  "completed",
 		},
 	}
+}
+
+func (s *MasterCourseStatusSeeder) Seed(db *gorm.DB) error {
+	courseStatuses := InitCourseStatusData()
 
 	return db.CreateInBatches(courseStatuses, len(courseStatuses)).Error
 }

@@ -14,17 +14,21 @@ func NewMasterUserTypeSeeder(cfg gormseeder.SeederConfiguration) *MasterUserType
 	return &MasterUserTypeSeeder{gormseeder.NewSeederAbstract(cfg)}
 }
 
-func (s *MasterUserTypeSeeder) Seed(db *gorm.DB) error {
-	adminRole := entity.MasterUserType{
-		Model:    gorm.Model{ID: 1},
-		UserType: "admin",
+func InitUserTypeData() []entity.MasterUserType {
+	return []entity.MasterUserType{
+		{
+			Model:    gorm.Model{ID: 1},
+			UserType: "admin",
+		},
+		{
+			Model:    gorm.Model{ID: 2},
+			UserType: "user",
+		},
 	}
-	userRole := entity.MasterUserType{
-		Model:    gorm.Model{ID: 2},
-		UserType: "user",
-	}
+}
 
-	userTypes := []entity.MasterUserType{adminRole, userRole}
+func (s *MasterUserTypeSeeder) Seed(db *gorm.DB) error {
+	userTypes := InitUserTypeData()
 
 	return db.CreateInBatches(userTypes, len(userTypes)).Error
 }
