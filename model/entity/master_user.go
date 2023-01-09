@@ -17,6 +17,7 @@ type MasterUser struct {
 	BirthDate      sql.NullTime   `gorm:"column:birth_date"`
 	PhotoURL       sql.NullString `gorm:"column:photo_url"`
 	Courses        []MasterCourse `gorm:"many2many:trx_user_course;foreignKey:ID;joinForeignKey:UserId;references:ID;joinReferences:CourseId"`
+	Cart           []TrxUserCart  `gorm:"foreignKey:UserId;joinForeignKey:ID"`
 }
 
 func (MasterUser) TableName() string {

@@ -7,12 +7,8 @@ import (
 	. "online-learning-restful-api/model/entity"
 )
 
-func Migrate(db *gorm.DB) {
-	log.Printf("Migrate Start")
-
-	helper.PanicIfError(db.SetupJoinTable(&MasterExpert{}, "Categories", &TrxExpertCategory{}))
-
-	err := db.AutoMigrate(
+func GetEntities() []any {
+	return []any{
 		&MasterAccount{},
 		&MasterCategory{},
 		&MasterCity{},
@@ -51,8 +47,19 @@ func Migrate(db *gorm.DB) {
 		&TrxUserVideoProgression{},
 		&TrxUserWebinarAttendance{},
 		&TrxWebinarSessionSequence{},
-	)
-	helper.PanicIfError(err)
+	}
+}
+
+func Migrate(db *gorm.DB) {
+	log.Printf("Migrate Start")
+
+	entities := GetEntities()
+	migrator := db.Migrator()
+
+	for _, entity := range entities {
+		migrateTableErr := migrator.AutoMigrate(entity)
+		helper.PanicIfError(migrateTableErr)
+	}
 
 	log.Printf("Migrate: Success")
 }
