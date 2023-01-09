@@ -1,13 +1,16 @@
 package entity
 
-import "online-learning-restful-api/core"
+import (
+	"gorm.io/gorm"
+	"time"
+)
 
 type TrxCourseCategory struct {
-	core.EntityModel `gorm:"embedded"`
-	CourseId         uint           `gorm:"column:course_id;not null"`
-	MasterCourse     MasterCourse   `gorm:"foreignKey:CourseId"`
-	CategoryId       uint           `gorm:"column:category_id;not null"`
-	MasterCategory   MasterCategory `gorm:"foreignKey:CategoryId"`
+	CourseId   uint           `gorm:"column:course_id;primaryKey"`
+	CategoryId uint           `gorm:"column:category_id;primaryKey"`
+	CreatedAt  time.Time      `gorm:"column:created_at"`
+	UpdatedAt  time.Time      `gorm:"column:updated_at"`
+	DeletedAt  gorm.DeletedAt `gorm:"column:deleted_at;index"`
 }
 
 func (TrxCourseCategory) TableName() string {

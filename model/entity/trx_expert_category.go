@@ -10,7 +10,7 @@ type TrxExpertCategory struct {
 	CategoryId uint           `gorm:"column:category_id;primaryKey"`
 	CreatedAt  time.Time      `gorm:"column:created_at"`
 	UpdatedAt  time.Time      `gorm:"column:updated_at"`
-	DeletedAt  gorm.DeletedAt `gorm:"column:deleted_at"`
+	DeletedAt  gorm.DeletedAt `gorm:"column:deleted_at;index"`
 }
 
 func (TrxExpertCategory) TableName() string {

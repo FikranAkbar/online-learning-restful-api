@@ -1,12 +1,13 @@
 package entity
 
-import "online-learning-restful-api/core"
+import (
+	"gorm.io/gorm"
+)
 
 type TrxElearningModuleSequence struct {
-	core.EntityModel      `gorm:"embedded"`
-	ModuleId              uint                  `gorm:"column:module_id;not null"`
-	MasterElearningModule MasterElearningModule `gorm:"foreignKey:ModuleId"`
-	SequenceNumber        uint                  `gorm:"column:sequence_number;type:int(10);not null"`
+	gorm.Model     `gorm:"embedded"`
+	ModuleId       uint `gorm:"column:module_id;not null"`
+	SequenceNumber uint `gorm:"column:sequence_number;type:int(10);not null"`
 }
 
 func (TrxElearningModuleSequence) TableName() string {

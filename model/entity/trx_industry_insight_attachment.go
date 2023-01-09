@@ -1,9 +1,11 @@
 package entity
 
-import "online-learning-restful-api/core"
+import (
+	"gorm.io/gorm"
+)
 
 type TrxIndustryInsightAttachment struct {
-	core.EntityModel        `gorm:"embedded"`
+	gorm.Model              `gorm:"embedded"`
 	IndustryInsightId       uint                    `gorm:"column:industry_insight_id;not null"`
 	MasterIndustryInsight   MasterIndustryInsight   `gorm:"foreignKey:IndustryInsightId"`
 	InsightAttachmentId     uint                    `gorm:"column:insight_attachment_id;not null"`

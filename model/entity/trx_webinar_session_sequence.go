@@ -1,12 +1,13 @@
 package entity
 
-import "online-learning-restful-api/core"
+import (
+	"gorm.io/gorm"
+)
 
 type TrxWebinarSessionSequence struct {
-	core.EntityModel     `gorm:"embedded"`
-	WebinarSessionId     uint                 `gorm:"column:webinar_session_id;not null"`
-	MasterWebinarSession MasterWebinarSession `gorm:"foreignKey:WebinarSessionId"`
-	SequenceNumber       uint                 `gorm:"column:sequence_number;not null"`
+	gorm.Model       `gorm:"embedded"`
+	WebinarSessionId uint `gorm:"column:webinar_session_id;not null"`
+	SequenceNumber   uint `gorm:"column:sequence_number;not null"`
 }
 
 func (TrxWebinarSessionSequence) TableName() string {

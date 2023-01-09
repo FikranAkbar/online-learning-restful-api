@@ -1,9 +1,11 @@
 package entity
 
-import "online-learning-restful-api/core"
+import (
+	"gorm.io/gorm"
+)
 
 type MasterVideo struct {
-	core.EntityModel      `gorm:"embedded"`
+	gorm.Model            `gorm:"embedded"`
 	CourseId              uint                  `gorm:"column:course_id;not null"`
 	MasterCourse          MasterCourse          `gorm:"foreignKey:CourseId"`
 	ModuleId              uint                  `gorm:"column:module_id;not null"`

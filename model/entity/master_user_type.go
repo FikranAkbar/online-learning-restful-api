@@ -1,10 +1,12 @@
 package entity
 
-import "online-learning-restful-api/core"
+import (
+	"gorm.io/gorm"
+)
 
 type MasterUserType struct {
-	core.EntityModel `gorm:"embedded"`
-	UserType         string `gorm:"column:user_type;type:varchar(20);unique_index"`
+	gorm.Model `gorm:"embedded"`
+	UserType   string `gorm:"column:user_type;type:varchar(20);unique_index"`
 }
 
 func (MasterUserType) TableName() string {
