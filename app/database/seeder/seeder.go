@@ -18,6 +18,9 @@ func SeedDB(db *gorm.DB) {
 		NewMasterExpertSeeder(gormseeder.SeederConfiguration{}),
 		NewMasterCategorySeeder(gormseeder.SeederConfiguration{}),
 		NewTrxExpertCategorySeeder(gormseeder.SeederConfiguration{}),
+		NewMasterCourseStatusSeeder(gormseeder.SeederConfiguration{}),
+		NewMasterCourseSeeder(gormseeder.SeederConfiguration{}),
+		NewTrxCourseCategorySeeder(gormseeder.SeederConfiguration{}),
 	}
 
 	for _, modelSeeder := range seeders {

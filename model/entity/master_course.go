@@ -21,6 +21,7 @@ type MasterCourse struct {
 	CurrentParticipant uint               `gorm:"column:current_participant;default:0;not null"`
 	MaximumParticipant uint               `gorm:"column:maximum_participant;default:30;not null"`
 	IsPublished        bool               `gorm:"column:is_published;default:false;not null"`
+	Categories         []MasterCategory   `gorm:"many2many:trx_course_category;foreignKey:ID;joinForeignKey:CourseId;references:ID;joinReferences:CategoryId"`
 }
 
 func (MasterCourse) TableName() string {
