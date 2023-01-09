@@ -14,6 +14,7 @@ type MasterElearningModule struct {
 	ModuleDescription sql.NullString             `gorm:"column:module_description"`
 	IsPublished       bool                       `gorm:"default:false"`
 	Sequence          TrxElearningModuleSequence `gorm:"foreignKey:ModuleId;joinForeignKey:ID"`
+	Quiz              MasterQuiz                 `gorm:"foreignKey:ModuleId;joinForeignKey:ID"`
 	Video             MasterVideo                `gorm:"foreignKey:ModuleId;joinForeignKey:ID"`
 }
 
