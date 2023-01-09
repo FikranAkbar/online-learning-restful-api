@@ -20,6 +20,7 @@ func getSeeders() []gormseeder.SeederInterface {
 		NewMasterIndustryInsightSeeder(gormseeder.SeederConfiguration{}),
 		NewMasterInsightAttachmentSeeder(gormseeder.SeederConfiguration{}),
 		NewMasterElearningModuleSeeder(gormseeder.SeederConfiguration{}),
+		NewMasterQuizSeeder(gormseeder.SeederConfiguration{}),
 		NewTrxExpertCategorySeeder(gormseeder.SeederConfiguration{}),
 		NewTrxCourseCategorySeeder(gormseeder.SeederConfiguration{}),
 		NewTrxUserCourseSeeder(gormseeder.SeederConfiguration{}),
