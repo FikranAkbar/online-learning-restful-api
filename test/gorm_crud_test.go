@@ -28,14 +28,14 @@ func TestFindDataAndRelationshipData(t *testing.T) {
 
 func TestFindDataManyToMany(t *testing.T) {
 	db := database.NewDB()
-	var experts []entity.MasterExpert
-	db.Model(&entity.MasterExpert{}).Preload("Categories").Find(&experts)
+	var users []entity.MasterUser
+	db.Model(&entity.MasterUser{}).Preload(clause.Associations).Find(&users)
 
-	for _, expert := range experts {
-		fmt.Printf("My name is %v I will handle", expert.Name)
+	for _, user := range users {
+		fmt.Printf("My name is %v and my course is", user.Name)
 
-		for _, category := range expert.Categories {
-			fmt.Printf(" %v", category.CategoryName)
+		for _, course := range user.Courses {
+			fmt.Printf(" %v", course.Name)
 		}
 
 		fmt.Println()
