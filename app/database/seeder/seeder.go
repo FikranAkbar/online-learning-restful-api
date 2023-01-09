@@ -11,13 +11,14 @@ func getSeeders() []gormseeder.SeederInterface {
 	return []gormseeder.SeederInterface{
 		NewMasterUserTypeSeeder(gormseeder.SeederConfiguration{}),
 		NewMasterAccountSeeder(gormseeder.SeederConfiguration{}),
+		NewMasterUserSeeder(gormseeder.SeederConfiguration{}),
 		NewMasterExpertSeeder(gormseeder.SeederConfiguration{}),
 		NewMasterCategorySeeder(gormseeder.SeederConfiguration{}),
-		NewTrxExpertCategorySeeder(gormseeder.SeederConfiguration{}),
 		NewMasterCourseStatusSeeder(gormseeder.SeederConfiguration{}),
 		NewMasterCourseSeeder(gormseeder.SeederConfiguration{}),
+		NewMasterCourseSummarySeeder(gormseeder.SeederConfiguration{}),
+		NewTrxExpertCategorySeeder(gormseeder.SeederConfiguration{}),
 		NewTrxCourseCategorySeeder(gormseeder.SeederConfiguration{}),
-		NewMasterUserSeeder(gormseeder.SeederConfiguration{}),
 		NewTrxUserCourseSeeder(gormseeder.SeederConfiguration{}),
 	}
 
