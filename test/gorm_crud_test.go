@@ -22,7 +22,7 @@ func TestFindDataAndRelationshipData(t *testing.T) {
 	db.Preload(clause.Associations).Find(&accounts)
 
 	for _, val := range accounts {
-		fmt.Printf("Name %v Role %v\n", val.Email, val.MasterUserType.UserType)
+		fmt.Printf("Name %v Role %v\n", val.Email, val.MasterUserType.Name)
 	}
 }
 
