@@ -18,6 +18,7 @@ func NewMasterIndustryInsightSeeder(cfg gormseeder.SeederConfiguration) *MasterI
 func InitIndustryInsightData() []entity.MasterIndustryInsight {
 	return []entity.MasterIndustryInsight{
 		{
+			Model:        gorm.Model{ID: 1},
 			UserAuthorId: 1,
 			TitleInsight: "Insight Title 1",
 			CoverInsight: sql.NullString{String: "https://images.unsplash.com/photo-1517732306149-e8f829eb588a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"},
@@ -25,6 +26,7 @@ func InitIndustryInsightData() []entity.MasterIndustryInsight {
 			IsPublished:  true,
 		},
 		{
+			Model:        gorm.Model{ID: 2},
 			UserAuthorId: 2,
 			TitleInsight: "Insight Title 2",
 			CoverInsight: sql.NullString{String: "https://images.unsplash.com/photo-1517732306149-e8f829eb588a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"},
@@ -32,6 +34,7 @@ func InitIndustryInsightData() []entity.MasterIndustryInsight {
 			IsPublished:  true,
 		},
 		{
+			Model:        gorm.Model{ID: 3},
 			UserAuthorId: 3,
 			TitleInsight: "Insight Title 3",
 			CoverInsight: sql.NullString{String: "https://images.unsplash.com/photo-1521517407911-565264e7d82d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"},
@@ -39,6 +42,7 @@ func InitIndustryInsightData() []entity.MasterIndustryInsight {
 			IsPublished:  true,
 		},
 		{
+			Model:        gorm.Model{ID: 4},
 			UserAuthorId: 4,
 			TitleInsight: "Insight Title 4",
 			CoverInsight: sql.NullString{String: "https://images.unsplash.com/photo-1508480408285-812f971170b3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"},
