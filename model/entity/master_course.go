@@ -8,9 +8,9 @@ import (
 type MasterCourse struct {
 	gorm.Model         `gorm:"embedded"`
 	ExpertId           uint                    `gorm:"column:expert_id;not null"`
-	MasterExpert       MasterExpert            `gorm:"foreignKey:ExpertId;references:ID"`
+	Expert             MasterExpert            `gorm:"foreignKey:ExpertId;references:ID"`
 	StatusId           uint                    `gorm:"column:status_id;not null"`
-	MasterCourseStatus MasterCourseStatus      `gorm:"foreignKey:StatusId;references:ID"`
+	CourseStatus       MasterCourseStatus      `gorm:"foreignKey:StatusId;references:ID"`
 	Name               string                  `gorm:"column:name;type:varchar(100);not null;unique_index"`
 	Description        sql.NullString          `gorm:"column:description"`
 	PhotoURL           sql.NullString          `gorm:"column:photo_url"`
