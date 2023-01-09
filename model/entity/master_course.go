@@ -24,6 +24,7 @@ type MasterCourse struct {
 	Categories         []MasterCategory        `gorm:"many2many:trx_course_category;foreignKey:ID;joinForeignKey:CourseId;references:ID;joinReferences:CategoryId"`
 	Videos             []MasterVideo           `gorm:"foreignKey:CourseId;joinForeignKey:ID"`
 	Modules            []MasterElearningModule `gorm:"foreignKey:CourseId;joinForeignKey:ID"`
+	Webinars           []MasterWebinarSession  `gorm:"foreignKey:CourseId;JoinForeignKey:ID"`
 }
 
 func (MasterCourse) TableName() string {

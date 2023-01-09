@@ -9,7 +9,7 @@ import (
 type MasterWebinarSession struct {
 	gorm.Model   `gorm:"embedded"`
 	CourseId     uint           `gorm:"column:course_id;not null"`
-	MasterCourse MasterCourse   `gorm:"foreignKey:CourseId"`
+	MasterCourse MasterCourse   `gorm:"foreignKey:CourseId;joinForeignKey:ID"`
 	Title        string         `gorm:"column:title;type:varchar(200);not null"`
 	Desc         sql.NullString `gorm:"column:desc"`
 	Cover        sql.NullString `gorm:"column:cover"`
