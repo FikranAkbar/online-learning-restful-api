@@ -6,14 +6,14 @@ import (
 	"testing"
 )
 
-func TestMigrateDB(t *testing.T) {
-	database.Migrate(database.NewDB())
-}
-
-func TestSeedDB(t *testing.T) {
-	seeder.SeedDB(database.NewDB())
-}
-
-func TestClearDB(t *testing.T) {
-	seeder.ClearDB(database.NewDB())
+func TestDBMigrateClearSeedSequentially(t *testing.T) {
+	t.Run("Test Migrate DB", func(t *testing.T) {
+		database.Migrate(database.NewDB())
+	})
+	t.Run("Test Clear DB", func(t *testing.T) {
+		seeder.ClearDB(database.NewDB())
+	})
+	t.Run("Test Seed DB", func(t *testing.T) {
+		seeder.SeedDB(database.NewDB())
+	})
 }
