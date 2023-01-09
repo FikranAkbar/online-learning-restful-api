@@ -23,7 +23,6 @@ func GetEntities() []any {
 		&MasterIndustryInsight{},
 		&MasterInsightAttachment{},
 		&MasterLikeableType{},
-		&MasterPaymentChannel{},
 		&MasterPaymentStatus{},
 		&MasterPromo{},
 		&MasterProvince{},
@@ -55,6 +54,11 @@ func Migrate(db *gorm.DB) {
 
 	entities := GetEntities()
 	migrator := db.Migrator()
+
+	for _, entity := range helper.ReverseSlice(entities) {
+		dropTableErr := migrator.DropTable(entity)
+		helper.PanicIfError(dropTableErr)
+	}
 
 	for _, entity := range entities {
 		migrateTableErr := migrator.AutoMigrate(entity)
