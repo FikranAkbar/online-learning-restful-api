@@ -7,6 +7,7 @@ import (
 	"online-learning-restful-api/helper"
 	"online-learning-restful-api/model/entity"
 	"testing"
+	"time"
 )
 
 func TestFirstData(t *testing.T) {
@@ -40,4 +41,9 @@ func TestFindDataManyToMany(t *testing.T) {
 
 		fmt.Println()
 	}
+}
+
+func TestTimeVariable(t *testing.T) {
+	result, _ := time.Parse("03:04", "09:11")
+	fmt.Println(result)
 }
