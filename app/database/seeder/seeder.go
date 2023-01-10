@@ -25,6 +25,7 @@ func getSeeders() []gormseeder.SeederInterface {
 		NewTrxExpertCategorySeeder(gormseeder.SeederConfiguration{}),
 		NewTrxCourseCategorySeeder(gormseeder.SeederConfiguration{}),
 		NewTrxUserCourseSeeder(gormseeder.SeederConfiguration{}),
+		NewTrxCourseReviewSeeder(gormseeder.SeederConfiguration{}),
 	}
 
 }

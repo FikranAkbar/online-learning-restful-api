@@ -4,7 +4,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type MasterCourseReview struct {
+type TrxCourseReview struct {
 	gorm.Model   `gorm:"embedded"`
 	CourseId     uint         `gorm:"column:course_id;not null"`
 	MasterCourse MasterCourse `gorm:"foreignKey:CourseId;references:ID"`
@@ -14,6 +14,6 @@ type MasterCourseReview struct {
 	ReviewRate   float32      `gorm:"column:review_rate;not null"`
 }
 
-func (MasterCourseReview) TableName() string {
-	return "master_course_review"
+func (TrxCourseReview) TableName() string {
+	return "trx_course_review"
 }

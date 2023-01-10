@@ -14,7 +14,7 @@ func GetEntities() []any {
 		&MasterCity{},
 		&MasterCourse{},
 		&MasterCourseComingSoon{},
-		&MasterCourseReview{},
+		&TrxCourseReview{},
 		&MasterCourseStatus{},
 		&MasterCourseSummary{},
 		&MasterDay{},
