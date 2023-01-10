@@ -4,22 +4,22 @@ import (
 	"fmt"
 	"gorm.io/gorm/clause"
 	"online-learning-restful-api/app/database"
+	entity2 "online-learning-restful-api/app/database/entity"
 	"online-learning-restful-api/helper"
-	"online-learning-restful-api/model/entity"
 	"testing"
 	"time"
 )
 
 func TestFirstData(t *testing.T) {
 	db := database.NewDB()
-	var account *entity.MasterAccount
+	var account *entity2.MasterAccount
 	db.Preload("MasterUserType").First(&account)
 	fmt.Print(helper.StringModel(*account))
 }
 
 func TestFindDataAndRelationshipData(t *testing.T) {
 	db := database.NewDB()
-	var accounts []entity.MasterAccount
+	var accounts []entity2.MasterAccount
 	db.Preload(clause.Associations).Find(&accounts)
 
 	for _, val := range accounts {
@@ -29,8 +29,8 @@ func TestFindDataAndRelationshipData(t *testing.T) {
 
 func TestFindDataManyToMany(t *testing.T) {
 	db := database.NewDB()
-	var users []entity.MasterUser
-	db.Model(&entity.MasterUser{}).Preload(clause.Associations).Find(&users)
+	var users []entity2.MasterUser
+	db.Model(&entity2.MasterUser{}).Preload(clause.Associations).Find(&users)
 
 	for _, user := range users {
 		fmt.Printf("My name is %v and my course is", user.Name)

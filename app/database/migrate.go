@@ -3,8 +3,8 @@ package database
 import (
 	"gorm.io/gorm"
 	"log"
+	. "online-learning-restful-api/app/database/entity"
 	"online-learning-restful-api/helper"
-	. "online-learning-restful-api/model/entity"
 )
 
 func GetEntities() []any {

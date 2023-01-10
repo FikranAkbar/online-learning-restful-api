@@ -3,7 +3,7 @@ package seeder
 import (
 	gorm_seeder "github.com/kachit/gorm-seeder"
 	"gorm.io/gorm"
-	"online-learning-restful-api/model/entity"
+	"online-learning-restful-api/app/database/entity"
 )
 
 type TrxCourseReviewSeeder struct {

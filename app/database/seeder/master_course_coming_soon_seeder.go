@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	gorm_seeder "github.com/kachit/gorm-seeder"
 	"gorm.io/gorm"
-	"online-learning-restful-api/model/entity"
+	"online-learning-restful-api/app/database/entity"
 )
 
 type MasterCourseComingSoonSeeder struct {
@@ -58,4 +58,3 @@ func (s *MasterCourseComingSoonSeeder) Clear(db *gorm.DB) error {
 	ent := &entity.MasterCourseComingSoon{}
 	return s.SeederAbstract.Delete(db, ent.TableName())
 }
-
