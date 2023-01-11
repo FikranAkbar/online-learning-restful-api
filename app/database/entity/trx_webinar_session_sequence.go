@@ -2,12 +2,15 @@ package entity
 
 import (
 	"gorm.io/gorm"
+	"time"
 )
 
 type TrxWebinarSessionSequence struct {
-	gorm.Model       `gorm:"embedded"`
-	WebinarSessionId uint `gorm:"column:webinar_session_id;not null"`
-	OrderNumber      uint `gorm:"column:order_number;not null"`
+	WebinarSessionId uint `gorm:"column:webinar_session_id;primaryKey"`
+	OrderNumber      uint `gorm:"column:order_number;primaryKey"`
+	CreatedAt        time.Time
+	UpdatedAt        time.Time
+	DeletedAt        gorm.DeletedAt `gorm:"index"`
 }
 
 func (TrxWebinarSessionSequence) TableName() string {
