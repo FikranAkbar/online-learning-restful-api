@@ -35,6 +35,7 @@ func getSeeders() []gormseeder.SeederInterface {
 		NewMasterLikeableTypeSeeder(gormseeder.SeederConfiguration{}),
 		NewTrxUserLikeSeeder(gormseeder.SeederConfiguration{}),
 		NewMasterPaymentStatusSeeder(gormseeder.SeederConfiguration{}),
+		NewMasterProvinceSeeder(gormseeder.SeederConfiguration{}),
 	}
 
 }
