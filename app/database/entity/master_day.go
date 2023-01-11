@@ -6,7 +6,7 @@ import (
 
 type MasterDay struct {
 	gorm.Model `gorm:"embedded"`
-	DayName    string `gorm:"column:day_name;type:varchar(20);not null"`
+	Name       string `gorm:"column:name;type:varchar(20);not null"`
 }
 
 func (MasterDay) TableName() string {

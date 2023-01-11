@@ -9,6 +9,12 @@ import (
 
 func getSeeders() []gormseeder.SeederInterface {
 	return []gormseeder.SeederInterface{
+		NewMasterCourseComingSoonSeeder(gormseeder.SeederConfiguration{}),
+		NewMasterLikeableTypeSeeder(gormseeder.SeederConfiguration{}),
+		NewMasterPaymentStatusSeeder(gormseeder.SeederConfiguration{}),
+		NewMasterProvinceSeeder(gormseeder.SeederConfiguration{}),
+		NewMasterCitySeeder(gormseeder.SeederConfiguration{}),
+		NewMasterDaySeeder(gormseeder.SeederConfiguration{}),
 		NewMasterUserTypeSeeder(gormseeder.SeederConfiguration{}),
 		NewMasterAccountSeeder(gormseeder.SeederConfiguration{}),
 		NewMasterUserSeeder(gormseeder.SeederConfiguration{}),
@@ -27,15 +33,11 @@ func getSeeders() []gormseeder.SeederInterface {
 		NewTrxUserCourseSeeder(gormseeder.SeederConfiguration{}),
 		NewTrxCourseReviewSeeder(gormseeder.SeederConfiguration{}),
 		NewMasterVideoSeeder(gormseeder.SeederConfiguration{}),
-		NewMasterCourseComingSoonSeeder(gormseeder.SeederConfiguration{}),
 		NewTrxIndustryInsightAttachmentSeeder(gormseeder.SeederConfiguration{}),
 		NewTrxElearningModuleSequenceSeeder(gormseeder.SeederConfiguration{}),
 		NewTrxWebinarSessionSequenceSeeder(gormseeder.SeederConfiguration{}),
 		NewTrxQuizUserAnswerSeeder(gormseeder.SeederConfiguration{}),
-		NewMasterLikeableTypeSeeder(gormseeder.SeederConfiguration{}),
 		NewTrxUserLikeSeeder(gormseeder.SeederConfiguration{}),
-		NewMasterPaymentStatusSeeder(gormseeder.SeederConfiguration{}),
-		NewMasterProvinceSeeder(gormseeder.SeederConfiguration{}),
 	}
 
 }
