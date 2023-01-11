@@ -31,6 +31,7 @@ func getSeeders() []gormseeder.SeederInterface {
 		NewTrxIndustryInsightAttachmentSeeder(gormseeder.SeederConfiguration{}),
 		NewTrxElearningModuleSequenceSeeder(gormseeder.SeederConfiguration{}),
 		NewTrxWebinarSessionSequenceSeeder(gormseeder.SeederConfiguration{}),
+		NewTrxQuizUserAnswerSeeder(gormseeder.SeederConfiguration{}),
 	}
 
 }
