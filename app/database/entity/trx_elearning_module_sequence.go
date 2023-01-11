@@ -2,12 +2,15 @@ package entity
 
 import (
 	"gorm.io/gorm"
+	"time"
 )
 
 type TrxElearningModuleSequence struct {
-	gorm.Model  `gorm:"embedded"`
-	ModuleId    uint `gorm:"column:module_id;not null"`
-	OrderNumber uint `gorm:"column:order_number;type:int(10);not null"`
+	ModuleId    uint `gorm:"column:module_id;primaryKey"`
+	OrderNumber uint `gorm:"column:order_number;primaryKey"`
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+	DeletedAt   gorm.DeletedAt `gorm:"index"`
 }
 
 func (TrxElearningModuleSequence) TableName() string {
