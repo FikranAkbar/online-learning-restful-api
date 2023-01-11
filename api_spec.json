@@ -120,8 +120,8 @@
                 }
               },
               "example": {
-                "email": "fikranakbar756@gmail.com",
-                "password": "password"
+                "email": "mollypotts@gmail.com",
+                "password": "Password"
               }
             }
           }
@@ -162,40 +162,14 @@
                   "data": {
                     "email": "fikranakbar756@gmail.com",
                     "name": "Fikran Akbar",
-                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiRmlrcmFuIEFrYmFyIiwiZW1haWwiOiJmaWtyYW5ha2Jhcjc1NkBnbWFpbC5jb20ifQ._tSgZvD3rl9gBwunH4JgwcHn1adyTMYSR6N2uHuWsqw"
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjgwMDAwMDAwMDAwMCwidXNlcl9lbWFpbCI6Im1vbGx5cG90dHNAZ21haWwuY29tIiwidXNlcl9pZCI6MSwidXNlcl9uYW1lIjoiTW9sbHkgUG90dHMifQ.WMPleJtWA_3hIT2uR1iMnXLQNjdIYvWd6quDclMAEKc"
                   }
                 }
               }
             }
           },
           "400": {
-            "description": "Login failed. Email and password must be filled",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "number"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "data": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "example": {
-                  "status": 400,
-                  "message": "BAD REQUEST",
-                  "data": "Login failed. Email must be type of email. Email and password must be filled"
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/401-Unauthorized"
+            "$ref": "#/components/responses/400-BadRequest"
           },
           "500": {
             "$ref": "#/components/responses/500-InternalServerError"
@@ -292,48 +266,7 @@
             }
           },
           "400": {
-            "description": "Register user failed. All field must be filled or the given data was invalid",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "number"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "data": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "examples": {
-                  "Email error": {
-                    "value": {
-                      "status": 400,
-                      "message": "BAD REQUEST",
-                      "data": "Register failed. Email must be type of email"
-                    }
-                  },
-                  "Password minimum length error": {
-                    "value": {
-                      "status": 400,
-                      "message": "BAD REQUEST",
-                      "data": "Register failed. Password must be 8 character minimum"
-                    }
-                  },
-                  "Empty field error": {
-                    "value": {
-                      "status": 400,
-                      "message": "BAD REQUEST",
-                      "data": "Register failed. All field must be filled"
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/400-BadRequest"
           },
           "500": {
             "$ref": "#/components/responses/500-InternalServerError"
@@ -421,35 +354,6 @@
               }
             }
           },
-          "400": {
-            "description": "Search course failed, query cannot be empty",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "number"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "data": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "example": {
-                  "status": 400,
-                  "message": "BAD REQUEST",
-                  "data": "Query cannot be empty"
-                }
-              }
-            }
-          },
-          "404": {
-            "$ref": "#/components/responses/404-NotFound"
-          },
           "500": {
             "$ref": "#/components/responses/500-InternalServerError"
           }
@@ -525,9 +429,6 @@
               }
             }
           },
-          "404": {
-            "$ref": "#/components/responses/404-NotFound"
-          },
           "500": {
             "$ref": "#/components/responses/500-InternalServerError"
           }
@@ -567,29 +468,6 @@
                   "CourseCardDataExample": {
                     "$ref": "#/components/examples/CourseCardDataExample"
                   }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Category id was invalid, so the category was not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "number"
-                    },
-                    "message": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "example": {
-                  "status": 400,
-                  "message": "BAD REQUEST",
-                  "data": null
                 }
               }
             }
@@ -637,9 +515,6 @@
               }
             }
           },
-          "404": {
-            "$ref": "#/components/responses/404-NotFound"
-          },
           "500": {
             "$ref": "#/components/responses/500-InternalServerError"
           }
@@ -651,11 +526,14 @@
         "tags": [
           "Course - Detail Course"
         ],
-        "description": "Get course detail by course id. Client can send JWT token and user id in request body. If the user id inside JWT token matches with user id client send in request body, the field 'already_owned' in the response become true.",
+        "description": "Get course detail by course id. Client can user id in query. If the user id exist, the field 'already_owned' in the response become true.",
         "summary": "Get course detail by course id",
         "parameters": [
           {
             "$ref": "#/components/parameters/CourseIdPathParameter"
+          },
+          {
+            "$ref": "#/components/parameters/UserIdQueryParameter"
           }
         ],
         "responses": {
@@ -697,7 +575,7 @@
         }
       }
     },
-    "/courses/:courseId/progressions": {
+    "/courses/{courseId}/progressions": {
       "get": {
         "security": [{ "BearerAuth": []}],
         "tags": [
@@ -784,7 +662,7 @@
         }
       }
     },
-    "/courses/:courseId/reviews": {
+    "/courses/{courseId}/reviews": {
       "get": {
         "tags": [
           "Course - Review Course"
@@ -862,7 +740,7 @@
         }
       }
     },
-    "/courses/:courseId/overview/webinar-sessions": {
+    "/courses/{courseId}/overview/webinar-sessions": {
       "get": {
         "tags": [
           "Course - Webinar Session"
@@ -980,7 +858,7 @@
         }
       }
     },
-    "/courses/:courseId/learn/webinar-sessions/{webinarSessionId}": {
+    "/courses/{courseId}/learn/webinar-sessions/{webinarSessionId}": {
       "get": {
         "security": [{ "BearerAuth": []}],
         "tags": [
@@ -1074,7 +952,7 @@
         }
       }
     },
-    "/courses/:courseId/overview/modules": {
+    "/courses/{courseId}/overview/modules": {
       "get": {
         "tags": [
           "Course - Module"
@@ -1161,7 +1039,7 @@
         }
       }
     },
-    "/courses/:courseId/learn/modules/{moduleId}": {
+    "/courses/{courseId}/learn/modules/{moduleId}": {
       "get": {
         "security": [{ "BearerAuth": []}],
         "tags": [
@@ -1204,9 +1082,6 @@
                           "type": "string"
                         },
                         "description": {
-                          "type": "string"
-                        },
-                        "content_link": {
                           "type": "string"
                         },
                         "video": {
@@ -1261,7 +1136,6 @@
                     "title": "Title 2",
                     "overview": "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Enterpreneurship.",
                     "description": "\n                    <h2>JUDUL</h2>\n                    <p>Terdiri dari beberapa bagian part pembelajaran untuk mendapatkan pengetahuan dan pemahaman baru tentang bagaimana cara membangun usaha, hal-hal apa saja yang dibutuhkan dalam membangun usaha baik secara internal maupun eksternal,</p>\n                    <br>\n                    <p><img src=\"https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80\" alt=\"Testing Photo\"></p>\n                    <br>\n                    <h3>SUB JUDUL</h3>\n                    <p>Memulai dari awal dan dasar-dasar yang perlu dibangun atau fundamental dalam membangun Enterpreneurship dan juga melihat perkembangan zaman dan teknologi yang berdasarkan IoT sebagai pusat pembelajaran utama dalam masyarakat.</p>\n                ",
-                    "content_link": "http://service.mojadipro.com/course/1/learn/module/2/content",
                     "video": {
                       "video_id": 2,
                       "name": "Video 2",
@@ -1283,33 +1157,6 @@
                           "user_id": 1,
                           "user_name": "Molly Potts",
                           "user_photo": "https://thumbs.dreamstime.com/b/young-woman-avatar-cartoon-character-profile-picture-young-brunette-woman-short-hair-avatar-cartoon-character-vector-149728784.jpg"
-                        },
-                        {
-                          "answer_id": 6,
-                          "quiz_answer": "Quiz Answer number 6",
-                          "total_like": 0,
-                          "is_liked": false,
-                          "user_id": 2,
-                          "user_name": "Jack Guthrie",
-                          "user_photo": "https://image.winudf.com/v2/image1/Y29tLm1uaWRlbmMuYXZ0YXJtYWtlcl9zY3JlZW5fNF8xNTU0NjQ5MzE4XzAwMw/screen-4.jpg?fakeurl=1&type=.jpg"
-                        },
-                        {
-                          "answer_id": 7,
-                          "quiz_answer": "Quiz Answer number 7",
-                          "total_like": 0,
-                          "is_liked": false,
-                          "user_id": 3,
-                          "user_name": "Finn Rhodes",
-                          "user_photo": "https://tilomitra.com/wp-content/uploads/2014/08/avatar-cartoon.png"
-                        },
-                        {
-                          "answer_id": 8,
-                          "quiz_answer": "Quiz Answer number 8",
-                          "total_like": 0,
-                          "is_liked": false,
-                          "user_id": 4,
-                          "user_name": "Clare Levy",
-                          "user_photo": "https://thumbs.dreamstime.com/b/girl-avatar-cartoon-stock-vector-image-cute-beautiful-eyes-93364804.jpg"
                         }
                       ]
                     }
@@ -1317,6 +1164,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/components/responses/401-Unauthorized"
           },
           "404": {
             "$ref": "#/components/responses/404-NotFound"
@@ -1327,7 +1177,7 @@
         }
       }
     },
-    "/courses/:courseId/learn/modules/:moduleId/save-video-progressions": {
+    "/courses/{courseId}/learn/modules/{moduleId}/save-video-progressions": {
       "post": {
         "security": [{ "BearerAuth": []}],
         "tags": [
@@ -1426,7 +1276,7 @@
         }
       }
     },
-    "/courses/:courseId/learn/modules/:moduleId/quiz-answers": {
+    "/courses/{courseId}/learn/modules/{moduleId}/quiz-answers": {
       "get": {
         "security": [{ "BearerAuth": []}],
         "tags": [
@@ -1434,6 +1284,14 @@
         ],
         "description": "Get all quiz answers from the module",
         "summary": "Get all quiz answers",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CourseIdPathParameter"
+          },
+          {
+            "$ref": "#/components/parameters/ModuleIdPathParameter"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Get all quiz answers success",
@@ -1589,13 +1447,8 @@
         "tags": [
           "Course - Coming Soon"
         ],
-        "description": "Get coming soon courses. User can search certain course by send the query keyword",
+        "description": "Get coming soon courses.",
         "summary": "Get coming soon courses",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/KeywordQueryParameter"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Get coming soon courses success",
@@ -1622,23 +1475,17 @@
                     {
                       "id": 1,
                       "course_name": "Intro to Enterpreneurship",
-                      "photo_url": "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1174&q=80",
-                      "average_rate": 0,
-                      "expert_name": "Ray Robinson"
+                      "photo_url": "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1174&q=80"
                     },
                     {
                       "id": 5,
                       "name": "Intermediate to Enterpreneurship",
-                      "photo_url": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-                      "average_rate": 0,
-                      "expert_name": "Brielle Hutchinson"
+                      "photo_url": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
                     },
                     {
                       "id": 9,
                       "name": "Expert to Enterpreneurship",
-                      "photo_url": "https://images.unsplash.com/photo-1533749871411-5e21e14bcc7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80",
-                      "average_rate": 0,
-                      "expert_name": "Ray Robinson"
+                      "photo_url": "https://images.unsplash.com/photo-1533749871411-5e21e14bcc7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80"
                     }
                   ]
                 }
@@ -1972,14 +1819,14 @@
         }
       }
     },
-    "/courses/:courseId/summary": {
+    "/courses/{courseId}/summary": {
       "get": {
         "security": [{ "BearerAuth": []}],
         "tags": [
           "Course - Summary"
         ],
-        "description": "Get module summary in format pdf",
-        "summary": "Get module summary",
+        "description": "Get course summary in format pdf",
+        "summary": "Get course summary",
         "parameters": [
           {
             "$ref": "#/components/parameters/CourseIdPathParameter"
@@ -2317,7 +2164,6 @@
                   "data": {
                     "expert_id": 1,
                     "name": "Ray Robinson",
-                    "profile_description": "Saya adalah expert Ray Robinson di platform online learning",
                     "photo": "https://tilomitra.com/wp-content/uploads/2014/08/avatar-cartoon.png",
                     "average_rate": 5.0,
                     "total_student": 100,
@@ -2336,7 +2182,7 @@
         }
       }
     },
-    "/experts/:expertId/courses": {
+    "/experts/{expertId}/courses": {
       "get": {
         "tags": ["Expert"],
         "description": "Get expert's courses by expert id",
@@ -2371,22 +2217,19 @@
                       "id": 1,
                       "course_name": "Intro to Enterpreneurship",
                       "photo_url": "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1174&q=80",
-                      "average_rate": 0,
-                      "expert_name": "Ray Robinson"
+                      "average_rate": 0
                     },
                     {
                       "id": 5,
                       "name": "Intermediate to Enterpreneurship",
                       "photo_url": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-                      "average_rate": 0,
-                      "expert_name": "Brielle Hutchinson"
+                      "average_rate": 0
                     },
                     {
                       "id": 9,
                       "name": "Expert to Enterpreneurship",
                       "photo_url": "https://images.unsplash.com/photo-1533749871411-5e21e14bcc7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80",
-                      "average_rate": 0,
-                      "expert_name": "Ray Robinson"
+                      "average_rate": 0
                     }
                   ]
                 }
@@ -2559,13 +2402,16 @@
                 },
                 "message": {
                   "type": "string"
+                },
+                "data": {
+                  "type": "string"
                 }
               }
             },
             "example": {
               "status": 401,
               "message": "UNAUTHORIZED",
-              "data": null
+              "data": "Error Detail"
             }
           }
         }
@@ -2919,9 +2765,9 @@
             "maximum_participant": 30,
             "already_owned": true,
             "expert": {
+              "id": 3,
               "name": "Brielle Hutchinson",
               "photo": "https://thumbs.dreamstime.com/b/young-woman-avatar-cartoon-character-profile-picture-young-brunette-woman-short-hair-avatar-cartoon-character-vector-149728784.jpg",
-              "average_rate": 4.5
             }
           }
         }
@@ -3033,6 +2879,14 @@
       }
     },
     "parameters": {
+      "UserIdQueryParameter": {
+        "name": "userid",
+        "in": "query",
+        "description": "id of user",
+        "schema": {
+          "type": "integer"
+        }
+      },
       "KeywordQueryParameter": {
         "name": "keyword",
         "in": "query",
