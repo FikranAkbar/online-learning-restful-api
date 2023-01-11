@@ -10,7 +10,7 @@ type MasterAccount struct {
 	Password          string              `gorm:"column:password;type:varchar(300);not null"`
 	Role              uint                `gorm:"column:role"`
 	MasterUserType    MasterUserType      `gorm:"foreignKey:Role"`
-	TrxForgotPassword []TrxForgotPassword `gorm:"foreignKey:AccountId;references:ID"`
+	TrxForgotPassword []TrxForgotPassword `gorm:"foreignKey:AccountId;joinForeignKey:ID"`
 }
 
 func (MasterAccount) TableName() string {
