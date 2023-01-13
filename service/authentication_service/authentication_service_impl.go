@@ -3,6 +3,7 @@ package authentication_service
 import (
 	"context"
 	"github.com/go-playground/validator/v10"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 	"online-learning-restful-api/helper"
 	"online-learning-restful-api/model/web/authentication"
@@ -37,12 +38,16 @@ func (service *AuthenticationServiceImpl) LoginUserByEmailPassword(ctx context.C
 
 	account, err := service.AccountRepository.FindUserByEmail(ctx, service.DB, request.Email)
 	helper.PanicIfError(err)
+
+	err = bcrypt.CompareHashAndPassword([]byte(account.Password), []byte(request.Password))
+	helper.PanicIfError(err)
+
 	user, err := service.UserRepository.FindUserById(ctx, service.DB, account.Id)
 	helper.PanicIfError(err)
 
 	return authentication.UserLoginResponse{
 		Email: account.Email,
 		Name:  user.Name,
-		Token: "ini token",
+		Token: helper.GenerateJWT(uint(account.Id)),
 	}
 }
