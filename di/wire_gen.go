@@ -10,8 +10,8 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/google/wire"
 	"github.com/labstack/echo/v4"
+	"online-learning-restful-api/app"
 	"online-learning-restful-api/app/database"
-	"online-learning-restful-api/app/router"
 	"online-learning-restful-api/controller/authentication_controller"
 	"online-learning-restful-api/repository/account_repository"
 	"online-learning-restful-api/repository/user_repository"
@@ -27,7 +27,7 @@ func InitializedEchoServer() *echo.Echo {
 	validate := validator.New()
 	authenticationServiceImpl := authentication_service.NewAuthenticationServiceImpl(accountRepositoryImpl, userRepositoryImpl, db, validate)
 	authenticationControllerImpl := authentication_controller.NewAuthenticationControllerImpl(authenticationServiceImpl)
-	echoEcho := router.InitRoutes(authenticationControllerImpl)
+	echoEcho := app.InitServerWithEcho(authenticationControllerImpl)
 	return echoEcho
 }
 

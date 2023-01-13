@@ -7,8 +7,8 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/google/wire"
 	"github.com/labstack/echo/v4"
+	"online-learning-restful-api/app"
 	"online-learning-restful-api/app/database"
-	"online-learning-restful-api/app/router"
 	"online-learning-restful-api/controller/authentication_controller"
 	"online-learning-restful-api/repository/account_repository"
 	"online-learning-restful-api/repository/user_repository"
@@ -28,10 +28,10 @@ var authenticationSet = wire.NewSet(
 
 func InitializedEchoServer() *echo.Echo {
 	wire.Build(
+		app.InitServerWithEcho,
 		database.NewDB,
 		validator.New,
 		authenticationSet,
-		router.InitRoutes,
 	)
 
 	return nil
