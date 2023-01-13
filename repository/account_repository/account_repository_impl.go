@@ -22,7 +22,7 @@ func (repository AccountRepositoryImpl) FindUserByEmail(ctx context.Context, db 
 	var accountEntity entity.MasterAccount
 	err := db.WithContext(ctx).Preload("MasterUserType").First(&accountEntity, "email = ?", email).Error
 
-	if strings.Contains(err.Error(), exception.NotFoundError) {
+	if err != nil && strings.Contains(err.Error(), exception.NotFoundError) {
 		logError := fmt.Sprint("Unauthorized. Wrong email or password")
 		return nil, errors.New(logError)
 	}

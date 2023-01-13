@@ -10,15 +10,26 @@ import (
 const (
 	Unauthorized  = "unauthorized"
 	NotFoundError = "not found"
+	BadRequest    = "bad request"
+	Validation    = "validation"
 )
 
+func checkErrorContains(err error, subStr string) bool {
+	return strings.Contains(strings.ToLower(err.Error()), subStr)
+}
+
 func ErrorHandler(err error, c echo.Context) {
-	if strings.Contains(strings.ToLower(err.Error()), NotFoundError) {
+	if checkErrorContains(err, BadRequest) || checkErrorContains(err, Validation) {
+		badRequestError(err, c)
+		return
+	}
+
+	if checkErrorContains(err, NotFoundError) {
 		recordNotFoundError(err, c)
 		return
 	}
 
-	if strings.Contains(strings.ToLower(err.Error()), Unauthorized) {
+	if checkErrorContains(err, Unauthorized) {
 		unauthorizedError(err, c)
 		return
 	}
@@ -54,4 +65,14 @@ func unauthorizedError(err error, c echo.Context) {
 	}
 
 	_ = c.JSON(http.StatusUnauthorized, response)
+}
+
+func badRequestError(err error, c echo.Context) {
+	response := web.APIResponse{
+		Status:  400,
+		Message: "BAD REQUEST",
+		Data:    err.Error(),
+	}
+
+	_ = c.JSON(http.StatusBadRequest, response)
 }

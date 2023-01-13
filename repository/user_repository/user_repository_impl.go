@@ -22,7 +22,7 @@ func (repository *UserRepositoryImpl) FindUserById(ctx context.Context, db *gorm
 	var userEntity entity.MasterUser
 	err := db.WithContext(ctx).First(&userEntity, "ID = ?", userId).Error
 
-	if strings.Contains(err.Error(), exception.NotFoundError) {
+	if err != nil && strings.Contains(err.Error(), exception.NotFoundError) {
 		logError := fmt.Sprintf("User data with id %v not found", userId)
 		return nil, errors.New(logError)
 	}
