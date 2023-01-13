@@ -112,12 +112,10 @@
                 "type": "object",
                 "properties": {
                   "email": {
-                    "type": "string",
-                    "required": true
+                    "type": "string"
                   },
                   "password": {
-                    "type": "string",
-                    "required": true
+                    "type": "string"
                   }
                 }
               },
@@ -219,22 +217,18 @@
                 "type": "object",
                 "properties": {
                   "email": {
-                    "type": "string",
-                    "required": true
+                    "type": "string"
                   },
                   "password": {
                     "type": "string",
-                    "required": true,
                     "minLength": 8
                   },
                   "name": {
                     "type": "string",
-                    "maxLength": 100,
-                    "required": true
+                    "maxLength": 100
                   },
                   "date_birth": {
-                    "type": "string",
-                    "required": true
+                    "type": "string"
                   },
                   "gender": {
                     "type": "string",
@@ -367,9 +361,6 @@
                     },
                     "message": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "null"
                     }
                   }
                 },
@@ -542,18 +533,16 @@
         }
       }
     },
-    "/courses/categories/:categoryId": {
+    "/courses/categories/{categoryId}": {
       "get": {
         "tags": [
           "Course - Category"
         ],
         "summary": "Get courses by category id",
         "description": "Get all course from category by category id",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/CategoryIdPathParameter"
-          }
-        ],
+        "parameters": [{
+          "$ref": "#/components/parameters/CategoryIdPathParameter"
+        }],
         "responses": {
           "200": {
             "description": "Get course by category success",
@@ -593,9 +582,6 @@
                     },
                     "message": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "null"
                     }
                   }
                 },
@@ -659,7 +645,7 @@
         }
       }
     },
-    "/courses/:courseId": {
+    "/courses/{courseId}": {
       "get": {
         "tags": [
           "Course - Detail Course"
@@ -671,27 +657,6 @@
             "$ref": "#/components/parameters/CourseIdPathParameter"
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "token": {
-                    "type": "string"
-                  },
-                  "user_id": {
-                    "type": "number"
-                  }
-                }
-              },
-              "example": {
-                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiRmlrcmFuIEFrYmFyIiwiZW1haWwiOiJmaWtyYW5ha2Jhcjc1NkBnbWFpbC5jb20ifQ._tSgZvD3rl9gBwunH4JgwcHn1adyTMYSR6N2uHuWsqw",
-                "user_id": 1
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Get course detail by course id success",
@@ -1013,7 +978,7 @@
         }
       }
     },
-    "/courses/:courseId/learn/webinar-sessions/:webinarSessionId": {
+    "/courses/:courseId/learn/webinar-sessions/{webinarSessionId}": {
       "get": {
         "tags": [
           "Course - Webinar Session"
@@ -1193,7 +1158,7 @@
         }
       }
     },
-    "/courses/:courseId/learn/modules/:moduleId": {
+    "/courses/:courseId/learn/modules/{moduleId}": {
       "get": {
         "tags": [
           "Course - Module"
@@ -1824,7 +1789,7 @@
         }
       }
     },
-    "/courses/:courseId/qna-questions/:qnaQuestionId": {
+    "/courses/:courseId/qna-questions/{qnaQuestionId}": {
       "get": {
         "tags": [
           "Course - QnA"
@@ -2201,7 +2166,7 @@
         }
       }
     },
-    "/users/edit-profile/province/:provinceId/city": {
+    "/users/edit-profile/province/{provinceId}/city": {
       "get": {
         "tags": ["User - Edit Profile"],
         "description": "Get cities data by province id",
@@ -2278,7 +2243,7 @@
         }
       }
     },
-    "/experts/:expertId": {
+    "/experts/{expertId}": {
       "get": {
         "tags": ["Expert"],
         "description": "Get expert detail by expert id",
@@ -2462,7 +2427,7 @@
         }
       }
     },
-    "/industry-insights/:industryInsightId": {
+    "/industry-insights/{industryInsightId}": {
       "get": {
         "tags": ["Industry Insight"],
         "description": "Get industry insight detail by industry insight id",
@@ -2548,9 +2513,6 @@
                 },
                 "message": {
                   "type": "string"
-                },
-                "data": {
-                  "type": "null"
                 }
               }
             },
@@ -2574,9 +2536,6 @@
                 },
                 "message": {
                   "type": "string"
-                },
-                "data": {
-                  "type": "null"
                 }
               }
             },
@@ -3054,55 +3013,81 @@
       "KeywordQueryParameter": {
         "name": "keyword",
         "in": "query",
-        "required": true,
-        "description": "keyword for searching course names"
+        "description": "keyword for searching course names",
+        "schema": {
+          "type": "string"
+        }
       },
       "CategoryIdPathParameter": {
         "name": "categoryId",
         "in": "path",
         "required": true,
+        "schema": {
+          "type": "integer"
+        },
         "example": 1
       },
       "CourseIdPathParameter": {
         "name": "courseId",
         "in": "path",
         "required": true,
+        "schema": {
+          "type": "integer"
+        },
         "example": 1
       },
       "WebinarSessionIdPathParameter": {
         "name": "webinarSessionId",
         "in": "path",
         "required": true,
+        "schema": {
+          "type": "integer"
+        },
         "example": 1
       },
       "ModuleIdPathParameter": {
         "name": "moduleId",
         "in": "path",
         "required": true,
+        "schema": {
+          "type": "integer"
+        },
         "example": 1
       },
       "ExpertIdPathParameter": {
         "name": "expertId",
         "in": "path",
         "required": true,
+        "schema": {
+          "type": "integer"
+        },
         "example": 1
       },
       "QnaQuestionIdPathParameter": {
         "name": "qnaQuestionId",
         "in": "path",
         "required": true,
+        "schema": {
+          "type": "integer"
+        },
         "example": 1
       },
       "ProvinceIdPathParameter": {
         "name": "provinceId",
         "in": "path",
         "required": true,
+        "schema": {
+          "type": "integer"
+        },
         "example": 1
       },
       "CourseTypeQueryParameter": {
         "name": "type",
         "in": "query",
         "required": true,
+        "schema": {
+          "type": "string"
+        },
         "examples": {
           "not_started": {
             "description": "Get not started course",
@@ -3122,6 +3107,9 @@
         "name": "industryInsightId",
         "in": "path",
         "required": true,
+        "schema": {
+          "type": "integer"
+        },
         "example": 1
       }
     }

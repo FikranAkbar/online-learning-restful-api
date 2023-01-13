@@ -3,8 +3,9 @@ package user_repository
 import (
 	"context"
 	"gorm.io/gorm"
+	"online-learning-restful-api/app/database/entity"
 )
 
 type UserRepository interface {
-	FindById(ctx context.Context, tx *gorm.Tx)
+	FindUserById(ctx context.Context, tx *gorm.Tx, userId int) entity.MasterUser
 }
