@@ -6,5 +6,5 @@ import (
 )
 
 type AuthenticationService interface {
-	LoginUserByEmailPassword(ctx context.Context, request authentication.UserLoginRequest)
+	LoginUserByEmailPassword(ctx context.Context, request authentication.UserLoginRequest) authentication.UserLoginResponse
 }
