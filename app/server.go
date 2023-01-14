@@ -15,6 +15,7 @@ func InitServerWithEcho(authenticationController authentication_controller.Authe
 
 	e.Use(middleware.CORS())
 	e.Use(middleware.Recover())
+	e.Use()
 
 	e.HTTPErrorHandler = exception.ErrorHandler
 
