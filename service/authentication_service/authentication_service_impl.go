@@ -63,10 +63,13 @@ func (service *AuthenticationServiceImpl) RegisterUserByEmailPassword(ctx contex
 		Password: request.Password,
 		Role:     "User",
 	}
-	account, err = service.AccountRepository.CreateAccountData(ctx, service.DB, account)
+
+	tx := service.DB.Begin()
+
+	account, err = service.AccountRepository.CreateAccountData(ctx, tx, account)
 	helper.PanicIfError(err)
 
-	birthDate, err := time.Parse("2006-01-02", request.BirthDate)
+	birthDate, err := time.Parse("2006-01-02 GMT0", request.BirthDate+" UTC")
 	helper.PanicIfError(err)
 	user := domain.User{
 		Id:        account.Id,
@@ -84,4 +87,5 @@ func (service *AuthenticationServiceImpl) RegisterUserByEmailPassword(ctx contex
 	}
 
 	return userRegisterResponse
+
 }

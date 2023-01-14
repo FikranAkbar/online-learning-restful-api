@@ -40,7 +40,8 @@ func (repository *UserRepositoryImpl) CreateUserData(ctx context.Context, db *go
 		Name:   user.Name,
 		Gender: user.Gender,
 		BirthDate: sql.NullTime{
-			Time: user.BirthDate,
+			Time:  user.BirthDate,
+			Valid: true,
 		},
 	}
 	err := db.WithContext(ctx).Create(&userEntity).Error
