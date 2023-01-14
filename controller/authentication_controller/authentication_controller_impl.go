@@ -50,3 +50,8 @@ func (controller *AuthenticationControllerImpl) RegisterUserWithEmailPassword(c 
 
 	return c.JSON(http.StatusOK, apiResponse)
 }
+
+func (controller *AuthenticationControllerImpl) LogoutUser(c echo.Context) error {
+	//TODO implement me
+	panic("implement me")
+}
