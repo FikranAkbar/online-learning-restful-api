@@ -15,3 +15,13 @@ func NewDB() *gorm.DB {
 
 	return db
 }
+
+func NewTestDB() *gorm.DB {
+	dsn := "root:password@tcp(127.0.0.1:3306)/online_learning_database_test?charset=utf8mb4&parseTime=True&loc=Local"
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+		SkipDefaultTransaction: false,
+	})
+	helper.PanicIfError(err)
+
+	return db
+}

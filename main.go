@@ -1,11 +1,10 @@
 package main
 
 import (
-	"github.com/labstack/echo/v4"
+	"online-learning-restful-api/di"
 )
 
 func main() {
-	e := echo.New()
-
-	e.Logger.Fatal(e.Start(":8000"))
+	server := di.InitializedEchoServer()
+	server.Logger.Fatal(server.Start("localhost:8000"))
 }

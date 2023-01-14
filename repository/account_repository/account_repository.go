@@ -3,9 +3,9 @@ package account_repository
 import (
 	"context"
 	"gorm.io/gorm"
-	"online-learning-restful-api/app/database/entity"
+	"online-learning-restful-api/model/domain"
 )
 
 type AccountRepository interface {
-	FindUserByEmail(ctx context.Context, tx *gorm.Tx, email string) entity.MasterAccount
+	FindUserByEmail(ctx context.Context, db *gorm.DB, email string) (*domain.Account, error)
 }

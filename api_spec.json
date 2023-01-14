@@ -194,8 +194,8 @@
               }
             }
           },
-          "403": {
-            "$ref": "#/components/responses/403-Forbidden"
+          "401": {
+            "$ref": "#/components/responses/401-Unauthorized"
           },
           "500": {
             "$ref": "#/components/responses/500-InternalServerError"
