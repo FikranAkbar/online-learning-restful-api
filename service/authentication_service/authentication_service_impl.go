@@ -38,13 +38,16 @@ func (service *AuthenticationServiceImpl) LoginUserByEmailPassword(ctx context.C
 	err := service.Validate.Struct(request)
 	helper.PanicIfError(err)
 
-	account, err := service.AccountRepository.FindUserByEmail(ctx, service.DB, request.Email)
+	tx := service.DB.Begin()
+	defer helper.CommitOrRollback(tx)
+
+	account, err := service.AccountRepository.FindUserByEmail(ctx, tx, request.Email)
 	helper.PanicIfError(err)
 
 	err = bcrypt.CompareHashAndPassword([]byte(account.Password), []byte(request.Password))
 	helper.PanicIfError(err)
 
-	user, err := service.UserRepository.FindUserById(ctx, service.DB, account.Id)
+	user, err := service.UserRepository.FindUserById(ctx, tx, account.Id)
 	helper.PanicIfError(err)
 
 	return authentication.UserLoginResponse{
@@ -58,18 +61,19 @@ func (service *AuthenticationServiceImpl) RegisterUserByEmailPassword(ctx contex
 	err := service.Validate.Struct(request)
 	helper.PanicIfError(err)
 
+	tx := service.DB.Begin()
+	defer helper.CommitOrRollback(tx)
+
 	account := domain.Account{
 		Email:    request.Email,
 		Password: request.Password,
 		Role:     "User",
 	}
 
-	tx := service.DB.Begin()
-
 	account, err = service.AccountRepository.CreateAccountData(ctx, tx, account)
 	helper.PanicIfError(err)
 
-	birthDate, err := time.Parse("2006-01-02 GMT0", request.BirthDate+" UTC")
+	birthDate, err := time.Parse("2006-01-02", request.BirthDate)
 	helper.PanicIfError(err)
 	user := domain.User{
 		Id:        account.Id,
@@ -77,7 +81,7 @@ func (service *AuthenticationServiceImpl) RegisterUserByEmailPassword(ctx contex
 		BirthDate: birthDate,
 		Gender:    request.Gender,
 	}
-	user, err = service.UserRepository.CreateUserData(ctx, service.DB, user)
+	user, err = service.UserRepository.CreateUserData(ctx, tx, user)
 	helper.PanicIfError(err)
 
 	userRegisterResponse := authentication.UserRegisterResponse{
@@ -87,5 +91,4 @@ func (service *AuthenticationServiceImpl) RegisterUserByEmailPassword(ctx contex
 	}
 
 	return userRegisterResponse
-
 }
