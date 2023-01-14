@@ -343,6 +343,7 @@
     },
     "/users/logout": {
       "post": {
+        "security": [{ "BearerAuth": []}],
         "tags": [
           "Authentication"
         ],
@@ -698,6 +699,7 @@
     },
     "/courses/:courseId/progressions": {
       "get": {
+        "security": [{ "BearerAuth": []}],
         "tags": [
           "Course - Detail Course"
         ],
@@ -980,6 +982,7 @@
     },
     "/courses/:courseId/learn/webinar-sessions/{webinarSessionId}": {
       "get": {
+        "security": [{ "BearerAuth": []}],
         "tags": [
           "Course - Webinar Session"
         ],
@@ -1160,6 +1163,7 @@
     },
     "/courses/:courseId/learn/modules/{moduleId}": {
       "get": {
+        "security": [{ "BearerAuth": []}],
         "tags": [
           "Course - Module"
         ],
@@ -1325,6 +1329,7 @@
     },
     "/courses/:courseId/learn/modules/:moduleId/save-video-progressions": {
       "post": {
+        "security": [{ "BearerAuth": []}],
         "tags": [
           "Course - Module"
         ],
@@ -1423,6 +1428,7 @@
     },
     "/courses/:courseId/learn/modules/:moduleId/quiz-answers": {
       "get": {
+        "security": [{ "BearerAuth": []}],
         "tags": [
           "Course - Quiz"
         ],
@@ -1493,6 +1499,7 @@
         }
       },
       "post": {
+        "security": [{ "BearerAuth": []}],
         "tags": [
           "Course - Quiz"
         ],
@@ -1649,6 +1656,7 @@
     },
     "/courses/:courseId/qna-questions": {
       "get": {
+        "security": [{ "BearerAuth": []}],
         "tags": [
           "Course - QnA"
         ],
@@ -1715,6 +1723,7 @@
         }
       },
       "post": {
+        "security": [{ "BearerAuth": []}],
         "tags": [
           "Course - QnA"
         ],
@@ -1791,6 +1800,7 @@
     },
     "/courses/:courseId/qna-questions/{qnaQuestionId}": {
       "get": {
+        "security": [{ "BearerAuth": []}],
         "tags": [
           "Course - QnA"
         ],
@@ -1881,6 +1891,7 @@
     },
     "/courses/:courseId/qna-questions/:qnaQuestionId/answers": {
       "post": {
+        "security": [{ "BearerAuth": []}],
         "tags": [
           "Course - QnA"
         ],
@@ -1963,6 +1974,7 @@
     },
     "/courses/:courseId/summary": {
       "get": {
+        "security": [{ "BearerAuth": []}],
         "tags": [
           "Course - Summary"
         ],
@@ -2022,6 +2034,7 @@
     },
     "/users/edit-profile": {
       "post": {
+        "security": [{ "BearerAuth": []}],
         "tags": ["User - Edit Profile"],
         "description": "Edit user profile by sending minimum one changes",
         "summary": "Edit user profile",
@@ -2133,6 +2146,7 @@
     },
     "/users/edit-profile/provice": {
       "get": {
+        "security": [{ "BearerAuth": []}],
         "tags": ["User - Edit Profile"],
         "description": "Get all provinces data",
         "summary": "Get all provinces data",
@@ -2168,6 +2182,7 @@
     },
     "/users/edit-profile/province/{provinceId}/city": {
       "get": {
+        "security": [{ "BearerAuth": []}],
         "tags": ["User - Edit Profile"],
         "description": "Get cities data by province id",
         "summary": "Get cities data",
@@ -2206,6 +2221,7 @@
     },
     "/users/courses": {
       "get": {
+        "security": [{ "BearerAuth": []}],
         "tags": ["User - Course"],
         "description": "Get user registered course. There is 3 type of course status, which is not started, ongoing, completed",
         "summary": "Get user registered course",
@@ -2500,6 +2516,13 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
     "responses": {
       "400-BadRequest": {
         "description": "Bad request, request body or parameter is not valid",
