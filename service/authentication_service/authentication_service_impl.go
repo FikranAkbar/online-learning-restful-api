@@ -6,9 +6,11 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 	"online-learning-restful-api/helper"
+	"online-learning-restful-api/model/domain"
 	"online-learning-restful-api/model/web/authentication"
 	"online-learning-restful-api/repository/account_repository"
 	"online-learning-restful-api/repository/user_repository"
+	"time"
 )
 
 type AuthenticationServiceImpl struct {
@@ -50,4 +52,36 @@ func (service *AuthenticationServiceImpl) LoginUserByEmailPassword(ctx context.C
 		Name:  user.Name,
 		Token: helper.GenerateJWT(uint(account.Id)),
 	}
+}
+
+func (service *AuthenticationServiceImpl) RegisterUserByEmailPassword(ctx context.Context, request authentication.UserRegisterRequest) authentication.UserRegisterResponse {
+	err := service.Validate.Struct(request)
+	helper.PanicIfError(err)
+
+	account := domain.Account{
+		Email:    request.Email,
+		Password: request.Password,
+		Role:     "User",
+	}
+	account, err = service.AccountRepository.CreateAccountData(ctx, service.DB, account)
+	helper.PanicIfError(err)
+
+	birthDate, err := time.Parse("2006-01-02", request.BirthDate)
+	helper.PanicIfError(err)
+	user := domain.User{
+		Id:        account.Id,
+		Name:      request.Name,
+		BirthDate: birthDate,
+		Gender:    request.Gender,
+	}
+	user, err = service.UserRepository.CreateUserData(ctx, service.DB, user)
+	helper.PanicIfError(err)
+
+	userRegisterResponse := authentication.UserRegisterResponse{
+		Id:    account.Id,
+		Name:  user.Name,
+		Email: account.Email,
+	}
+
+	return userRegisterResponse
 }
