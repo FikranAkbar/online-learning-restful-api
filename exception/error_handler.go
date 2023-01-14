@@ -8,28 +8,33 @@ import (
 )
 
 const (
-	Unauthorized  = "unauthorized"
-	NotFoundError = "not found"
-	BadRequest    = "bad request"
-	Validation    = "validation"
+	Unauthorized = "unauthorized"
+	NotFound     = "not found"
+	BadRequest   = "bad request"
+	Validation   = "validation"
+	Duplicate    = "duplicate"
 )
 
-func checkErrorContains(err error, subStr string) bool {
-	return strings.Contains(strings.ToLower(err.Error()), subStr)
+func CheckErrorContains(err error, subStr string) bool {
+	if err != nil {
+		return strings.Contains(strings.ToLower(err.Error()), subStr)
+	}
+
+	return false
 }
 
 func ErrorHandler(err error, c echo.Context) {
-	if checkErrorContains(err, BadRequest) || checkErrorContains(err, Validation) {
+	if CheckErrorContains(err, BadRequest) || CheckErrorContains(err, Validation) {
 		badRequestError(err, c)
 		return
 	}
 
-	if checkErrorContains(err, NotFoundError) {
+	if CheckErrorContains(err, NotFound) {
 		recordNotFoundError(err, c)
 		return
 	}
 
-	if checkErrorContains(err, Unauthorized) {
+	if CheckErrorContains(err, Unauthorized) {
 		unauthorizedError(err, c)
 		return
 	}

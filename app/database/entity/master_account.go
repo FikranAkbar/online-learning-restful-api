@@ -6,7 +6,7 @@ import (
 
 type MasterAccount struct {
 	gorm.Model        `gorm:"embedded"`
-	Email             string              `gorm:"column:email;type:varchar(300);not null;unique_index"`
+	Email             string              `gorm:"column:email;type:varchar(300);not null;uniqueIndex:idx_email"`
 	Password          string              `gorm:"column:password;type:varchar(300);not null"`
 	Role              uint                `gorm:"column:role"`
 	MasterUserType    MasterUserType      `gorm:"foreignKey:Role"`

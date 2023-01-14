@@ -208,8 +208,8 @@
         "tags": [
           "Authentication"
         ],
-        "summary": "Register user with email, password, name, date_birth, gender",
-        "description": "Register user with email, password, name, date_birth, gender. This API will not auto-login the user, so will not return token for accessed protected route",
+        "summary": "Register user with email, password, name, birth_date, gender",
+        "description": "Register user with email, password, name, birth_date, gender. This API will not auto-login the user, so will not return token for accessed protected route",
         "requestBody": {
           "content": {
             "application/json": {
@@ -227,7 +227,7 @@
                     "type": "string",
                     "maxLength": 100
                   },
-                  "date_birth": {
+                  "birth_date": {
                     "type": "string"
                   },
                   "gender": {
@@ -243,7 +243,7 @@
                 "email": "fikranakbar756@gmail.com",
                 "password": "password",
                 "name": "Fikran Akbar",
-                "date_birth": "2000-07-01",
+                "birth_date": "2000-07-01",
                 "gender": "Male"
               }
             }
@@ -2037,7 +2037,7 @@
                   "phone": {
                     "type": "string"
                   },
-                  "date_birth": {
+                  "birth_date": {
                     "type": "string"
                   },
                   "gender": {
@@ -2083,7 +2083,7 @@
                         "phone": {
                           "type": "string"
                         },
-                        "date_birth": {
+                        "birth_date": {
                           "type": "string"
                         },
                         "gender": {
@@ -2109,7 +2109,7 @@
                     "user_id": 1,
                     "name": "Molly Potts",
                     "phone": "085228473617",
-                    "date_birth": "2020-12-12",
+                    "birth_date": "2020-12-12",
                     "gender": "Male",
                     "photo_url": "https://thumbs.dreamstime.com/b/young-woman-avatar-cartoon-character-profile-picture-young-brunette-woman-short-hair-avatar-cartoon-character-vector-149728784.jpg",
                     "province_id": 14,

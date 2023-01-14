@@ -7,5 +7,6 @@ import (
 )
 
 type AccountRepository interface {
-	FindUserByEmail(ctx context.Context, db *gorm.DB, email string) (*domain.Account, error)
+	FindUserByEmail(ctx context.Context, db *gorm.DB, email string) (domain.Account, error)
+	CreateAccountData(ctx context.Context, db *gorm.DB, account domain.Account) (domain.Account, error)
 }

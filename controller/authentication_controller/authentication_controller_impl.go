@@ -34,3 +34,19 @@ func (controller *AuthenticationControllerImpl) LoginUserWithEmailPassword(c ech
 
 	return c.JSON(http.StatusOK, apiResponse)
 }
+
+func (controller *AuthenticationControllerImpl) RegisterUserWithEmailPassword(c echo.Context) error {
+	var userRegisterRequest authentication.UserRegisterRequest
+	err := c.Bind(&userRegisterRequest)
+	helper.PanicIfError(err)
+
+	userRegisterResponse := controller.AuthenticationService.RegisterUserByEmailPassword(c.Request().Context(), userRegisterRequest)
+
+	apiResponse := web.APIResponse{
+		Status:  200,
+		Message: "OK",
+		Data:    userRegisterResponse,
+	}
+
+	return c.JSON(http.StatusOK, apiResponse)
+}
