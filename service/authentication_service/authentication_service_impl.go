@@ -6,6 +6,8 @@ import (
 	"github.com/go-playground/validator/v10"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
+	"online-learning-restful-api/app/router/middleware"
+	"online-learning-restful-api/exception"
 	"online-learning-restful-api/helper"
 	"online-learning-restful-api/model/domain"
 	"online-learning-restful-api/model/web/authentication"
@@ -95,6 +97,10 @@ func (service *AuthenticationServiceImpl) RegisterUserByEmailPassword(ctx contex
 }
 
 func (service *AuthenticationServiceImpl) LogoutUser(ctx context.Context) string {
-	//userInfo := ctx.Value("userInfo").(jwt.MapClaims)
-	return fmt.Sprintf("Logout success. Token valid")
+	userTokenInfo, ok := ctx.Value("user_token_info").(middleware.UserTokenInfo)
+	if !ok {
+		panic(exception.Unauthorized + ". User token info not found")
+	}
+
+	return fmt.Sprintf("User %v logout success. Token valid", userTokenInfo.UserName)
 }

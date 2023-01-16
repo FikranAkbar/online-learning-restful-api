@@ -1,10 +1,9 @@
 package router
 
 import (
-	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
+	"online-learning-restful-api/app/router/middleware"
 	"online-learning-restful-api/controller/authentication_controller"
-	"online-learning-restful-api/helper"
 )
 
 func InitRoutes(controller authentication_controller.AuthenticationController, e *echo.Echo) {
@@ -18,7 +17,8 @@ func InitRoutes(controller authentication_controller.AuthenticationController, e
 	}
 
 	for _, routeGroup := range protectedRouteGroups {
-		routeGroup.Use(echojwt.WithConfig(echojwt.Config{SigningKey: helper.JwtSignatureKey}))
+		//routeGroup.Use(echojwt.WithConfig(echojwt.Config{SigningKey: helper.JwtSignatureKey}))
+		routeGroup.Use(middleware.JWTAuthorization)
 	}
 
 	publicUserRouteGroup.POST("/login", controller.LoginUserWithEmailPassword).Name = "Login with email and password"

@@ -15,9 +15,9 @@ var (
 func GenerateJWT(id uint, email string, username string) string {
 	token := jwt.New(JwtSigningMethod)
 	claims := token.Claims.(jwt.MapClaims)
-	claims["id"] = id
-	claims["email"] = email
-	claims["username"] = username
+	claims["user_id"] = id
+	claims["user_email"] = email
+	claims["user_name"] = username
 	claims["exp"] = ExpirationDuration
 	t, err := token.SignedString(JwtSignatureKey)
 	PanicIfError(err)

@@ -34,13 +34,13 @@ func ErrorHandler(err error, c echo.Context) {
 		return
 	}
 
-	if CheckErrorContains(err, NotFound) {
-		recordNotFoundError(err, c)
+	if CheckErrorContains(err, Unauthorized) {
+		unauthorizedError(err, c)
 		return
 	}
 
-	if CheckErrorContains(err, Unauthorized) {
-		unauthorizedError(err, c)
+	if CheckErrorContains(err, NotFound) {
+		recordNotFoundError(err, c)
 		return
 	}
 

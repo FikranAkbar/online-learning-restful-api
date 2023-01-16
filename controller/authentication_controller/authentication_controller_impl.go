@@ -52,13 +52,12 @@ func (controller *AuthenticationControllerImpl) RegisterUserWithEmailPassword(c 
 }
 
 func (controller *AuthenticationControllerImpl) LogoutUser(c echo.Context) error {
-	ctx := helper.ExtractUserInfoFromJwtToContext(c)
-	text := controller.AuthenticationService.LogoutUser(ctx)
+	responseText := controller.AuthenticationService.LogoutUser(c.Request().Context())
 
 	apiResponse := web.APIResponse{
 		Status:  200,
 		Message: "OK",
-		Data:    text,
+		Data:    responseText,
 	}
 
 	return c.JSON(http.StatusOK, apiResponse)
