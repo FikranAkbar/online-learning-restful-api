@@ -2,7 +2,6 @@ package account_repository
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
@@ -24,8 +23,8 @@ func (repository *AccountRepositoryImpl) FindUserByEmail(ctx context.Context, db
 	err := db.WithContext(ctx).Preload("MasterUserType").First(&accountEntity, "email = ?", email).Error
 
 	if exception.CheckErrorContains(err, exception.NotFound) {
-		logError := fmt.Sprint("Unauthorized. Wrong email or password")
-		return domain.Account{}, errors.New(logError)
+		errorLog := fmt.Sprintf("Wrong email or password")
+		return domain.Account{}, exception.GenerateHTTPError(exception.Unauthorized, errorLog)
 	}
 
 	return domain.Account{
@@ -52,8 +51,8 @@ func (repository *AccountRepositoryImpl) CreateAccountData(ctx context.Context, 
 	}
 	err = db.WithContext(ctx).Create(&accountEntity).Error
 	if exception.CheckErrorContains(err, exception.Duplicate) {
-		logError := fmt.Sprintf("Bad Request. Account with email %v already exist", accountEntity.Email)
-		return domain.Account{}, errors.New(logError)
+		logError := fmt.Sprintf("Account with email %v already exist", accountEntity.Email)
+		return domain.Account{}, exception.GenerateHTTPError(exception.BadRequest, logError)
 	}
 
 	return domain.Account{

@@ -18,7 +18,8 @@ func InitRoutes(controller authentication_controller.AuthenticationController, e
 	}
 
 	for _, routeGroup := range protectedRouteGroups {
-		routeGroup.Use(echojwt.WithConfig(echojwt.Config{SigningKey: helper.JwtSecret}))
+		routeGroup.Use(echojwt.WithConfig(echojwt.Config{SigningKey: helper.JwtSignatureKey}))
+		//routeGroup.Use(middleware.JWTAuthorization)
 	}
 
 	publicUserRouteGroup.POST("/login", controller.LoginUserWithEmailPassword).Name = "Login with email and password"
