@@ -3,7 +3,6 @@ package user_repository
 import (
 	"context"
 	"database/sql"
-	"errors"
 	"fmt"
 	"gorm.io/gorm"
 	"online-learning-restful-api/app/database/entity"
@@ -24,8 +23,8 @@ func (repository *UserRepositoryImpl) FindUserById(ctx context.Context, db *gorm
 	err := db.WithContext(ctx).First(&userEntity, "ID = ?", userId).Error
 
 	if exception.CheckErrorContains(err, exception.NotFound) {
-		logError := fmt.Sprintf("User data with id %v not found", userId)
-		return domain.User{}, errors.New(logError)
+		errorLog := fmt.Sprintf("User data with id %v not found", userId)
+		return domain.User{}, exception.GenerateHTTPError(exception.NotFound, errorLog)
 	}
 
 	return domain.User{

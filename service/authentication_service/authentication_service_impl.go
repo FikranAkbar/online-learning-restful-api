@@ -2,6 +2,7 @@ package authentication_service
 
 import (
 	"context"
+	"fmt"
 	"github.com/go-playground/validator/v10"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
@@ -53,7 +54,7 @@ func (service *AuthenticationServiceImpl) LoginUserByEmailPassword(ctx context.C
 	return authentication.UserLoginResponse{
 		Email: account.Email,
 		Name:  user.Name,
-		Token: helper.GenerateJWT(uint(account.Id)),
+		Token: helper.GenerateJWT(uint(account.Id), account.Email, user.Name),
 	}
 }
 
@@ -91,4 +92,9 @@ func (service *AuthenticationServiceImpl) RegisterUserByEmailPassword(ctx contex
 	}
 
 	return userRegisterResponse
+}
+
+func (service *AuthenticationServiceImpl) LogoutUser(ctx context.Context) string {
+	//userInfo := ctx.Value("userInfo").(jwt.MapClaims)
+	return fmt.Sprintf("Logout success. Token valid")
 }

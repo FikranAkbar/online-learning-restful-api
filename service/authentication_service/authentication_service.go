@@ -8,4 +8,5 @@ import (
 type AuthenticationService interface {
 	LoginUserByEmailPassword(ctx context.Context, request authentication.UserLoginRequest) authentication.UserLoginResponse
 	RegisterUserByEmailPassword(ctx context.Context, request authentication.UserRegisterRequest) authentication.UserRegisterResponse
+	LogoutUser(ctx context.Context) string
 }

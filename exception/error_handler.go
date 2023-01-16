@@ -1,6 +1,7 @@
 package exception
 
 import (
+	"fmt"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"online-learning-restful-api/model/web"
@@ -8,19 +9,23 @@ import (
 )
 
 const (
-	Unauthorized = "unauthorized"
-	NotFound     = "not found"
-	BadRequest   = "bad request"
-	Validation   = "validation"
-	Duplicate    = "duplicate"
+	Unauthorized = "Unauthorized"
+	NotFound     = "Not found"
+	BadRequest   = "Bad request"
+	Validation   = "Validation"
+	Duplicate    = "Duplicate"
 )
 
 func CheckErrorContains(err error, subStr string) bool {
 	if err != nil {
-		return strings.Contains(strings.ToLower(err.Error()), subStr)
+		return strings.Contains(strings.ToLower(err.Error()), strings.ToLower(subStr))
 	}
 
 	return false
+}
+
+func GenerateHTTPError(httpError string, errorLog string) error {
+	return fmt.Errorf("%v. %v", httpError, errorLog)
 }
 
 func ErrorHandler(err error, c echo.Context) {
