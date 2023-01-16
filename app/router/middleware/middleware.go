@@ -13,4 +13,5 @@ func InitMiddleware(e *echo.Echo) {
 	//}))
 	e.Use(middleware.CORS())
 	e.Use(middleware.Recover())
+	e.Use(middleware.Logger())
 }

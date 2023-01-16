@@ -64,7 +64,7 @@ func recordNotFoundError(err error, c echo.Context) {
 		Data:    err.Error(),
 	}
 
-	_ = c.JSON(http.StatusInternalServerError, response)
+	_ = c.JSON(http.StatusNotFound, response)
 }
 
 func unauthorizedError(err error, c echo.Context) {
