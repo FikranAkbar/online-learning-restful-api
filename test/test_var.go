@@ -18,11 +18,16 @@ var (
 	HostURL = "http://localhost:8000/api"
 )
 
-// Users routes
+// Users Routes
 var (
 	UserLoginAPIRoute    = HostURL + "/users/login"
 	UserLogoutAPIRoute   = HostURL + "/users/logout"
 	UserRegisterAPIRoute = HostURL + "/users/register"
+)
+
+// Course Categories Routes
+var (
+	GetAllCourseCategoriesAPIRoute = HostURL + "/courses/categories"
 )
 
 // messages
