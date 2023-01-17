@@ -1,11 +1,13 @@
 package entity
 
 import (
-	"gorm.io/gorm"
+	"time"
 )
 
 type TrxCourseReview struct {
-	gorm.Model   `gorm:"embedded"`
+	ID           uint `gorm:"column:id;primarykey"`
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
 	CourseId     uint         `gorm:"column:course_id;not null"`
 	MasterCourse MasterCourse `gorm:"foreignKey:CourseId;references:ID"`
 	UserId       uint         `gorm:"column:user_id;not null"`

@@ -1,11 +1,13 @@
 package entity
 
 import (
-	"gorm.io/gorm"
+	"time"
 )
 
 type MasterAccount struct {
-	gorm.Model        `gorm:"embedded"`
+	ID                uint `gorm:"column:id;primarykey"`
+	CreatedAt         time.Time
+	UpdatedAt         time.Time
 	Email             string              `gorm:"column:email;type:varchar(300);not null;uniqueIndex:idx_email"`
 	Password          string              `gorm:"column:password;type:varchar(300);not null"`
 	Role              uint                `gorm:"column:role"`

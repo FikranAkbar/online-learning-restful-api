@@ -1,11 +1,13 @@
 package entity
 
 import (
-	"gorm.io/gorm"
+	"time"
 )
 
 type MasterCourseSummary struct {
-	gorm.Model   `gorm:"embedded"`
+	ID           uint `gorm:"column:id;primarykey"`
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
 	CourseId     uint         `gorm:"column:course_id;not null"`
 	MasterCourse MasterCourse `gorm:"foreignKey:CourseId;references:ID"`
 	DocURL       string       `gorm:"column:doc_url;default:http://www.africau.edu/images/default/sample.pdf"`

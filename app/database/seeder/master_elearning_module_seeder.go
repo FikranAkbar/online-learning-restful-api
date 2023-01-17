@@ -19,7 +19,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 	return []entity.MasterElearningModule{
 		//#Module Intro to Entrepreneurship
 		{
-			Model:             gorm.Model{ID: 1},
+			ID:                1,
 			CourseId:          1,
 			ModuleTitle:       "Title 1",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Enterpreneurship."},
@@ -27,7 +27,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 2},
+			ID:                2,
 			CourseId:          1,
 			ModuleTitle:       "Title 2",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Enterpreneurship."},
@@ -35,7 +35,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 3},
+			ID:                3,
 			CourseId:          1,
 			ModuleTitle:       "Title 3",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Enterpreneurship."},
@@ -43,7 +43,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 4},
+			ID:                4,
 			CourseId:          1,
 			ModuleTitle:       "Title 4",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Enterpreneurship."},
@@ -54,7 +54,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 
 		//#Module Intermediate to Entrepreneurship
 		{
-			Model:             gorm.Model{ID: 5},
+			ID:                5,
 			CourseId:          5,
 			ModuleTitle:       "Title 1",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Enterpreneurship."},
@@ -62,7 +62,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 6},
+			ID:                6,
 			CourseId:          5,
 			ModuleTitle:       "Title 2",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Enterpreneurship."},
@@ -70,7 +70,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 7},
+			ID:                7,
 			CourseId:          5,
 			ModuleTitle:       "Title 3",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Enterpreneurship."},
@@ -78,7 +78,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 8},
+			ID:                8,
 			CourseId:          5,
 			ModuleTitle:       "Title 4",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Enterpreneurship."},
@@ -89,7 +89,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 
 		//#Module Expert to Entrepreneurship
 		{
-			Model:             gorm.Model{ID: 9},
+			ID:                9,
 			CourseId:          9,
 			ModuleTitle:       "Title 1",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Enterpreneurship."},
@@ -97,7 +97,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 10},
+			ID:                10,
 			CourseId:          9,
 			ModuleTitle:       "Title 2",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Enterpreneurship."},
@@ -105,7 +105,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 11},
+			ID:                11,
 			CourseId:          9,
 			ModuleTitle:       "Title 3",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Enterpreneurship."},
@@ -113,7 +113,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 12},
+			ID:                12,
 			CourseId:          9,
 			ModuleTitle:       "Title 4",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Enterpreneurship."},
@@ -124,7 +124,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 
 		//#Module Intro to Marketing
 		{
-			Model:             gorm.Model{ID: 13},
+			ID:                13,
 			CourseId:          2,
 			ModuleTitle:       "Title 1",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Marketing."},
@@ -132,7 +132,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 14},
+			ID:                14,
 			CourseId:          2,
 			ModuleTitle:       "Title 2",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Marketing."},
@@ -140,7 +140,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 15},
+			ID:                15,
 			CourseId:          2,
 			ModuleTitle:       "Title 3",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Marketing."},
@@ -148,7 +148,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 16},
+			ID:                16,
 			CourseId:          2,
 			ModuleTitle:       "Title 4",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Marketing."},
@@ -159,7 +159,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 
 		//#Module Intermediate to Marketing
 		{
-			Model:             gorm.Model{ID: 17},
+			ID:                17,
 			CourseId:          6,
 			ModuleTitle:       "Title 1",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Marketing."},
@@ -167,7 +167,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 18},
+			ID:                18,
 			CourseId:          6,
 			ModuleTitle:       "Title 2",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Marketing."},
@@ -175,7 +175,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 19},
+			ID:                19,
 			CourseId:          6,
 			ModuleTitle:       "Title 3",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Marketing."},
@@ -183,7 +183,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 20},
+			ID:                20,
 			CourseId:          6,
 			ModuleTitle:       "Title 4",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Marketing."},
@@ -194,7 +194,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 
 		//#Module Expert to Marketing
 		{
-			Model:             gorm.Model{ID: 21},
+			ID:                21,
 			CourseId:          10,
 			ModuleTitle:       "Title 1",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Marketing."},
@@ -202,7 +202,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 22},
+			ID:                22,
 			CourseId:          10,
 			ModuleTitle:       "Title 2",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Marketing."},
@@ -210,7 +210,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 23},
+			ID:                23,
 			CourseId:          10,
 			ModuleTitle:       "Title 3",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Marketing."},
@@ -218,7 +218,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 24},
+			ID:                24,
 			CourseId:          10,
 			ModuleTitle:       "Title 4",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Marketing."},
@@ -229,7 +229,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 
 		//#Module Intro to English
 		{
-			Model:             gorm.Model{ID: 25},
+			ID:                25,
 			CourseId:          3,
 			ModuleTitle:       "Title 1",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Marketing."},
@@ -237,7 +237,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 26},
+			ID:                26,
 			CourseId:          3,
 			ModuleTitle:       "Title 2",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Marketing."},
@@ -245,7 +245,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 27},
+			ID:                27,
 			CourseId:          3,
 			ModuleTitle:       "Title 3",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Marketing."},
@@ -253,7 +253,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 28},
+			ID:                28,
 			CourseId:          3,
 			ModuleTitle:       "Title 4",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Marketing."},
@@ -264,7 +264,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 
 		//#Module Intermediate to English
 		{
-			Model:             gorm.Model{ID: 29},
+			ID:                29,
 			CourseId:          7,
 			ModuleTitle:       "Title 1",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Marketing."},
@@ -272,7 +272,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 30},
+			ID:                30,
 			CourseId:          7,
 			ModuleTitle:       "Title 2",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Marketing."},
@@ -280,7 +280,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 31},
+			ID:                31,
 			CourseId:          7,
 			ModuleTitle:       "Title 3",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Marketing."},
@@ -288,7 +288,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 32},
+			ID:                32,
 			CourseId:          7,
 			ModuleTitle:       "Title 4",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Marketing."},
@@ -299,7 +299,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 
 		//#Module Expert to English
 		{
-			Model:             gorm.Model{ID: 33},
+			ID:                33,
 			CourseId:          11,
 			ModuleTitle:       "Title 1",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Marketing."},
@@ -307,7 +307,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 34},
+			ID:                34,
 			CourseId:          11,
 			ModuleTitle:       "Title 2",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Marketing."},
@@ -315,7 +315,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 35},
+			ID:                35,
 			CourseId:          11,
 			ModuleTitle:       "Title 3",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Marketing."},
@@ -323,7 +323,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 36},
+			ID:                36,
 			CourseId:          11,
 			ModuleTitle:       "Title 4",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Marketing."},
@@ -334,7 +334,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 
 		//#Module Intro to Creative
 		{
-			Model:             gorm.Model{ID: 37},
+			ID:                37,
 			CourseId:          4,
 			ModuleTitle:       "Title 1",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Creative."},
@@ -342,7 +342,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 38},
+			ID:                38,
 			CourseId:          4,
 			ModuleTitle:       "Title 2",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Creative."},
@@ -350,7 +350,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 39},
+			ID:                39,
 			CourseId:          4,
 			ModuleTitle:       "Title 3",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Creative."},
@@ -358,7 +358,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 40},
+			ID:                40,
 			CourseId:          4,
 			ModuleTitle:       "Title 4",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Creative."},
@@ -369,7 +369,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 
 		//#Module Intermediate to Creative
 		{
-			Model:             gorm.Model{ID: 41},
+			ID:                41,
 			CourseId:          8,
 			ModuleTitle:       "Title 1",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Creative."},
@@ -377,7 +377,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 42},
+			ID:                42,
 			CourseId:          8,
 			ModuleTitle:       "Title 2",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Creative."},
@@ -385,7 +385,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 43},
+			ID:                43,
 			CourseId:          8,
 			ModuleTitle:       "Title 3",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Creative."},
@@ -393,7 +393,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 44},
+			ID:                44,
 			CourseId:          8,
 			ModuleTitle:       "Title 4",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Creative."},
@@ -404,7 +404,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 
 		//#Module Expert to Creative
 		{
-			Model:             gorm.Model{ID: 45},
+			ID:                45,
 			CourseId:          12,
 			ModuleTitle:       "Title 1",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Creative."},
@@ -412,7 +412,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 46},
+			ID:                46,
 			CourseId:          12,
 			ModuleTitle:       "Title 2",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Creative."},
@@ -420,7 +420,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 47},
+			ID:                47,
 			CourseId:          12,
 			ModuleTitle:       "Title 3",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Creative."},
@@ -428,7 +428,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 			IsPublished:       true,
 		},
 		{
-			Model:             gorm.Model{ID: 48},
+			ID:                48,
 			CourseId:          12,
 			ModuleTitle:       "Title 4",
 			ModuleOverview:    sql.NullString{String: "Alami Pembelajaran langsung dari para expertnya dan memiliki pemahaman baru tentang Creative."},

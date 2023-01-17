@@ -1,11 +1,13 @@
 package entity
 
 import (
-	"gorm.io/gorm"
+	"time"
 )
 
 type TrxUserVideoProgression struct {
-	gorm.Model  `gorm:"embedded"`
+	ID          uint `gorm:"column:id;primarykey"`
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
 	VideoId     uint        `gorm:"column:video_id;not null"`
 	Video       MasterVideo `gorm:"foreignKey:VideoId;joinForeignKey:ID"`
 	UserId      uint        `gorm:"column:user_id;not null"`

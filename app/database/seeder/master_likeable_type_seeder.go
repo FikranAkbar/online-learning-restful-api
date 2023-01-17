@@ -17,7 +17,7 @@ func NewMasterLikeableTypeSeeder(cfg gormseeder.SeederConfiguration) *MasterLike
 func InitLikeableTypeData() []entity.MasterLikeableType {
 	return []entity.MasterLikeableType{
 		{
-			Model:        gorm.Model{ID: 1},
+			ID:           1,
 			LikeableName: "quiz_answer",
 		},
 	}

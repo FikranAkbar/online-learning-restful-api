@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
-	"math"
 	"online-learning-restful-api/exception"
 	"online-learning-restful-api/helper"
 	"strings"
@@ -45,7 +44,7 @@ func JWTAuthorization(next echo.HandlerFunc) echo.HandlerFunc {
 			return exception.GenerateHTTPError(exception.BadRequest, "Parsing to jwt map claims failed")
 		}
 
-		userId := uint(math.Round(claims["user_id"].(float64)))
+		userId := uint(claims["user_id"].(float64))
 		userEmail := claims["user_email"].(string)
 		userName := claims["user_name"].(string)
 
@@ -57,7 +56,6 @@ func JWTAuthorization(next echo.HandlerFunc) echo.HandlerFunc {
 
 		ctx := context.WithValue(c.Request().Context(), "user_token_info", userTokenInfo)
 		newRequest := c.Request().WithContext(ctx)
-		fmt.Println(newRequest)
 		c.SetRequest(newRequest)
 
 		return next(c)

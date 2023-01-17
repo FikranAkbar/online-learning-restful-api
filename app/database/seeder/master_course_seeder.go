@@ -18,7 +18,7 @@ func NewMasterCourseSeeder(cfg gormseeder.SeederConfiguration) *MasterCourseSeed
 func InitCourseData() []entity.MasterCourse {
 	return []entity.MasterCourse{
 		{
-			Model:    gorm.Model{ID: 1},
+			ID:       1,
 			ExpertId: 1,
 			StatusId: 2,
 			Name:     "Intro to Entrepreneurship",
@@ -35,7 +35,7 @@ func InitCourseData() []entity.MasterCourse {
 			IsPublished:        true,
 		},
 		{
-			Model:    gorm.Model{ID: 2},
+			ID:       2,
 			ExpertId: 2,
 			StatusId: 2,
 			Name:     "Intro to Marketing",
@@ -52,7 +52,7 @@ func InitCourseData() []entity.MasterCourse {
 			IsPublished:        true,
 		},
 		{
-			Model:    gorm.Model{ID: 3},
+			ID:       3,
 			ExpertId: 3,
 			StatusId: 2,
 			Name:     "Intro to English",
@@ -69,7 +69,7 @@ func InitCourseData() []entity.MasterCourse {
 			IsPublished:        true,
 		},
 		{
-			Model:    gorm.Model{ID: 4},
+			ID:       4,
 			ExpertId: 4,
 			StatusId: 2,
 			Name:     "Intro to Creative",
@@ -86,7 +86,7 @@ func InitCourseData() []entity.MasterCourse {
 			IsPublished:        true,
 		},
 		{
-			Model:    gorm.Model{ID: 5},
+			ID:       5,
 			ExpertId: 3,
 			StatusId: 2,
 			Name:     "Intermediate to Entrepreneurship",
@@ -103,7 +103,7 @@ func InitCourseData() []entity.MasterCourse {
 			IsPublished:        true,
 		},
 		{
-			Model:    gorm.Model{ID: 6},
+			ID:       6,
 			ExpertId: 1,
 			StatusId: 2,
 			Name:     "Intermediate to Marketing",
@@ -120,7 +120,7 @@ func InitCourseData() []entity.MasterCourse {
 			IsPublished:        true,
 		},
 		{
-			Model:    gorm.Model{ID: 7},
+			ID:       7,
 			ExpertId: 4,
 			StatusId: 2,
 			Name:     "Intermediate to English",
@@ -137,7 +137,7 @@ func InitCourseData() []entity.MasterCourse {
 			IsPublished:        true,
 		},
 		{
-			Model:    gorm.Model{ID: 8},
+			ID:       8,
 			ExpertId: 4,
 			StatusId: 2,
 			Name:     "Intermediate to Creative",
@@ -154,7 +154,7 @@ func InitCourseData() []entity.MasterCourse {
 			IsPublished:        true,
 		},
 		{
-			Model:    gorm.Model{ID: 9},
+			ID:       9,
 			ExpertId: 1,
 			StatusId: 2,
 			Name:     "Expert to Entrepreneurship",
@@ -171,7 +171,7 @@ func InitCourseData() []entity.MasterCourse {
 			IsPublished:        true,
 		},
 		{
-			Model:    gorm.Model{ID: 10},
+			ID:       10,
 			ExpertId: 2,
 			StatusId: 2,
 			Name:     "Expert to Marketing",
@@ -188,7 +188,7 @@ func InitCourseData() []entity.MasterCourse {
 			IsPublished:        true,
 		},
 		{
-			Model:    gorm.Model{ID: 11},
+			ID:       11,
 			ExpertId: 3,
 			StatusId: 2,
 			Name:     "Expert to English",
@@ -205,7 +205,7 @@ func InitCourseData() []entity.MasterCourse {
 			IsPublished:        true,
 		},
 		{
-			Model:    gorm.Model{ID: 12},
+			ID:       12,
 			ExpertId: 4,
 			StatusId: 2,
 			Name:     "Expert to Creative",

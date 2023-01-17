@@ -1,11 +1,13 @@
 package entity
 
 import (
-	"gorm.io/gorm"
+	"time"
 )
 
 type TrxCourseQnaAnswer struct {
-	gorm.Model    `gorm:"embedded"`
+	ID            uint `gorm:"column:id;primarykey"`
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
 	QnaQuestionId uint                 `gorm:"column:qna_question_id;not null"`
 	QnaQuestion   TrxCourseQnaQuestion `gorm:"foreignKey:QnaQuestionId;joinForeignKey:ID"`
 	UserId        uint                 `gorm:"column:user_id;not null"`

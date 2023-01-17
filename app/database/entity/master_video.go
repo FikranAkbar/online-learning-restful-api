@@ -1,11 +1,13 @@
 package entity
 
 import (
-	"gorm.io/gorm"
+	"time"
 )
 
 type MasterVideo struct {
-	gorm.Model  `gorm:"embedded"`
+	ID          uint `gorm:"column:id;primarykey"`
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
 	CourseId    uint   `gorm:"column:course_id;not null"`
 	ModuleId    uint   `gorm:"column:module_id;not null"`
 	VideoName   string `gorm:"column:video_name;type:varchar(200);not null;unique_index"`

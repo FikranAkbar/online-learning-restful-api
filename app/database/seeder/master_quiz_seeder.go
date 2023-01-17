@@ -19,7 +19,7 @@ func InitQuizData() []entity.MasterQuiz {
 
 	for i := 1; i <= 48; i++ {
 		data := entity.MasterQuiz{
-			Model:        gorm.Model{ID: uint(i)},
+			ID:           uint(i),
 			ModuleId:     uint(i),
 			QuizQuestion: "Ini adalah deskripsi dari pertanyaan quiz. Berikut adalah pertanyaannya dan silahkan tuliskan jawaban quiznya, bagaimana pendapat anda mengenai materi yang baru saja anda pelajari ?",
 			IsPublished:  false,

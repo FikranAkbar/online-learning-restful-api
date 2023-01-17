@@ -17,51 +17,51 @@ func NewMasterCourseSummarySeeder(cfg gormseeder.SeederConfiguration) *MasterCou
 func InitCourseSummaryData() []entity.MasterCourseSummary {
 	return []entity.MasterCourseSummary{
 		{
-			Model:    gorm.Model{ID: 1},
+			ID:       1,
 			CourseId: 1,
 		},
 		{
-			Model:    gorm.Model{ID: 2},
+			ID:       2,
 			CourseId: 2,
 		},
 		{
-			Model:    gorm.Model{ID: 3},
+			ID:       3,
 			CourseId: 3,
 		},
 		{
-			Model:    gorm.Model{ID: 4},
+			ID:       4,
 			CourseId: 4,
 		},
 		{
-			Model:    gorm.Model{ID: 5},
+			ID:       5,
 			CourseId: 5,
 		},
 		{
-			Model:    gorm.Model{ID: 6},
+			ID:       6,
 			CourseId: 6,
 		},
 		{
-			Model:    gorm.Model{ID: 7},
+			ID:       7,
 			CourseId: 7,
 		},
 		{
-			Model:    gorm.Model{ID: 8},
+			ID:       8,
 			CourseId: 8,
 		},
 		{
-			Model:    gorm.Model{ID: 9},
+			ID:       9,
 			CourseId: 9,
 		},
 		{
-			Model:    gorm.Model{ID: 10},
+			ID:       10,
 			CourseId: 10,
 		},
 		{
-			Model:    gorm.Model{ID: 11},
+			ID:       11,
 			CourseId: 11,
 		},
 		{
-			Model:    gorm.Model{ID: 12},
+			ID:       12,
 			CourseId: 12,
 		},
 	}

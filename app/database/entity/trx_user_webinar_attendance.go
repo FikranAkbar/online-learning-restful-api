@@ -1,12 +1,13 @@
 package entity
 
 import (
-	"gorm.io/gorm"
 	"time"
 )
 
 type TrxUserWebinarAttendance struct {
-	gorm.Model       `gorm:"embedded"`
+	ID               uint `gorm:"column:id;primarykey"`
+	CreatedAt        time.Time
+	UpdatedAt        time.Time
 	WebinarSessionId uint                 `gorm:"column:webinar_session_id;not null"`
 	WebinarSession   MasterWebinarSession `gorm:"foreignKey:WebinarSessionId;joinForeignKey:ID"`
 	UserId           uint                 `gorm:"column:user_id;not null"`

@@ -17,19 +17,19 @@ func NewMasterCategorySeeder(cfg gormseeder.SeederConfiguration) *MasterCategory
 func InitCategoryData() []entity.MasterCategory {
 	return []entity.MasterCategory{
 		{
-			Model:        gorm.Model{ID: 1},
+			ID:           1,
 			CategoryName: "Entrepreneurship",
 		},
 		{
-			Model:        gorm.Model{ID: 2},
+			ID:           2,
 			CategoryName: "Marketing",
 		},
 		{
-			Model:        gorm.Model{ID: 3},
+			ID:           3,
 			CategoryName: "English",
 		},
 		{
-			Model:        gorm.Model{ID: 4},
+			ID:           4,
 			CategoryName: "Creative",
 		},
 	}

@@ -19,7 +19,7 @@ func NewMasterUserSeeder(cfg gormseeder.SeederConfiguration) *MasterUserSeeder {
 func InitUserData() []entity.MasterUser {
 	return []entity.MasterUser{
 		{
-			Model:     gorm.Model{ID: 1},
+			ID:        1,
 			Name:      "Molly Potts",
 			Phone:     sql.NullString{String: "0811234567890"},
 			Gender:    "Female",
@@ -27,7 +27,7 @@ func InitUserData() []entity.MasterUser {
 			PhotoURL:  sql.NullString{String: "https://thumbs.dreamstime.com/b/young-woman-avatar-cartoon-character-profile-picture-young-brunette-woman-short-hair-avatar-cartoon-character-vector-149728784.jpg"},
 		},
 		{
-			Model:     gorm.Model{ID: 2},
+			ID:        2,
 			Name:      "Jack Guthrie",
 			Phone:     sql.NullString{String: "081234567891"},
 			Gender:    "Male",
@@ -35,7 +35,7 @@ func InitUserData() []entity.MasterUser {
 			PhotoURL:  sql.NullString{String: "https://image.winudf.com/v2/image1/Y29tLm1uaWRlbmMuYXZ0YXJtYWtlcl9zY3JlZW5fNF8xNTU0NjQ5MzE4XzAwMw/screen-4.jpg?fakeurl=1&type=.jpg"},
 		},
 		{
-			Model:     gorm.Model{ID: 3},
+			ID:        3,
 			Name:      "Finn Rhodes",
 			Phone:     sql.NullString{String: "0811234567893"},
 			Gender:    "Male",
@@ -43,7 +43,7 @@ func InitUserData() []entity.MasterUser {
 			PhotoURL:  sql.NullString{String: "https://tilomitra.com/wp-content/uploads/2014/08/avatar-cartoon.png"},
 		},
 		{
-			Model:     gorm.Model{ID: 4},
+			ID:        4,
 			Name:      "Clare Levy",
 			Phone:     sql.NullString{String: "0811234567894"},
 			Gender:    "Female",

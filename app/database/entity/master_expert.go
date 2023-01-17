@@ -2,11 +2,13 @@ package entity
 
 import (
 	"database/sql"
-	"gorm.io/gorm"
+	"time"
 )
 
 type MasterExpert struct {
-	gorm.Model         `gorm:"embedded"`
+	ID                 uint `gorm:"column:id;primarykey"`
+	CreatedAt          time.Time
+	UpdatedAt          time.Time
 	Name               string           `gorm:"column:name;type:varchar(300);not null"`
 	Profession         sql.NullString   `gorm:"column:profession;type:varchar(200)"`
 	ProfileDescription sql.NullString   `gorm:"column:profession;"`

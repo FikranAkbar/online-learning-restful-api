@@ -2,11 +2,13 @@ package entity
 
 import (
 	"database/sql"
-	"gorm.io/gorm"
+	"time"
 )
 
 type MasterUser struct {
-	gorm.Model       `gorm:"embedded"`
+	ID               uint `gorm:"column:id;primarykey"`
+	CreatedAt        time.Time
+	UpdatedAt        time.Time
 	CityId           *uint                   `gorm:"column:city_id"`
 	MasterCity       MasterCity              `gorm:"foreignKey:CityId"`
 	ProvinceId       *uint                   `gorm:"column:province_id"`

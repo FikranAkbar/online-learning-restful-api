@@ -2,11 +2,13 @@ package entity
 
 import (
 	"database/sql"
-	"gorm.io/gorm"
+	"time"
 )
 
 type MasterWebinarSession struct {
-	gorm.Model   `gorm:"embedded"`
+	ID           uint `gorm:"column:id;primarykey"`
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
 	CourseId     uint                      `gorm:"column:course_id;not null"`
 	MasterCourse MasterCourse              `gorm:"foreignKey:CourseId;joinForeignKey:ID"`
 	Title        string                    `gorm:"column:title;type:varchar(200);not null"`

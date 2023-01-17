@@ -1,12 +1,14 @@
 package entity
 
 import (
-	"gorm.io/gorm"
+	"time"
 )
 
 type MasterCourseStatus struct {
-	gorm.Model `gorm:"embedded"`
-	Name       string `gorm:"column:name;type:varchar(100);not null"`
+	ID        uint `gorm:"column:id;primarykey"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	Name      string `gorm:"column:name;type:varchar(100);not null"`
 }
 
 func (MasterCourseStatus) TableName() string {

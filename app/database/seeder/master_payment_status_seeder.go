@@ -17,16 +17,16 @@ func NewMasterPaymentStatusSeeder(cfg gormseeder.SeederConfiguration) *MasterPay
 func InitPaymentStatusData() []entity.MasterPaymentStatus {
 	return []entity.MasterPaymentStatus{
 		{
-			Model: gorm.Model{ID: 1},
-			Name:  "completed",
+			ID:   1,
+			Name: "completed",
 		},
 		{
-			Model: gorm.Model{ID: 2},
-			Name:  "cancelled",
+			ID:   2,
+			Name: "cancelled",
 		},
 		{
-			Model: gorm.Model{ID: 3},
-			Name:  "waiting",
+			ID:   3,
+			Name: "waiting",
 		},
 	}
 }
