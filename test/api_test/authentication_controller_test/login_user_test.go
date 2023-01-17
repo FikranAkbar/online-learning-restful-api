@@ -2,9 +2,9 @@ package authentication_test
 
 import (
 	"encoding/json"
-	"github.com/go-playground/assert/v2"
 	"github.com/labstack/echo/v4"
 	"github.com/mitchellh/mapstructure"
+	"github.com/stretchr/testify/assert"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -42,12 +42,12 @@ func TestLoginUserSuccess(t *testing.T) {
 	_ = json.Unmarshal(body, &responseBody)
 	assert.Equal(t, http.StatusOK, responseBody.Status)
 	assert.Equal(t, api_test.MessageOk, responseBody.Message)
-	assert.NotEqual(t, nil, responseBody.Data)
+	assert.NotNil(t, responseBody.Data)
 
 	_ = mapstructure.Decode(responseBody.Data, &userLoginResponse)
 	assert.Equal(t, "Molly Potts", userLoginResponse.Name)
 	assert.Equal(t, "mollypotts@gmail.com", userLoginResponse.Email)
-	assert.NotEqual(t, nil, userLoginResponse.Token)
+	assert.NotNil(t, userLoginResponse.Token)
 }
 
 func TestLoginUserFailedEmptyEmail(t *testing.T) {
@@ -68,7 +68,7 @@ func TestLoginUserFailedEmptyEmail(t *testing.T) {
 	_ = json.Unmarshal(body, &responseBody)
 	assert.Equal(t, http.StatusBadRequest, responseBody.Status)
 	assert.Equal(t, api_test.MessageBadRequest, responseBody.Message)
-	assert.MatchRegex(t, responseBody.Data.(string), regexp.MustCompile(`(?i)validation`))
+	assert.Regexp(t, regexp.MustCompile(`(?i)validation`), responseBody.Data.(string))
 }
 
 func TestLoginUserFailedWrongEmailOrPassword(t *testing.T) {
@@ -89,5 +89,5 @@ func TestLoginUserFailedWrongEmailOrPassword(t *testing.T) {
 	_ = json.Unmarshal(body, &responseBody)
 	assert.Equal(t, http.StatusUnauthorized, responseBody.Status)
 	assert.Equal(t, api_test.MessageUnauthorized, responseBody.Message)
-	assert.MatchRegex(t, responseBody.Data.(string), regexp.MustCompile(`(?i)unauthorized`))
+	assert.Regexp(t, regexp.MustCompile(`(?i)unauthorized`), responseBody.Data.(string))
 }
