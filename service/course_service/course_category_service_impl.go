@@ -30,11 +30,23 @@ func (service CourseCategoryServiceImpl) GetAllCategories(ctx context.Context) [
 	var categoriesResponse []course.CategoryResponse
 	for _, category := range categories {
 		categoriesResponse = append(categoriesResponse, course.CategoryResponse{
-			Id:           category.Id,
-			CategoryName: category.Name,
+			Id:   category.Id,
+			Name: category.Name,
 		})
 	}
 
 	return categoriesResponse
 }
 
+func (service CourseCategoryServiceImpl) GetCategory(ctx context.Context) course.CategoryResponse {
+	tx := service.DB.Begin()
+	defer helper.CommitOrRollback(tx)
+
+	category, err := service.CategoryRepository.GetCategory(ctx, tx)
+	helper.PanicIfError(err)
+
+	return course.CategoryResponse{
+		Id:   category.Id,
+		Name: category.Name,
+	}
+}

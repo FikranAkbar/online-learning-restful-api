@@ -31,3 +31,16 @@ func (repository *CategoryRepositoryImpl) GetAllCategories(ctx context.Context, 
 
 	return categories, nil
 }
+
+func (repository *CategoryRepositoryImpl) GetCategory(ctx context.Context, db *gorm.DB) (domain.Category, error) {
+	var categoryEntity entity.MasterCategory
+	err := db.WithContext(ctx).First(&categoryEntity).Error
+	if err != nil {
+		return domain.Category{}, err
+	}
+
+	return domain.Category{
+		Id:   categoryEntity.ID,
+		Name: categoryEntity.CategoryName,
+	}, nil
+}

@@ -1,7 +1,7 @@
 package authentication
 
 type UserLoginResponse struct {
-	Email string `json:"email"`
-	Name  string `json:"name"`
-	Token string `json:"token"`
+	Email string `json:"email" mapstructure:"email"`
+	Name  string `json:"name" mapstructure:"name"`
+	Token string `json:"token" mapstructure:"token"`
 }

@@ -7,4 +7,5 @@ import (
 
 type CourseCategoryService interface {
 	GetAllCategories(ctx context.Context) []course.CategoryResponse
+	GetCategory(ctx context.Context) course.CategoryResponse
 }
