@@ -48,7 +48,10 @@ func (service *AuthenticationServiceImpl) LoginUserByEmailPassword(ctx context.C
 	helper.PanicIfError(err)
 
 	err = bcrypt.CompareHashAndPassword([]byte(account.Password), []byte(request.Password))
-	helper.PanicIfError(err)
+	if err != nil {
+		errorLog := fmt.Sprintf("Wrong email or password")
+		panic(exception.GenerateHTTPError(exception.Unauthorized, errorLog))
+	}
 
 	user, err := service.UserRepository.FindUserById(ctx, tx, account.Id)
 	helper.PanicIfError(err)

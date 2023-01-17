@@ -36,3 +36,14 @@ func InitializedEchoServer() *echo.Echo {
 
 	return nil
 }
+
+func InitializedEchoServerForTest() *echo.Echo {
+	wire.Build(
+		app.InitServerWithEcho,
+		database.NewTestDB,
+		validator.New,
+		authenticationSet,
+	)
+
+	return nil
+}

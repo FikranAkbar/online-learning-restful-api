@@ -53,7 +53,3 @@ func TestBcryptPassword(t *testing.T) {
 	hashedByte, _ := bcrypt.GenerateFromPassword([]byte("Password"), bcrypt.DefaultCost)
 	fmt.Println(string(hashedByte))
 }
-
-func TestGenerateJWT(t *testing.T) {
-	fmt.Println(helper.GenerateJWT(1))
-}
