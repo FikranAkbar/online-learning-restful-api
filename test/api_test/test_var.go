@@ -33,10 +33,10 @@ var (
 	MessageNotFound     = "NOT FOUND"
 )
 
-func LoginUserFirst() string {
+func LoginUserFirst(userCredJSON string) string {
 	e := di.InitializedEchoServerForTest()
 
-	req := httptest.NewRequest(http.MethodPost, UserLoginAPIRoute, strings.NewReader(`{email:"mollypotts@gmail.com", password:"Password"}`))
+	req := httptest.NewRequest(http.MethodPost, UserLoginAPIRoute, strings.NewReader(userCredJSON))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 

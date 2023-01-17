@@ -1,4 +1,4 @@
-package authentication_test
+package logout_user_test
 
 import (
 	"encoding/json"
@@ -18,7 +18,7 @@ import (
 var currentJWTToken = ""
 
 func TestMain(m *testing.M) {
-	currentJWTToken = api_test.LoginUserFirst()
+	currentJWTToken = api_test.LoginUserFirst(`{"email":"mollypotts@gmail.com","password":"Password"}`)
 	code := m.Run()
 	os.Exit(code)
 }
@@ -42,4 +42,24 @@ func TestLogoutUserSuccess(t *testing.T) {
 	assert.Equal(t, http.StatusOK, responseBody.Status)
 	assert.Equal(t, api_test.MessageOk, responseBody.Message)
 	assert.Regexp(t, regexp.MustCompile(`(?i)token valid`), responseBody.Data)
+}
+
+func TestLogoutUserFailed(t *testing.T) {
+	e := di.InitializedEchoServerForTest()
+
+	req := httptest.NewRequest(http.MethodPost, api_test.UserLogoutAPIRoute, nil)
+	rec := httptest.NewRecorder()
+
+	e.ServeHTTP(rec, req)
+
+	response := rec.Result()
+	assert.Equal(t, http.StatusBadRequest, response.StatusCode)
+
+	body, _ := io.ReadAll(response.Body)
+	var responseBody web.APIResponse
+
+	_ = json.Unmarshal(body, &responseBody)
+	assert.Equal(t, http.StatusBadRequest, responseBody.Status)
+	assert.Equal(t, api_test.MessageBadRequest, responseBody.Message)
+	assert.Regexp(t, regexp.MustCompile(`(?i)invalid token`), responseBody.Data)
 }
