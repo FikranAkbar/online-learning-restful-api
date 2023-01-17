@@ -2,11 +2,13 @@ package entity
 
 import (
 	"database/sql"
-	"gorm.io/gorm"
+	"time"
 )
 
 type MasterCourse struct {
-	gorm.Model         `gorm:"embedded"`
+	ID                 uint `gorm:"column:id;primarykey"`
+	CreatedAt          time.Time
+	UpdatedAt          time.Time
 	ExpertId           uint                    `gorm:"column:expert_id;not null"`
 	Expert             MasterExpert            `gorm:"foreignKey:ExpertId;references:ID"`
 	StatusId           uint                    `gorm:"column:status_id;not null"`

@@ -35,7 +35,7 @@ func (repository *UserRepositoryImpl) FindUserById(ctx context.Context, db *gorm
 
 func (repository *UserRepositoryImpl) CreateUserData(ctx context.Context, db *gorm.DB, user domain.User) (domain.User, error) {
 	userEntity := entity.MasterUser{
-		Model:  gorm.Model{ID: uint(user.Id)},
+		ID:     uint(user.Id),
 		Name:   user.Name,
 		Gender: user.Gender,
 		BirthDate: sql.NullTime{

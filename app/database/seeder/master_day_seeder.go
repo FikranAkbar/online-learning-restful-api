@@ -17,32 +17,32 @@ func NewMasterDaySeeder(cfg gormseeder.SeederConfiguration) *MasterDaySeeder {
 func InitDayData() []entity.MasterDay {
 	return []entity.MasterDay{
 		{
-			Model: gorm.Model{ID: 1},
-			Name:  "Monday",
+			ID:   1,
+			Name: "Monday",
 		},
 		{
-			Model: gorm.Model{ID: 2},
-			Name:  "Tuesday",
+			ID:   2,
+			Name: "Tuesday",
 		},
 		{
-			Model: gorm.Model{ID: 3},
-			Name:  "Wednesday",
+			ID:   3,
+			Name: "Wednesday",
 		},
 		{
-			Model: gorm.Model{ID: 4},
-			Name:  "Thursday",
+			ID:   4,
+			Name: "Thursday",
 		},
 		{
-			Model: gorm.Model{ID: 5},
-			Name:  "Friday",
+			ID:   5,
+			Name: "Friday",
 		},
 		{
-			Model: gorm.Model{ID: 6},
-			Name:  "Saturday",
+			ID:   6,
+			Name: "Saturday",
 		},
 		{
-			Model: gorm.Model{ID: 7},
-			Name:  "Sunday",
+			ID:   7,
+			Name: "Sunday",
 		},
 	}
 }

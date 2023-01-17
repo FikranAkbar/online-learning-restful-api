@@ -1,11 +1,13 @@
 package entity
 
 import (
-	"gorm.io/gorm"
+	"time"
 )
 
 type MasterLikeableType struct {
-	gorm.Model   `gorm:"embedded"`
+	ID           uint `gorm:"column:id;primarykey"`
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
 	LikeableName string `gorm:"column:likeable_name;type:varchar(50);not null"`
 }
 

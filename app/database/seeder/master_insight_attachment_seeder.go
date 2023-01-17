@@ -17,23 +17,23 @@ func NewMasterInsightAttachmentSeeder(cfg gormseeder.SeederConfiguration) *Maste
 func InitInsightAttachmentData() []entity.MasterInsightAttachment {
 	return []entity.MasterInsightAttachment{
 		{
-			Model:          gorm.Model{ID: 1},
+			ID:             1,
 			AttachmentName: "Attachment 1",
 		},
 		{
-			Model:          gorm.Model{ID: 2},
+			ID:             2,
 			AttachmentName: "Attachment 2",
 		},
 		{
-			Model:          gorm.Model{ID: 3},
+			ID:             3,
 			AttachmentName: "Attachment 3",
 		},
 		{
-			Model:          gorm.Model{ID: 4},
+			ID:             4,
 			AttachmentName: "Attachment 4",
 		},
 		{
-			Model:          gorm.Model{ID: 5},
+			ID:             5,
 			AttachmentName: "Attachment 5",
 		},
 	}

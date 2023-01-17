@@ -23,7 +23,7 @@ func InitProvinceData() []entity.MasterProvince {
 
 	for i, province := range provinceStrings {
 		provinces = append(provinces, entity.MasterProvince{
-			Model:        gorm.Model{ID: uint(i + 1)},
+			ID:           uint(i + 1),
 			ProvinceName: province,
 		})
 	}

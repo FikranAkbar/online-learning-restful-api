@@ -1,12 +1,14 @@
 package entity
 
 import (
-	"gorm.io/gorm"
+	"time"
 )
 
 type MasterUserType struct {
-	gorm.Model `gorm:"embedded"`
-	Name       string `gorm:"column:name;type:varchar(20);unique_index"`
+	ID        uint `gorm:"column:id;primarykey"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	Name      string `gorm:"column:name;type:varchar(20);unique_index"`
 }
 
 func (MasterUserType) TableName() string {

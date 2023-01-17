@@ -17,25 +17,25 @@ func NewMasterAccountSeeder(cfg gormseeder.SeederConfiguration) *MasterAccountSe
 func InitAccountData() []entity.MasterAccount {
 	return []entity.MasterAccount{
 		{
-			Model:    gorm.Model{ID: 1},
+			ID:       1,
 			Email:    "mollypotts@gmail.com",
 			Password: "$2a$10$BQEJrr7oDIBK3QxrmK16e.gOkjpy4h0O3RLW35SUVRGGyoAq7EO3m",
 			Role:     2,
 		},
 		{
-			Model:    gorm.Model{ID: 2},
+			ID:       2,
 			Email:    "jackguthrie@gmail.com",
 			Password: "$2a$10$BQEJrr7oDIBK3QxrmK16e.gOkjpy4h0O3RLW35SUVRGGyoAq7EO3m",
 			Role:     2,
 		},
 		{
-			Model:    gorm.Model{ID: 3},
+			ID:       3,
 			Email:    "finnrhodes@gmail.com",
 			Password: "$2a$10$BQEJrr7oDIBK3QxrmK16e.gOkjpy4h0O3RLW35SUVRGGyoAq7EO3m",
 			Role:     2,
 		},
 		{
-			Model:    gorm.Model{ID: 4},
+			ID:       4,
 			Email:    "claralevy@gmail.com",
 			Password: "$2a$10$BQEJrr7oDIBK3QxrmK16e.gOkjpy4h0O3RLW35SUVRGGyoAq7EO3m",
 			Role:     2,

@@ -17,7 +17,7 @@ func NewTrxUserLikeSeeder(cfg gormseeder.SeederConfiguration) *TrxUserLikeSeeder
 func InitUserLikeData() []entity.TrxUserLike {
 	return []entity.TrxUserLike{
 		{
-			Model:          gorm.Model{ID: 1},
+			ID:             1,
 			LikeableId:     1,
 			LikeableTypeId: 1,
 			UserId:         1,

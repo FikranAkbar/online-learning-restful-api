@@ -26,7 +26,7 @@ func InitCityData() []entity.MasterCity {
 
 	for i := 1; i <= len(cityStrings); i++ {
 		cities = append(cities, entity.MasterCity{
-			Model:      gorm.Model{ID: uint(i)},
+			ID:         uint(i),
 			CityName:   cityStrings[i-1],
 			ProvinceId: uint(provinceIds[i-1]),
 		})

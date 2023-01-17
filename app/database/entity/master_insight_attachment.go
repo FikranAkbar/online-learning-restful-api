@@ -1,11 +1,13 @@
 package entity
 
 import (
-	"gorm.io/gorm"
+	"time"
 )
 
 type MasterInsightAttachment struct {
-	gorm.Model     `gorm:"embedded"`
+	ID             uint `gorm:"column:id;primarykey"`
+	CreatedAt      time.Time
+	UpdatedAt      time.Time
 	AttachmentName string `gorm:"column:attachment_name;type:varchar(100);not null"`
 	DocURL         string `gorm:"column:doc_url;default:http://www.africau.edu/images/default/sample.pdf"`
 }

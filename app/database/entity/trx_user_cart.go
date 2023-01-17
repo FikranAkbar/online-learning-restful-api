@@ -1,7 +1,6 @@
 package entity
 
 import (
-	"gorm.io/gorm"
 	"time"
 )
 
@@ -12,7 +11,6 @@ type TrxUserCart struct {
 	Course    MasterCourse `gorm:"foreignKey:CourseId;joinForeignKey:ID"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	DeletedAt gorm.DeletedAt `gorm:"index"`
 }
 
 func (TrxUserCart) TableName() string {

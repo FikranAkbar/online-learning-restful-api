@@ -1,11 +1,13 @@
 package entity
 
 import (
-	"gorm.io/gorm"
+	"time"
 )
 
 type TrxUserLike struct {
-	gorm.Model     `gorm:"embedded"`
+	ID             uint `gorm:"column:id;primarykey"`
+	CreatedAt      time.Time
+	UpdatedAt      time.Time
 	LikeableId     uint               `gorm:"column:likeable_id;not null"`
 	LikeableTypeId uint               `gorm:"column:likeable_type_id;not null"`
 	LikeableType   MasterLikeableType `gorm:"foreignKey:LikeableTypeId;joinForeignKey:ID"`

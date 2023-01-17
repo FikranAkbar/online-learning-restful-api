@@ -21,49 +21,41 @@ func InitExpertCategoryData() []entity.TrxExpertCategory {
 			ExpertId:   1,
 			CategoryId: 1,
 			CreatedAt:  time.Time{},
-			DeletedAt:  gorm.DeletedAt{},
 		},
 		{
 			ExpertId:   1,
 			CategoryId: 2,
 			CreatedAt:  time.Time{},
-			DeletedAt:  gorm.DeletedAt{},
 		},
 		{
 			ExpertId:   2,
 			CategoryId: 2,
 			CreatedAt:  time.Time{},
-			DeletedAt:  gorm.DeletedAt{},
 		},
 		{
 			ExpertId:   2,
 			CategoryId: 4,
 			CreatedAt:  time.Time{},
-			DeletedAt:  gorm.DeletedAt{},
 		},
 		{
 			ExpertId:   3,
 			CategoryId: 3,
 			CreatedAt:  time.Time{},
-			DeletedAt:  gorm.DeletedAt{},
 		},
 		{
 			ExpertId:   3,
 			CategoryId: 1,
 			CreatedAt:  time.Time{},
-			DeletedAt:  gorm.DeletedAt{},
 		},
 		{
 			ExpertId:   4,
 			CategoryId: 4,
 			CreatedAt:  time.Time{},
-			DeletedAt:  gorm.DeletedAt{},
 		},
 		{
 			ExpertId:   4,
 			CategoryId: 3,
 			CreatedAt:  time.Time{},
-			DeletedAt:  gorm.DeletedAt{},
 		},
 	}
 }

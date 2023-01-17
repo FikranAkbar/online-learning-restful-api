@@ -17,12 +17,12 @@ func NewMasterUserTypeSeeder(cfg gormseeder.SeederConfiguration) *MasterUserType
 func InitUserTypeData() []entity.MasterUserType {
 	return []entity.MasterUserType{
 		{
-			Model: gorm.Model{ID: 1},
-			Name:  "admin",
+			ID:   1,
+			Name: "admin",
 		},
 		{
-			Model: gorm.Model{ID: 2},
-			Name:  "user",
+			ID:   2,
+			Name: "user",
 		},
 	}
 }

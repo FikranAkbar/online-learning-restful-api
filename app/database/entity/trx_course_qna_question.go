@@ -1,16 +1,18 @@
 package entity
 
 import (
-	"gorm.io/gorm"
+	"time"
 )
 
 type TrxCourseQnaQuestion struct {
-	gorm.Model `gorm:"embedded"`
-	CourseId   uint         `gorm:"column:course_id;not null"`
-	Course     MasterCourse `gorm:"foreignKey:CourseId;joinForeignKey:ID"`
-	UserId     uint         `gorm:"column:user_id;not null"`
-	User       MasterUser   `gorm:"foreignKey:UserId;joinForeignKey:ID"`
-	Question   string       `gorm:"column:question;not null"`
+	ID        uint `gorm:"column:id;primarykey"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	CourseId  uint         `gorm:"column:course_id;not null"`
+	Course    MasterCourse `gorm:"foreignKey:CourseId;joinForeignKey:ID"`
+	UserId    uint         `gorm:"column:user_id;not null"`
+	User      MasterUser   `gorm:"foreignKey:UserId;joinForeignKey:ID"`
+	Question  string       `gorm:"column:question;not null"`
 }
 
 func (TrxCourseQnaQuestion) TableName() string {

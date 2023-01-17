@@ -2,11 +2,13 @@ package entity
 
 import (
 	"database/sql"
-	"gorm.io/gorm"
+	"time"
 )
 
 type MasterIndustryInsight struct {
-	gorm.Model   `gorm:"embedded"`
+	ID           uint `gorm:"column:id;primarykey"`
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
 	UserAuthorId uint                      `gorm:"column:user_author_id;not null"`
 	MasterUser   MasterUser                `gorm:"foreignKey:UserAuthorId;joinForeignKey:ID"`
 	TitleInsight string                    `gorm:"column:title_insight;type:varchar(100);not null"`

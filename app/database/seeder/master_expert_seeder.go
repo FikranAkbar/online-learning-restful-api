@@ -18,7 +18,7 @@ func NewMasterExpertSeeder(cfg gormseeder.SeederConfiguration) *MasterExpertSeed
 func InitExpertData() []entity.MasterExpert {
 	return []entity.MasterExpert{
 		{
-			Model:              gorm.Model{ID: 1},
+			ID:                 1,
 			Name:               "Ray Robinson",
 			Profession:         sql.NullString{},
 			ProfileDescription: sql.NullString{String: "Saya adalah expert Ray Robinson di platform online learning"},
@@ -32,7 +32,7 @@ func InitExpertData() []entity.MasterExpert {
 			Categories:         nil,
 		},
 		{
-			Model:              gorm.Model{ID: 2},
+			ID:                 2,
 			Name:               "Ivana Mcintosh",
 			Profession:         sql.NullString{},
 			ProfileDescription: sql.NullString{String: "Saya adalah expert Ivana Mcintosh di platform online learning"},
@@ -46,7 +46,7 @@ func InitExpertData() []entity.MasterExpert {
 			Categories:         nil,
 		},
 		{
-			Model:              gorm.Model{ID: 3},
+			ID:                 3,
 			Name:               "Brielle Hutchinson",
 			Profession:         sql.NullString{},
 			ProfileDescription: sql.NullString{String: "Saya adalah expert Brielle Hutchinson di platform online learning"},
@@ -60,7 +60,7 @@ func InitExpertData() []entity.MasterExpert {
 			Categories:         nil,
 		},
 		{
-			Model:              gorm.Model{ID: 4},
+			ID:                 4,
 			Name:               "Naomi Fadel",
 			Profession:         sql.NullString{},
 			ProfileDescription: sql.NullString{String: "Saya adalah expert Naomi Fadel di platform online learning"},

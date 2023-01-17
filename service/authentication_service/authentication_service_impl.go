@@ -39,7 +39,9 @@ func NewAuthenticationServiceImpl(
 
 func (service *AuthenticationServiceImpl) LoginUserByEmailPassword(ctx context.Context, request authentication.UserLoginRequest) authentication.UserLoginResponse {
 	err := service.Validate.Struct(request)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.GenerateHTTPError(exception.BadRequest, err.Error()))
+	}
 
 	tx := service.DB.Begin()
 	defer helper.CommitOrRollback(tx)
@@ -65,7 +67,9 @@ func (service *AuthenticationServiceImpl) LoginUserByEmailPassword(ctx context.C
 
 func (service *AuthenticationServiceImpl) RegisterUserByEmailPassword(ctx context.Context, request authentication.UserRegisterRequest) authentication.UserRegisterResponse {
 	err := service.Validate.Struct(request)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.GenerateHTTPError(exception.BadRequest, err.Error()))
+	}
 
 	tx := service.DB.Begin()
 	defer helper.CommitOrRollback(tx)

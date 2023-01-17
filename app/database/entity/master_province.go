@@ -1,9 +1,13 @@
 package entity
 
-import "gorm.io/gorm"
+import (
+	"time"
+)
 
 type MasterProvince struct {
-	gorm.Model   `gorm:"embedded"`
+	ID           uint `gorm:"column:id;primarykey"`
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
 	ProvinceName string `gorm:"column:province_name;type:varchar(100);not null"`
 }
 

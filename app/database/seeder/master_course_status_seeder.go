@@ -17,16 +17,16 @@ func NewMasterCourseStatusSeeder(cfg gormseeder.SeederConfiguration) *MasterCour
 func InitCourseStatusData() []entity.MasterCourseStatus {
 	return []entity.MasterCourseStatus{
 		{
-			Model: gorm.Model{ID: 1},
-			Name:  "not_started",
+			ID:   1,
+			Name: "not_started",
 		},
 		{
-			Model: gorm.Model{ID: 2},
-			Name:  "ongoing",
+			ID:   2,
+			Name: "ongoing",
 		},
 		{
-			Model: gorm.Model{ID: 3},
-			Name:  "completed",
+			ID:   3,
+			Name: "completed",
 		},
 	}
 }
