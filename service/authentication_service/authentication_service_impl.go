@@ -61,7 +61,7 @@ func (service *AuthenticationServiceImpl) LoginUserByEmailPassword(ctx context.C
 	return authentication.UserLoginResponse{
 		Email: account.Email,
 		Name:  user.Name,
-		Token: helper.GenerateJWT(uint(account.Id), account.Email, user.Name),
+		Token: helper.GenerateJWT(account.Id, account.Email, user.Name),
 	}
 }
 

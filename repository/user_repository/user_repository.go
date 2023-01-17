@@ -7,6 +7,6 @@ import (
 )
 
 type UserRepository interface {
-	FindUserById(ctx context.Context, db *gorm.DB, userId int) (domain.User, error)
+	FindUserById(ctx context.Context, db *gorm.DB, userId uint) (domain.User, error)
 	CreateUserData(ctx context.Context, db *gorm.DB, user domain.User) (domain.User, error)
 }

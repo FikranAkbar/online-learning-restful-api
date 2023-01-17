@@ -11,7 +11,7 @@ import (
 	"online-learning-restful-api/di"
 	"online-learning-restful-api/model/web"
 	"online-learning-restful-api/model/web/authentication"
-	"online-learning-restful-api/test/api_test"
+	"online-learning-restful-api/test"
 	"regexp"
 	"strings"
 	"testing"
@@ -26,7 +26,7 @@ var (
 func TestLoginUserSuccess(t *testing.T) {
 	e := di.InitializedEchoServerForTest()
 
-	req := httptest.NewRequest(http.MethodPost, api_test.UserLoginAPIRoute, strings.NewReader(userLoginSuccessRequestBody))
+	req := httptest.NewRequest(http.MethodPost, test.UserLoginAPIRoute, strings.NewReader(userLoginSuccessRequestBody))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
@@ -41,7 +41,7 @@ func TestLoginUserSuccess(t *testing.T) {
 
 	_ = json.Unmarshal(body, &responseBody)
 	assert.Equal(t, http.StatusOK, responseBody.Status)
-	assert.Equal(t, api_test.MessageOk, responseBody.Message)
+	assert.Equal(t, test.MessageOk, responseBody.Message)
 	assert.NotNil(t, responseBody.Data)
 
 	_ = mapstructure.Decode(responseBody.Data, &userLoginResponse)
@@ -53,7 +53,7 @@ func TestLoginUserSuccess(t *testing.T) {
 func TestLoginUserFailedEmptyEmail(t *testing.T) {
 	e := di.InitializedEchoServerForTest()
 
-	req := httptest.NewRequest(http.MethodPost, api_test.UserLoginAPIRoute, strings.NewReader(userLoginFailedEmptyEmailRequestBody))
+	req := httptest.NewRequest(http.MethodPost, test.UserLoginAPIRoute, strings.NewReader(userLoginFailedEmptyEmailRequestBody))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
@@ -67,14 +67,14 @@ func TestLoginUserFailedEmptyEmail(t *testing.T) {
 
 	_ = json.Unmarshal(body, &responseBody)
 	assert.Equal(t, http.StatusBadRequest, responseBody.Status)
-	assert.Equal(t, api_test.MessageBadRequest, responseBody.Message)
+	assert.Equal(t, test.MessageBadRequest, responseBody.Message)
 	assert.Regexp(t, regexp.MustCompile(`(?i)validation`), responseBody.Data.(string))
 }
 
 func TestLoginUserFailedWrongEmailOrPassword(t *testing.T) {
 	e := di.InitializedEchoServerForTest()
 
-	req := httptest.NewRequest(http.MethodPost, api_test.UserLoginAPIRoute, strings.NewReader(userLoginFailedWrongEmailOrPasswordRequestBody))
+	req := httptest.NewRequest(http.MethodPost, test.UserLoginAPIRoute, strings.NewReader(userLoginFailedWrongEmailOrPasswordRequestBody))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
@@ -88,6 +88,6 @@ func TestLoginUserFailedWrongEmailOrPassword(t *testing.T) {
 
 	_ = json.Unmarshal(body, &responseBody)
 	assert.Equal(t, http.StatusUnauthorized, responseBody.Status)
-	assert.Equal(t, api_test.MessageUnauthorized, responseBody.Message)
+	assert.Equal(t, test.MessageUnauthorized, responseBody.Message)
 	assert.Regexp(t, regexp.MustCompile(`(?i)unauthorized`), responseBody.Data.(string))
 }

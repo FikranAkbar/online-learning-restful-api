@@ -1,7 +1,7 @@
 package authentication
 
 type UserRegisterResponse struct {
-	Id    int
+	Id    uint
 	Name  string
 	Email string
 }

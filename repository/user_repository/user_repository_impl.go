@@ -18,7 +18,7 @@ func NewUserRepositoryImpl() *UserRepositoryImpl {
 	return &UserRepositoryImpl{}
 }
 
-func (repository *UserRepositoryImpl) FindUserById(ctx context.Context, db *gorm.DB, userId int) (domain.User, error) {
+func (repository *UserRepositoryImpl) FindUserById(ctx context.Context, db *gorm.DB, userId uint) (domain.User, error) {
 	var userEntity entity.MasterUser
 	err := db.WithContext(ctx).First(&userEntity, "ID = ?", userId).Error
 
@@ -28,14 +28,14 @@ func (repository *UserRepositoryImpl) FindUserById(ctx context.Context, db *gorm
 	}
 
 	return domain.User{
-		Id:   int(userEntity.ID),
+		Id:   userEntity.ID,
 		Name: userEntity.Name,
 	}, nil
 }
 
 func (repository *UserRepositoryImpl) CreateUserData(ctx context.Context, db *gorm.DB, user domain.User) (domain.User, error) {
 	userEntity := entity.MasterUser{
-		ID:     uint(user.Id),
+		ID:     user.Id,
 		Name:   user.Name,
 		Gender: user.Gender,
 		BirthDate: sql.NullTime{
@@ -47,7 +47,7 @@ func (repository *UserRepositoryImpl) CreateUserData(ctx context.Context, db *go
 	helper.PanicIfError(err)
 
 	return domain.User{
-		Id:        int(userEntity.ID),
+		Id:        userEntity.ID,
 		Name:      userEntity.Name,
 		BirthDate: userEntity.BirthDate.Time,
 		Gender:    userEntity.Gender,
