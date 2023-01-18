@@ -10,6 +10,7 @@ import (
 	"net/http/httptest"
 	"online-learning-restful-api/app/database"
 	"online-learning-restful-api/app/database/entity"
+	"online-learning-restful-api/app/router"
 	"online-learning-restful-api/di"
 	"online-learning-restful-api/helper"
 	"online-learning-restful-api/model/web"
@@ -45,7 +46,10 @@ var (
 func TestTableRegisterUser(t *testing.T) {
 	e := di.InitializedEchoServerForTest()
 	t.Run("Register User Success", func(t *testing.T) {
-		req := httptest.NewRequest(http.MethodPost, test.UserRegisterAPIRoute, strings.NewReader(userRegisterSuccessRequestBody))
+		req := httptest.NewRequest(
+			http.MethodPost,
+			router.HostURL+router.UsersAPIRoute+router.RegisterAPIRoute,
+			strings.NewReader(userRegisterSuccessRequestBody))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		rec := httptest.NewRecorder()
 
@@ -78,7 +82,10 @@ func TestTableRegisterUser(t *testing.T) {
 		tx.Where("id = ?", strconv.Itoa(int(accountEntity.ID))).Delete(&accountEntity)
 	})
 	t.Run("Register User Failed Field Not Complete", func(t *testing.T) {
-		req := httptest.NewRequest(http.MethodPost, test.UserRegisterAPIRoute, strings.NewReader(userRegisterFailedFieldNotComplete))
+		req := httptest.NewRequest(
+			http.MethodPost,
+			router.HostURL+router.UsersAPIRoute+router.RegisterAPIRoute,
+			strings.NewReader(userRegisterFailedFieldNotComplete))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		rec := httptest.NewRecorder()
 
@@ -96,7 +103,10 @@ func TestTableRegisterUser(t *testing.T) {
 		assert.Regexp(t, regexp.MustCompile(`(?i)bad request`), responseBody.Data)
 	})
 	t.Run("Register User Failed Email Already Exist", func(t *testing.T) {
-		req := httptest.NewRequest(http.MethodPost, test.UserRegisterAPIRoute, strings.NewReader(userRegisterFailedEmailAlreadyExist))
+		req := httptest.NewRequest(
+			http.MethodPost,
+			router.HostURL+router.UsersAPIRoute+router.RegisterAPIRoute,
+			strings.NewReader(userRegisterFailedEmailAlreadyExist))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		rec := httptest.NewRecorder()
 

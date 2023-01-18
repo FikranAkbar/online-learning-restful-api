@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"online-learning-restful-api/app/router"
 	"online-learning-restful-api/di"
 	"online-learning-restful-api/model/web"
 	"online-learning-restful-api/test"
@@ -26,7 +27,10 @@ func TestMain(m *testing.M) {
 func TestLogoutUserSuccess(t *testing.T) {
 	e := di.InitializedEchoServerForTest()
 
-	req := httptest.NewRequest(http.MethodPost, test.UserLogoutAPIRoute, nil)
+	req := httptest.NewRequest(
+		http.MethodPost,
+		router.HostURL+router.UsersAPIRoute+router.LogoutAPIRoute,
+		nil)
 	req.Header.Set(echo.HeaderAuthorization, "Bearer "+currentJWTToken)
 	rec := httptest.NewRecorder()
 
@@ -47,7 +51,10 @@ func TestLogoutUserSuccess(t *testing.T) {
 func TestLogoutUserFailed(t *testing.T) {
 	e := di.InitializedEchoServerForTest()
 
-	req := httptest.NewRequest(http.MethodPost, test.UserLogoutAPIRoute, nil)
+	req := httptest.NewRequest(
+		http.MethodPost,
+		router.HostURL+router.UsersAPIRoute+router.LogoutAPIRoute,
+		nil)
 	rec := httptest.NewRecorder()
 
 	e.ServeHTTP(rec, req)

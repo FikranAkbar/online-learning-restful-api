@@ -18,31 +18,55 @@ func NewMasterCourseComingSoonSeeder(cfg gorm_seeder.SeederConfiguration) *Maste
 func InitComingSoonCourseData() []entity.MasterCourseComingSoon {
 	return []entity.MasterCourseComingSoon{
 		{
-			ID:          1,
-			Name:        "Entrepreneurship",
-			Description: sql.NullString{String: "Course Enterpreneurship sedang dalam pengerjaan dan akan hadir segera."},
-			Cover:       sql.NullString{String: "https://www.alphajwc.com/wp-content/uploads/2020/02/pengusaha-muda-indonesia.jpg"},
+			ID:   1,
+			Name: "Entrepreneurship",
+			Description: sql.NullString{
+				String: "Course Enterpreneurship sedang dalam pengerjaan dan akan hadir segera.",
+				Valid:  true,
+			},
+			Cover: sql.NullString{
+				String: "https://www.alphajwc.com/wp-content/uploads/2020/02/pengusaha-muda-indonesia.jpg",
+				Valid:  true,
+			},
 			IsPublished: true,
 		},
 		{
-			ID:          2,
-			Name:        "Germany Language",
-			Description: sql.NullString{String: "Course Bahasa Jerman sedang dalam pengerjaan dan akan hadir segera."},
-			Cover:       sql.NullString{String: "https://www.banksinarmas.com/biasakansekarang/wp-content/uploads/2018/11/image5.png"},
+			ID:   2,
+			Name: "Germany Language",
+			Description: sql.NullString{
+				String: "Course Bahasa Jerman sedang dalam pengerjaan dan akan hadir segera.",
+				Valid:  true,
+			},
+			Cover: sql.NullString{
+				String: "https://www.banksinarmas.com/biasakansekarang/wp-content/uploads/2018/11/image5.png",
+				Valid:  true,
+			},
 			IsPublished: true,
 		},
 		{
-			ID:          3,
-			Name:        "Leadership",
-			Description: sql.NullString{String: "Course Leadership sedang dalam pengerjaan dan akan hadir segera."},
-			Cover:       sql.NullString{String: "https://cdn.futuready.com/artikel/media/2017/08/26105544/37257994_l.jpg"},
+			ID:   3,
+			Name: "Leadership",
+			Description: sql.NullString{
+				String: "Course Leadership sedang dalam pengerjaan dan akan hadir segera.",
+				Valid:  true,
+			},
+			Cover: sql.NullString{
+				String: "https://cdn.futuready.com/artikel/media/2017/08/26105544/37257994_l.jpg",
+				Valid:  true,
+			},
 			IsPublished: true,
 		},
 		{
-			ID:          4,
-			Name:        "Programming",
-			Description: sql.NullString{String: "Course Programming sedang dalam pengerjaan dan akan hadir segera."},
-			Cover:       sql.NullString{String: "https://res.cloudinary.com/sisternet-co-id/image/upload/q_auto:best,f_auto/article/vynfvmlwmthncwkn5enl.jpg"},
+			ID:   4,
+			Name: "Programming",
+			Description: sql.NullString{
+				String: "Course Programming sedang dalam pengerjaan dan akan hadir segera.",
+				Valid:  true,
+			},
+			Cover: sql.NullString{
+				String: "https://res.cloudinary.com/sisternet-co-id/image/upload/q_auto:best,f_auto/article/vynfvmlwmthncwkn5enl.jpg",
+				Valid:  true,
+			},
 			IsPublished: true,
 		},
 	}

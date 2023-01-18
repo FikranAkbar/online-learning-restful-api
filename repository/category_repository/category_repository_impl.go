@@ -52,14 +52,14 @@ func (repository *CategoryRepositoryImpl) GetCoursesByCategoryId(ctx context.Con
 	if err != nil {
 		return []domain.Course{}, err
 	}
+	fmt.Println("Repository Category (categoryEntity):", categoryEntity)
 
 	courseEntities := categoryEntity.Courses
-	err = db.WithContext(ctx).Preload("Expert").Error
+	err = db.WithContext(ctx).Preload("Expert").Find(&courseEntities).Error
 	if err != nil {
 		return []domain.Course{}, err
 	}
-
-	fmt.Println(courseEntities)
+	fmt.Println("Repository Category (courseEntities):", courseEntities[0].PhotoURL)
 
 	var courses []domain.Course
 	for _, courseEntity := range courseEntities {

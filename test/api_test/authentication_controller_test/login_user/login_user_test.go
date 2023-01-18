@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"online-learning-restful-api/app/router"
 	"online-learning-restful-api/di"
 	"online-learning-restful-api/model/web"
 	"online-learning-restful-api/model/web/authentication"
@@ -26,7 +27,10 @@ var (
 func TestLoginUserSuccess(t *testing.T) {
 	e := di.InitializedEchoServerForTest()
 
-	req := httptest.NewRequest(http.MethodPost, test.UserLoginAPIRoute, strings.NewReader(userLoginSuccessRequestBody))
+	req := httptest.NewRequest(
+		http.MethodPost,
+		router.HostURL+router.UsersAPIRoute+router.LoginAPIRoute,
+		strings.NewReader(userLoginSuccessRequestBody))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
@@ -53,7 +57,10 @@ func TestLoginUserSuccess(t *testing.T) {
 func TestLoginUserFailedEmptyEmail(t *testing.T) {
 	e := di.InitializedEchoServerForTest()
 
-	req := httptest.NewRequest(http.MethodPost, test.UserLoginAPIRoute, strings.NewReader(userLoginFailedEmptyEmailRequestBody))
+	req := httptest.NewRequest(
+		http.MethodPost,
+		router.HostURL+router.UsersAPIRoute+router.LoginAPIRoute,
+		strings.NewReader(userLoginFailedEmptyEmailRequestBody))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
@@ -74,7 +81,10 @@ func TestLoginUserFailedEmptyEmail(t *testing.T) {
 func TestLoginUserFailedWrongEmailOrPassword(t *testing.T) {
 	e := di.InitializedEchoServerForTest()
 
-	req := httptest.NewRequest(http.MethodPost, test.UserLoginAPIRoute, strings.NewReader(userLoginFailedWrongEmailOrPasswordRequestBody))
+	req := httptest.NewRequest(
+		http.MethodPost,
+		router.HostURL+router.UsersAPIRoute+router.LoginAPIRoute,
+		strings.NewReader(userLoginFailedWrongEmailOrPasswordRequestBody))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 

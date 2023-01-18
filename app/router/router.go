@@ -7,6 +7,25 @@ import (
 	"online-learning-restful-api/controller/course_controller"
 )
 
+var (
+	HostURL = "http://localhost:8000/api"
+)
+
+// Users Routes
+var (
+	UsersAPIRoute    = "/users"
+	LoginAPIRoute    = "/login"
+	LogoutAPIRoute   = "/logout"
+	RegisterAPIRoute = "/register"
+)
+
+// Course Categories Routes
+var (
+	CoursesAPIRoute    = "/courses"
+	CategoriesAPIRoute = "/categories"
+	CategoryIdAPIRoute = "/:categoryId"
+)
+
 func InitRoutes(
 	authenticationController authentication_controller.AuthenticationController,
 	courseCategoryController course_controller.CourseCategoryController,
@@ -15,11 +34,11 @@ func InitRoutes(
 	apiGroup := e.Group("/api")
 
 	// users route
-	publicUserRouteGroup := apiGroup.Group("/users")
-	protectedUserRouteGroup := apiGroup.Group("/users")
+	publicUserRouteGroup := apiGroup.Group(UsersAPIRoute)
+	protectedUserRouteGroup := apiGroup.Group(UsersAPIRoute)
 
 	// courses route
-	publicCourseRouteGroup := apiGroup.Group("/courses")
+	publicCourseRouteGroup := apiGroup.Group(CoursesAPIRoute)
 
 	protectedRouteGroups := []*echo.Group{
 		protectedUserRouteGroup,
@@ -30,11 +49,11 @@ func InitRoutes(
 	}
 
 	// authentication route
-	publicUserRouteGroup.POST("/login", authenticationController.LoginUserWithEmailPassword).Name = "Login with email and password"
-	publicUserRouteGroup.POST("/register", authenticationController.RegisterUserWithEmailPassword).Name = "Register user"
-	protectedUserRouteGroup.POST("/logout", authenticationController.LogoutUser).Name = "Logout user"
+	publicUserRouteGroup.POST(LoginAPIRoute, authenticationController.LoginUserWithEmailPassword).Name = "Login with email and password"
+	publicUserRouteGroup.POST(RegisterAPIRoute, authenticationController.RegisterUserWithEmailPassword).Name = "Register user"
+	protectedUserRouteGroup.POST(LogoutAPIRoute, authenticationController.LogoutUser).Name = "Logout user"
 
 	// course category route
-	publicCourseRouteGroup.GET("/categories", courseCategoryController.GetAllCourseCategories).Name = "Get all course's categories"
-	publicCourseRouteGroup.GET("/categories/:categoryId", courseCategoryController.GetCoursesByCategoryId).Name = "Get courses by category id"
+	publicCourseRouteGroup.GET(CategoriesAPIRoute, courseCategoryController.GetAllCourseCategories).Name = "Get all course's categories"
+	publicCourseRouteGroup.GET(CategoriesAPIRoute+CategoryIdAPIRoute, courseCategoryController.GetCoursesByCategoryId).Name = "Get courses by category id"
 }

@@ -1,4 +1,4 @@
-package get_all_course_categories
+package get_courses_by_category_id
 
 import (
 	"encoding/json"
@@ -15,12 +15,14 @@ import (
 	"testing"
 )
 
-func TestGetAllCourseCategoriesSuccess(t *testing.T) {
+func TestGetCoursesByCategoryIdSuccess(t *testing.T) {
 	e := di.InitializedEchoServerForTest()
 
+	categoryId := "/1"
+	urlRoute := router.HostURL + router.CoursesAPIRoute + router.CategoriesAPIRoute + categoryId
 	req := httptest.NewRequest(
 		http.MethodGet,
-		router.HostURL+router.CoursesAPIRoute+router.CategoriesAPIRoute,
+		urlRoute,
 		nil)
 	rec := httptest.NewRecorder()
 
@@ -31,13 +33,16 @@ func TestGetAllCourseCategoriesSuccess(t *testing.T) {
 
 	body, _ := io.ReadAll(response.Body)
 	var responseBody web.APIResponse
-	var categoryResponse []course.CategoryCourseResponse
+	var coursesResponse []course.ShortCourseResponse
 
 	_ = json.Unmarshal(body, &responseBody)
 	assert.Equal(t, http.StatusOK, responseBody.Status)
 	assert.Equal(t, test.MessageOk, responseBody.Message)
 	assert.NotNil(t, responseBody.Data)
 
-	_ = mapstructure.Decode(responseBody.Data, &categoryResponse)
-	assert.Equal(t, "Entrepreneurship", categoryResponse[0].Name)
+	_ = mapstructure.Decode(responseBody.Data, &coursesResponse)
+	assert.Equal(t, "Intro to Entrepreneurship", coursesResponse[0].Name)
+	assert.Equal(t, "Ray Robinson", coursesResponse[0].ExpertName)
+	assert.Equal(t, "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1174&q=80",
+		coursesResponse[0].PhotoUrl)
 }
