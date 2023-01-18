@@ -27,7 +27,7 @@ func TestGetAllCourseCategoriesSuccess(t *testing.T) {
 
 	body, _ := io.ReadAll(response.Body)
 	var responseBody web.APIResponse
-	var categoryResponse []course.CategoryResponse
+	var categoryResponse []course.CategoryCourseResponse
 
 	_ = json.Unmarshal(body, &responseBody)
 	assert.Equal(t, http.StatusOK, responseBody.Status)

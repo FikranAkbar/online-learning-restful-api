@@ -6,6 +6,7 @@ import (
 )
 
 type CourseCategoryService interface {
-	GetAllCategories(ctx context.Context) []course.CategoryResponse
-	GetCategory(ctx context.Context) course.CategoryResponse
+	GetAllCategories(ctx context.Context) []course.CategoryCourseResponse
+	GetCategory(ctx context.Context) course.CategoryCourseResponse
+	GetCoursesByCategoryId(ctx context.Context, categoryId uint) []course.ShortCourseResponse
 }

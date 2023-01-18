@@ -36,4 +36,5 @@ func InitRoutes(
 
 	// course category route
 	publicCourseRouteGroup.GET("/categories", courseCategoryController.GetAllCourseCategories).Name = "Get all course's categories"
+	publicCourseRouteGroup.GET("/categories/:categoryId", courseCategoryController.GetCoursesByCategoryId).Name = "Get courses by category id"
 }
