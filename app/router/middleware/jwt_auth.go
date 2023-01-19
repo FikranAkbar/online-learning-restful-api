@@ -16,6 +16,11 @@ type UserTokenInfo struct {
 	UserName  string
 }
 
+var (
+	ContextUserInfoKey    = "user_info"
+	UnauthorizedErrorInfo = exception.Unauthorized + ". User token was not found"
+)
+
 func JWTAuthorization(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		authorizationHeader := c.Request().Header.Get("Authorization")
@@ -54,7 +59,7 @@ func JWTAuthorization(next echo.HandlerFunc) echo.HandlerFunc {
 			UserName:  userName,
 		}
 
-		ctx := context.WithValue(c.Request().Context(), "user_token_info", userTokenInfo)
+		ctx := context.WithValue(c.Request().Context(), ContextUserInfoKey, userTokenInfo)
 		newRequest := c.Request().WithContext(ctx)
 		c.SetRequest(newRequest)
 

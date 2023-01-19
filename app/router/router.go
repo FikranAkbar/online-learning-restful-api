@@ -21,11 +21,12 @@ var (
 
 // Course Categories Routes
 var (
-	CoursesAPIRoute    = "/courses"
-	CourseIdAPIRoute   = "/:courseId"
-	CategoriesAPIRoute = "/categories"
-	CategoryIdAPIRoute = "/:categoryId"
-	PopularAPIRoute    = "/popular"
+	CoursesAPIRoute            = "/courses"
+	CourseIdAPIRoute           = "/:courseId"
+	CourseProgressionsAPIRoute = "/progressions"
+	CategoriesAPIRoute         = "/categories"
+	CategoryIdAPIRoute         = "/:categoryId"
+	PopularAPIRoute            = "/popular"
 )
 
 func InitRoutes(
@@ -43,9 +44,11 @@ func InitRoutes(
 
 	// courses route
 	publicCourseRouteGroup := apiGroup.Group(CoursesAPIRoute)
+	protectedCourseRouteGroup := apiGroup.Group(CoursesAPIRoute)
 
 	protectedRouteGroups := []*echo.Group{
 		protectedUserRouteGroup,
+		protectedCourseRouteGroup,
 	}
 
 	for _, routeGroup := range protectedRouteGroups {
@@ -67,4 +70,5 @@ func InitRoutes(
 	// course route
 	publicCourseRouteGroup.GET("", courseController.GetCoursesByKeyword).Name = "Get Courses By Keyword"
 	publicCourseRouteGroup.GET(CourseIdAPIRoute, courseController.GetDetailCourseByCourseId).Name = "Get Detail Course By Course Id and User Id"
+	protectedCourseRouteGroup.GET(CourseIdAPIRoute+CourseProgressionsAPIRoute, courseController.GetUserCourseProgressionByCourseId).Name = "Get User Course Progression By Course Id"
 }

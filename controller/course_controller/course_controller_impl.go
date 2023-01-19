@@ -55,3 +55,19 @@ func (controller *CourseControllerImpl) GetDetailCourseByCourseId(c echo.Context
 
 	return c.JSON(200, apiResponse)
 }
+
+func (controller *CourseControllerImpl) GetUserCourseProgressionByCourseId(c echo.Context) error {
+	courseId := c.Param("courseId")
+	newCourseId, err := strconv.Atoi(courseId)
+	helper.PanicIfError(err)
+
+	userCourseProgressionResponse := controller.CourseService.GetUserCourseProgressionByCourseId(c.Request().Context(), uint(newCourseId))
+
+	apiResponse := web.APIResponse{
+		Status:  200,
+		Message: "OK",
+		Data:    userCourseProgressionResponse,
+	}
+
+	return c.JSON(http.StatusOK, apiResponse)
+}

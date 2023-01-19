@@ -68,3 +68,18 @@ func (service *CourseServiceImpl) GetDetailCourseByCourseId(ctx context.Context,
 
 	return detailCourseResponse
 }
+
+func (service *CourseServiceImpl) GetUserCourseProgressionByCourseId(ctx context.Context, courseId uint) course.UserCourseProgressionResponse {
+	tx := service.DB.Begin()
+	defer helper.CommitOrRollback(tx)
+
+	userCourseProgression, err := service.CourseRepository.GetUserCourseProgressionByCourseId(ctx, tx, courseId)
+	helper.PanicIfError(err)
+
+	return course.UserCourseProgressionResponse{
+		UserId:             userCourseProgression.UserId,
+		CourseId:           userCourseProgression.CourseId,
+		LastUnlockedModule: userCourseProgression.LastUnlockedModule,
+		GraduatedAt:        userCourseProgression.GraduatedAt,
+	}
+}

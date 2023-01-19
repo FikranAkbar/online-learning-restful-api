@@ -104,9 +104,9 @@ func (service *AuthenticationServiceImpl) RegisterUserByEmailPassword(ctx contex
 }
 
 func (service *AuthenticationServiceImpl) LogoutUser(ctx context.Context) string {
-	userTokenInfo, ok := ctx.Value("user_token_info").(middleware.UserTokenInfo)
+	userTokenInfo, ok := ctx.Value(middleware.ContextUserInfoKey).(middleware.UserTokenInfo)
 	if !ok {
-		panic(exception.Unauthorized + ". User token info not found")
+		panic(middleware.UnauthorizedErrorInfo)
 	}
 
 	return fmt.Sprintf("User %v logout success. Token valid", userTokenInfo.UserName)

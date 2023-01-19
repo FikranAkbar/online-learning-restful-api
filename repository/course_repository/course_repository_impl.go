@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"gorm.io/gorm"
 	"online-learning-restful-api/app/database/entity"
+	"online-learning-restful-api/app/router/middleware"
 	"online-learning-restful-api/exception"
 	"online-learning-restful-api/helper"
 	"online-learning-restful-api/model/domain"
+	"strconv"
 	"strings"
 )
 
@@ -125,4 +127,31 @@ func (repository *CourseRepositoryImpl) GetCourseDetailByCourseId(ctx context.Co
 	}
 
 	return course, expert, nil
+}
+
+func (repository *CourseRepositoryImpl) GetUserCourseProgressionByCourseId(ctx context.Context, db *gorm.DB, courseId uint) (domain.UserCourse, error) {
+	userTokenInfo, ok := ctx.Value(middleware.ContextUserInfoKey).(middleware.UserTokenInfo)
+	if !ok {
+		panic(middleware.UnauthorizedErrorInfo)
+	}
+
+	var userCourseEntity entity.TrxUserCourse
+	err := db.WithContext(ctx).
+		Where("user_id = ?", userTokenInfo.UserId).
+		Where("course_id = ?", courseId).
+		Preload("Course").
+		First(&userCourseEntity).Error
+	if exception.CheckErrorContains(err, exception.NotFound) {
+		logError := "User not owned the access to course with id " + strconv.Itoa(int(courseId))
+		return domain.UserCourse{}, exception.GenerateHTTPError(exception.Unauthorized, logError)
+	}
+
+	userCourse := domain.UserCourse{
+		UserId:               userCourseEntity.UserId,
+		CourseId:             userCourseEntity.CourseId,
+		LastUnlockedModule:   userCourseEntity.LastUnlockedModule,
+		TotalWebinarAttended: userCourseEntity.TotalWebinarAttended,
+		GraduatedAt:          userCourseEntity.GraduatedAt.Time,
+	}
+	return userCourse, nil
 }
