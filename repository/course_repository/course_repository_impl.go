@@ -16,7 +16,7 @@ func NewCourseRepositoryImpl() *CourseRepositoryImpl {
 
 func (repository *CourseRepositoryImpl) GetPopularCourses(ctx context.Context, db *gorm.DB) ([]domain.Course, error) {
 	var courseEntities []entity.MasterCourse
-	err := db.WithContext(ctx).Limit(5).Find(&courseEntities).Error
+	err := db.WithContext(ctx).Limit(5).Preload("Expert").Find(&courseEntities).Error
 	if err != nil {
 		return []domain.Course{}, err
 	}
