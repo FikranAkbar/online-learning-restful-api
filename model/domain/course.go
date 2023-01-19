@@ -14,4 +14,7 @@ type Course struct {
 	TotalDuration      float32
 	CurrentParticipant uint
 	MaximumParticipant uint
+	AlreadyOwned       bool
+	ModulesCount       int
+	WebinarsCount      int
 }

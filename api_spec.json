@@ -120,8 +120,8 @@
                 }
               },
               "example": {
-                "email": "fikranakbar756@gmail.com",
-                "password": "password"
+                "email": "mollypotts@gmail.com",
+                "password": "Password"
               }
             }
           }
@@ -169,33 +169,7 @@
             }
           },
           "400": {
-            "description": "Login failed. Email and password must be filled",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "number"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "data": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "example": {
-                  "status": 400,
-                  "message": "BAD REQUEST",
-                  "data": "Login failed. Email must be type of email. Email and password must be filled"
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/401-Unauthorized"
+            "$ref": "#/components/responses/400-BadRequest"
           },
           "500": {
             "$ref": "#/components/responses/500-InternalServerError"
@@ -292,48 +266,7 @@
             }
           },
           "400": {
-            "description": "Register user failed. All field must be filled or the given data was invalid",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "number"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "data": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "examples": {
-                  "Email error": {
-                    "value": {
-                      "status": 400,
-                      "message": "BAD REQUEST",
-                      "data": "Register failed. Email must be type of email"
-                    }
-                  },
-                  "Password minimum length error": {
-                    "value": {
-                      "status": 400,
-                      "message": "BAD REQUEST",
-                      "data": "Register failed. Password must be 8 character minimum"
-                    }
-                  },
-                  "Empty field error": {
-                    "value": {
-                      "status": 400,
-                      "message": "BAD REQUEST",
-                      "data": "Register failed. All field must be filled"
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/400-BadRequest"
           },
           "500": {
             "$ref": "#/components/responses/500-InternalServerError"
@@ -421,35 +354,6 @@
               }
             }
           },
-          "400": {
-            "description": "Search course failed, query cannot be empty",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "number"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "data": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "example": {
-                  "status": 400,
-                  "message": "BAD REQUEST",
-                  "data": "Query cannot be empty"
-                }
-              }
-            }
-          },
-          "404": {
-            "$ref": "#/components/responses/404-NotFound"
-          },
           "500": {
             "$ref": "#/components/responses/500-InternalServerError"
           }
@@ -525,9 +429,6 @@
               }
             }
           },
-          "404": {
-            "$ref": "#/components/responses/404-NotFound"
-          },
           "500": {
             "$ref": "#/components/responses/500-InternalServerError"
           }
@@ -567,29 +468,6 @@
                   "CourseCardDataExample": {
                     "$ref": "#/components/examples/CourseCardDataExample"
                   }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Category id was invalid, so the category was not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "number"
-                    },
-                    "message": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "example": {
-                  "status": 400,
-                  "message": "BAD REQUEST",
-                  "data": null
                 }
               }
             }
@@ -637,9 +515,6 @@
               }
             }
           },
-          "404": {
-            "$ref": "#/components/responses/404-NotFound"
-          },
           "500": {
             "$ref": "#/components/responses/500-InternalServerError"
           }
@@ -651,11 +526,14 @@
         "tags": [
           "Course - Detail Course"
         ],
-        "description": "Get course detail by course id. Client can send JWT token and user id in request body. If the user id inside JWT token matches with user id client send in request body, the field 'already_owned' in the response become true.",
+        "description": "Get course detail by course id. Client can user id in query. If the user id exist, the field 'already_owned' in the response become true.",
         "summary": "Get course detail by course id",
         "parameters": [
           {
             "$ref": "#/components/parameters/CourseIdPathParameter"
+          },
+          {
+            "$ref": "#/components/parameters/UserIdQueryParameter"
           }
         ],
         "responses": {
@@ -2919,9 +2797,9 @@
             "maximum_participant": 30,
             "already_owned": true,
             "expert": {
+              "id": 3,
               "name": "Brielle Hutchinson",
               "photo": "https://thumbs.dreamstime.com/b/young-woman-avatar-cartoon-character-profile-picture-young-brunette-woman-short-hair-avatar-cartoon-character-vector-149728784.jpg",
-              "average_rate": 4.5
             }
           }
         }
@@ -3033,6 +2911,14 @@
       }
     },
     "parameters": {
+      "UserIdQueryParameter": {
+        "name": "userid",
+        "in": "query",
+        "description": "id of user",
+        "schema": {
+          "type": "integer"
+        }
+      },
       "KeywordQueryParameter": {
         "name": "keyword",
         "in": "query",

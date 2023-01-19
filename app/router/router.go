@@ -22,6 +22,7 @@ var (
 // Course Categories Routes
 var (
 	CoursesAPIRoute    = "/courses"
+	CourseIdAPIRoute   = "/:courseId"
 	CategoriesAPIRoute = "/categories"
 	CategoryIdAPIRoute = "/:categoryId"
 	PopularAPIRoute    = "/popular"
@@ -65,4 +66,5 @@ func InitRoutes(
 
 	// course route
 	publicCourseRouteGroup.GET("", courseController.GetCoursesByKeyword).Name = "Get Courses By Keyword"
+	publicCourseRouteGroup.GET(CourseIdAPIRoute, courseController.GetDetailCourseByCourseId).Name = "Get Detail Course By Course Id and User Id"
 }
