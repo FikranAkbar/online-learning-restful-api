@@ -4,24 +4,61 @@ import (
 	"github.com/labstack/echo/v4"
 	"online-learning-restful-api/app/router/middleware"
 	"online-learning-restful-api/controller/authentication_controller"
+	"online-learning-restful-api/controller/course_controller"
 )
 
-func InitRoutes(controller authentication_controller.AuthenticationController, e *echo.Echo) {
+var (
+	HostURL = "http://localhost:8000/api"
+)
+
+// Users Routes
+var (
+	UsersAPIRoute    = "/users"
+	LoginAPIRoute    = "/login"
+	LogoutAPIRoute   = "/logout"
+	RegisterAPIRoute = "/register"
+)
+
+// Course Categories Routes
+var (
+	CoursesAPIRoute    = "/courses"
+	CategoriesAPIRoute = "/categories"
+	CategoryIdAPIRoute = "/:categoryId"
+	PopularAPIRoute    = "/popular"
+)
+
+func InitRoutes(
+	authenticationController authentication_controller.AuthenticationController,
+	courseCategoryController course_controller.CourseCategoryController,
+	coursePopularController course_controller.CoursePopularController,
+	e *echo.Echo,
+) {
 	apiGroup := e.Group("/api")
 
-	publicUserRouteGroup := apiGroup.Group("/users")
-	protectedUserRouteGroup := apiGroup.Group("/users")
+	// users route
+	publicUserRouteGroup := apiGroup.Group(UsersAPIRoute)
+	protectedUserRouteGroup := apiGroup.Group(UsersAPIRoute)
+
+	// courses route
+	publicCourseRouteGroup := apiGroup.Group(CoursesAPIRoute)
 
 	protectedRouteGroups := []*echo.Group{
 		protectedUserRouteGroup,
 	}
 
 	for _, routeGroup := range protectedRouteGroups {
-		//routeGroup.Use(echojwt.WithConfig(echojwt.Config{SigningKey: helper.JwtSignatureKey}))
 		routeGroup.Use(middleware.JWTAuthorization)
 	}
 
-	publicUserRouteGroup.POST("/login", controller.LoginUserWithEmailPassword).Name = "Login with email and password"
-	publicUserRouteGroup.POST("/register", controller.RegisterUserWithEmailPassword).Name = "Register user"
-	protectedUserRouteGroup.POST("/logout", controller.LogoutUser).Name = "Logout user"
+	// authentication route
+	publicUserRouteGroup.POST(LoginAPIRoute, authenticationController.LoginUserWithEmailPassword).Name = "Login with email and password"
+	publicUserRouteGroup.POST(RegisterAPIRoute, authenticationController.RegisterUserWithEmailPassword).Name = "Register user"
+	protectedUserRouteGroup.POST(LogoutAPIRoute, authenticationController.LogoutUser).Name = "Logout user"
+
+	// course category route
+	publicCourseRouteGroup.GET(CategoriesAPIRoute, courseCategoryController.GetAllCourseCategories).Name = "Get all course's categories"
+	publicCourseRouteGroup.GET(CategoriesAPIRoute+CategoryIdAPIRoute, courseCategoryController.GetCoursesByCategoryId).Name = "Get courses by category id"
+
+	// popular course route
+	publicCourseRouteGroup.GET(PopularAPIRoute, coursePopularController.GetPopularCourses).Name = "Get Popular Courses"
 }

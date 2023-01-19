@@ -15,52 +15,14 @@ func NewTrxCourseCategorySeeder(cfg gormseeder.SeederConfiguration) *TrxCourseCa
 }
 
 func InitCourseCategoryData() []entity.TrxCourseCategory {
-	return []entity.TrxCourseCategory{
-		{
-			CourseId:   1,
-			CategoryId: 1,
-		},
-		{
-			CourseId:   2,
-			CategoryId: 2,
-		},
-		{
-			CourseId:   3,
-			CategoryId: 3,
-		},
-		{
-			CourseId:   4,
-			CategoryId: 4,
-		},
-		{
-			CourseId:   6,
-			CategoryId: 2,
-		},
-		{
-			CourseId:   7,
-			CategoryId: 3,
-		},
-		{
-			CourseId:   8,
-			CategoryId: 4,
-		},
-		{
-			CourseId:   9,
-			CategoryId: 1,
-		},
-		{
-			CourseId:   10,
-			CategoryId: 2,
-		},
-		{
-			CourseId:   11,
-			CategoryId: 3,
-		},
-		{
-			CourseId:   12,
-			CategoryId: 4,
-		},
+	var entities []entity.TrxCourseCategory
+	for i := 0; i < 12; i++ {
+		entities = append(entities, entity.TrxCourseCategory{
+			CourseId:   uint(i + 1),
+			CategoryId: uint((i % 4) + 1),
+		})
 	}
+	return entities
 }
 
 func (s *TrxCourseCategorySeeder) Seed(db *gorm.DB) error {

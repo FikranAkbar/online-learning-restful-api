@@ -5,13 +5,18 @@ import (
 	"online-learning-restful-api/app/router"
 	"online-learning-restful-api/app/router/middleware"
 	"online-learning-restful-api/controller/authentication_controller"
+	"online-learning-restful-api/controller/course_controller"
 	"online-learning-restful-api/exception"
 )
 
-func InitServerWithEcho(authenticationController authentication_controller.AuthenticationController) *echo.Echo {
+func InitServerWithEcho(
+	authenticationController authentication_controller.AuthenticationController,
+	courseCategoryController course_controller.CourseCategoryController,
+	coursePopularController course_controller.CoursePopularController,
+) *echo.Echo {
 	e := echo.New()
 
-	router.InitRoutes(authenticationController, e)
+	router.InitRoutes(authenticationController, courseCategoryController, coursePopularController, e)
 	middleware.InitMiddleware(e)
 
 	e.HTTPErrorHandler = exception.ErrorHandler

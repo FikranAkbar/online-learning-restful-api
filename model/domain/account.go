@@ -1,7 +1,7 @@
 package domain
 
 type Account struct {
-	Id       int
+	Id       uint
 	Email    string
 	Password string
 	Role     string

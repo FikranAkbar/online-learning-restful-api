@@ -1,4 +1,4 @@
-package api_test
+package test
 
 import (
 	"encoding/json"
@@ -7,22 +7,11 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"online-learning-restful-api/app/router"
 	"online-learning-restful-api/di"
 	"online-learning-restful-api/model/web"
 	"online-learning-restful-api/model/web/authentication"
 	"strings"
-)
-
-// HostURL Host URL for test
-var (
-	HostURL = "http://localhost:8000/api"
-)
-
-// Users routes
-var (
-	UserLoginAPIRoute    = HostURL + "/users/login"
-	UserLogoutAPIRoute   = HostURL + "/users/logout"
-	UserRegisterAPIRoute = HostURL + "/users/register"
 )
 
 // messages
@@ -36,7 +25,10 @@ var (
 func LoginUserFirst(userCredJSON string) string {
 	e := di.InitializedEchoServerForTest()
 
-	req := httptest.NewRequest(http.MethodPost, UserLoginAPIRoute, strings.NewReader(userCredJSON))
+	req := httptest.NewRequest(
+		http.MethodPost,
+		router.HostURL+router.UsersAPIRoute+router.LoginAPIRoute,
+		strings.NewReader(userCredJSON))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 

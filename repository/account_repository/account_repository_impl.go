@@ -28,7 +28,7 @@ func (repository *AccountRepositoryImpl) FindUserByEmail(ctx context.Context, db
 	}
 
 	return domain.Account{
-		Id:       int(accountEntity.ID),
+		Id:       accountEntity.ID,
 		Email:    accountEntity.Email,
 		Password: accountEntity.Password,
 		Role:     accountEntity.MasterUserType.Name,
@@ -56,7 +56,7 @@ func (repository *AccountRepositoryImpl) CreateAccountData(ctx context.Context, 
 	}
 
 	return domain.Account{
-		Id:       int(accountEntity.ID),
+		Id:       accountEntity.ID,
 		Email:    accountEntity.Email,
 		Password: accountEntity.Password,
 		Role:     roleString,
