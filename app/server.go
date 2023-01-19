@@ -13,10 +13,16 @@ func InitServerWithEcho(
 	authenticationController authentication_controller.AuthenticationController,
 	courseCategoryController course_controller.CourseCategoryController,
 	coursePopularController course_controller.CoursePopularController,
+	courseController course_controller.CourseController,
 ) *echo.Echo {
 	e := echo.New()
 
-	router.InitRoutes(authenticationController, courseCategoryController, coursePopularController, e)
+	router.InitRoutes(
+		authenticationController,
+		courseCategoryController,
+		coursePopularController,
+		courseController,
+		e)
 	middleware.InitMiddleware(e)
 
 	e.HTTPErrorHandler = exception.ErrorHandler

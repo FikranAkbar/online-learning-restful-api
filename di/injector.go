@@ -40,12 +40,19 @@ var courseCategorySet = wire.NewSet(
 )
 
 var popularCourseSet = wire.NewSet(
-	course_repository.NewCourseRepositoryImpl,
-	wire.Bind(new(course_repository.CourseRepository), new(*course_repository.CourseRepositoryImpl)),
 	course_service.NewCoursePopularServiceImpl,
 	wire.Bind(new(course_service.CoursePopularService), new(*course_service.CoursePopularServiceImpl)),
 	course_controller.NewCoursePopularControllerImpl,
 	wire.Bind(new(course_controller.CoursePopularController), new(*course_controller.CoursePopularControllerImpl)),
+)
+
+var courseSet = wire.NewSet(
+	course_repository.NewCourseRepositoryImpl,
+	wire.Bind(new(course_repository.CourseRepository), new(*course_repository.CourseRepositoryImpl)),
+	course_service.NewCourseServiceImpl,
+	wire.Bind(new(course_service.CourseService), new(*course_service.CourseServiceImpl)),
+	course_controller.NewCourseControllerImpl,
+	wire.Bind(new(course_controller.CourseController), new(*course_controller.CourseControllerImpl)),
 )
 
 func InitializedEchoServer() *echo.Echo {
@@ -56,6 +63,7 @@ func InitializedEchoServer() *echo.Echo {
 		authenticationSet,
 		courseCategorySet,
 		popularCourseSet,
+		courseSet,
 	)
 
 	return nil
@@ -69,6 +77,7 @@ func InitializedEchoServerForTest() *echo.Echo {
 		authenticationSet,
 		courseCategorySet,
 		popularCourseSet,
+		courseSet,
 	)
 
 	return nil
