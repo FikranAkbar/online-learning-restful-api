@@ -10,7 +10,7 @@ import (
 )
 
 type CourseCategoryControllerImpl struct {
-	CourseCategoryService course_service.CourseCategoryService
+	course_service.CourseCategoryService
 }
 
 func NewCourseCategoryControllerImpl(service course_service.CourseCategoryService) *CourseCategoryControllerImpl {

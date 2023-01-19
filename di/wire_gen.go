@@ -16,6 +16,7 @@ import (
 	"online-learning-restful-api/controller/course_controller"
 	"online-learning-restful-api/repository/account_repository"
 	"online-learning-restful-api/repository/category_repository"
+	"online-learning-restful-api/repository/course_repository"
 	"online-learning-restful-api/repository/user_repository"
 	"online-learning-restful-api/service/authentication_service"
 	"online-learning-restful-api/service/course_service"
@@ -33,7 +34,10 @@ func InitializedEchoServer() *echo.Echo {
 	categoryRepositoryImpl := category_repository.NewCategoryRepositoryImpl()
 	courseCategoryServiceImpl := course_service.NewCourseCategoryServiceImpl(categoryRepositoryImpl, db)
 	courseCategoryControllerImpl := course_controller.NewCourseCategoryControllerImpl(courseCategoryServiceImpl)
-	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl)
+	courseRepositoryImpl := course_repository.NewCourseRepositoryImpl()
+	coursePopularServiceImpl := course_service.NewCoursePopularServiceImpl(courseRepositoryImpl, db)
+	coursePopularControllerImpl := course_controller.NewCoursePopularControllerImpl(coursePopularServiceImpl)
+	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, coursePopularControllerImpl)
 	return echoEcho
 }
 
@@ -47,7 +51,10 @@ func InitializedEchoServerForTest() *echo.Echo {
 	categoryRepositoryImpl := category_repository.NewCategoryRepositoryImpl()
 	courseCategoryServiceImpl := course_service.NewCourseCategoryServiceImpl(categoryRepositoryImpl, db)
 	courseCategoryControllerImpl := course_controller.NewCourseCategoryControllerImpl(courseCategoryServiceImpl)
-	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl)
+	courseRepositoryImpl := course_repository.NewCourseRepositoryImpl()
+	coursePopularServiceImpl := course_service.NewCoursePopularServiceImpl(courseRepositoryImpl, db)
+	coursePopularControllerImpl := course_controller.NewCoursePopularControllerImpl(coursePopularServiceImpl)
+	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, coursePopularControllerImpl)
 	return echoEcho
 }
 
@@ -56,3 +63,5 @@ func InitializedEchoServerForTest() *echo.Echo {
 var authenticationSet = wire.NewSet(account_repository.NewAccountRepositoryImpl, wire.Bind(new(account_repository.AccountRepository), new(*account_repository.AccountRepositoryImpl)), user_repository.NewUserRepositoryImpl, wire.Bind(new(user_repository.UserRepository), new(*user_repository.UserRepositoryImpl)), authentication_service.NewAuthenticationServiceImpl, wire.Bind(new(authentication_service.AuthenticationService), new(*authentication_service.AuthenticationServiceImpl)), authentication_controller.NewAuthenticationControllerImpl, wire.Bind(new(authentication_controller.AuthenticationController), new(*authentication_controller.AuthenticationControllerImpl)))
 
 var courseCategorySet = wire.NewSet(category_repository.NewCategoryRepositoryImpl, wire.Bind(new(category_repository.CategoryRepository), new(*category_repository.CategoryRepositoryImpl)), course_service.NewCourseCategoryServiceImpl, wire.Bind(new(course_service.CourseCategoryService), new(*course_service.CourseCategoryServiceImpl)), course_controller.NewCourseCategoryControllerImpl, wire.Bind(new(course_controller.CourseCategoryController), new(*course_controller.CourseCategoryControllerImpl)))
+
+var popularCourseSet = wire.NewSet(course_repository.NewCourseRepositoryImpl, wire.Bind(new(course_repository.CourseRepository), new(*course_repository.CourseRepositoryImpl)), course_service.NewCoursePopularServiceImpl, wire.Bind(new(course_service.CoursePopularService), new(*course_service.CoursePopularServiceImpl)), course_controller.NewCoursePopularControllerImpl, wire.Bind(new(course_controller.CoursePopularController), new(*course_controller.CoursePopularControllerImpl)))

@@ -13,6 +13,7 @@ import (
 	"online-learning-restful-api/controller/course_controller"
 	"online-learning-restful-api/repository/account_repository"
 	"online-learning-restful-api/repository/category_repository"
+	"online-learning-restful-api/repository/course_repository"
 	"online-learning-restful-api/repository/user_repository"
 	"online-learning-restful-api/service/authentication_service"
 	"online-learning-restful-api/service/course_service"
@@ -38,6 +39,15 @@ var courseCategorySet = wire.NewSet(
 	wire.Bind(new(course_controller.CourseCategoryController), new(*course_controller.CourseCategoryControllerImpl)),
 )
 
+var popularCourseSet = wire.NewSet(
+	course_repository.NewCourseRepositoryImpl,
+	wire.Bind(new(course_repository.CourseRepository), new(*course_repository.CourseRepositoryImpl)),
+	course_service.NewCoursePopularServiceImpl,
+	wire.Bind(new(course_service.CoursePopularService), new(*course_service.CoursePopularServiceImpl)),
+	course_controller.NewCoursePopularControllerImpl,
+	wire.Bind(new(course_controller.CoursePopularController), new(*course_controller.CoursePopularControllerImpl)),
+)
+
 func InitializedEchoServer() *echo.Echo {
 	wire.Build(
 		app.InitServerWithEcho,
@@ -45,6 +55,7 @@ func InitializedEchoServer() *echo.Echo {
 		validator.New,
 		authenticationSet,
 		courseCategorySet,
+		popularCourseSet,
 	)
 
 	return nil
@@ -57,6 +68,7 @@ func InitializedEchoServerForTest() *echo.Echo {
 		validator.New,
 		authenticationSet,
 		courseCategorySet,
+		popularCourseSet,
 	)
 
 	return nil

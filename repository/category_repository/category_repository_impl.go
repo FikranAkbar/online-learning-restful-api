@@ -2,7 +2,6 @@ package category_repository
 
 import (
 	"context"
-	"fmt"
 	"gorm.io/gorm"
 	"online-learning-restful-api/app/database/entity"
 	"online-learning-restful-api/model/domain"
@@ -52,14 +51,12 @@ func (repository *CategoryRepositoryImpl) GetCoursesByCategoryId(ctx context.Con
 	if err != nil {
 		return []domain.Course{}, err
 	}
-	fmt.Println("Repository Category (categoryEntity):", categoryEntity)
 
 	courseEntities := categoryEntity.Courses
 	err = db.WithContext(ctx).Preload("Expert").Find(&courseEntities).Error
 	if err != nil {
 		return []domain.Course{}, err
 	}
-	fmt.Println("Repository Category (courseEntities):", courseEntities[0].PhotoURL)
 
 	var courses []domain.Course
 	for _, courseEntity := range courseEntities {

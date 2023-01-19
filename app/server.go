@@ -12,10 +12,11 @@ import (
 func InitServerWithEcho(
 	authenticationController authentication_controller.AuthenticationController,
 	courseCategoryController course_controller.CourseCategoryController,
+	coursePopularController course_controller.CoursePopularController,
 ) *echo.Echo {
 	e := echo.New()
 
-	router.InitRoutes(authenticationController, courseCategoryController, e)
+	router.InitRoutes(authenticationController, courseCategoryController, coursePopularController, e)
 	middleware.InitMiddleware(e)
 
 	e.HTTPErrorHandler = exception.ErrorHandler

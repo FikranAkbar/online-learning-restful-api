@@ -2,7 +2,6 @@ package course_service
 
 import (
 	"context"
-	"fmt"
 	"gorm.io/gorm"
 	"online-learning-restful-api/helper"
 	"online-learning-restful-api/model/web/course"
@@ -69,7 +68,6 @@ func (service *CourseCategoryServiceImpl) GetCoursesByCategoryId(ctx context.Con
 			ExpertName:  courseData.ExpertName,
 		})
 	}
-	fmt.Println("Service Course Category (coursesResponse):", coursesResponse)
 
 	return coursesResponse
 }

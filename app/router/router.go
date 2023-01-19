@@ -24,11 +24,13 @@ var (
 	CoursesAPIRoute    = "/courses"
 	CategoriesAPIRoute = "/categories"
 	CategoryIdAPIRoute = "/:categoryId"
+	PopularAPIRoute    = "/popular"
 )
 
 func InitRoutes(
 	authenticationController authentication_controller.AuthenticationController,
 	courseCategoryController course_controller.CourseCategoryController,
+	coursePopularController course_controller.CoursePopularController,
 	e *echo.Echo,
 ) {
 	apiGroup := e.Group("/api")
@@ -56,4 +58,7 @@ func InitRoutes(
 	// course category route
 	publicCourseRouteGroup.GET(CategoriesAPIRoute, courseCategoryController.GetAllCourseCategories).Name = "Get all course's categories"
 	publicCourseRouteGroup.GET(CategoriesAPIRoute+CategoryIdAPIRoute, courseCategoryController.GetCoursesByCategoryId).Name = "Get courses by category id"
+
+	// popular course route
+	publicCourseRouteGroup.GET(PopularAPIRoute, coursePopularController.GetPopularCourses).Name = "Get Popular Courses"
 }
