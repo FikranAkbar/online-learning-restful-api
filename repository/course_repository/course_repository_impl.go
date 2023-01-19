@@ -82,10 +82,13 @@ func (repository *CourseRepositoryImpl) GetCourseDetailByCourseId(ctx context.Co
 	if userId != nil {
 		var userEntity entity.MasterUser
 		err = db.WithContext(ctx).First(&userEntity, userId).Error
-		if exception.CheckErrorContains(err, strings.ToLower(exception.NotFound)) {
+		fmt.Println(userEntity, "123")
+		if err != nil && exception.CheckErrorContains(err, strings.ToLower(exception.NotFound)) {
 			alreadyOwned = false
-		} else {
+		} else if err != nil {
 			helper.PanicIfError(err)
+		} else {
+			alreadyOwned = true
 		}
 	}
 

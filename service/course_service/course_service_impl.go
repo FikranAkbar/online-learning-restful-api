@@ -60,10 +60,9 @@ func (service *CourseServiceImpl) GetDetailCourseByCourseId(ctx context.Context,
 		MaximumParticipant: courseDetail.MaximumParticipant,
 		AlreadyOwned:       courseDetail.AlreadyOwned,
 		Expert: expert.ShortExpertResponse{
-			ID:          expertDetail.Id,
-			Name:        expertDetail.Name,
-			Photo:       expertDetail.Photo,
-			AverageRate: expertDetail.AverageRate,
+			ID:    expertDetail.Id,
+			Name:  expertDetail.Name,
+			Photo: expertDetail.Photo,
 		},
 	}
 
