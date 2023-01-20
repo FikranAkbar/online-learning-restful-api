@@ -46,13 +46,16 @@ var popularCourseSet = wire.NewSet(
 	wire.Bind(new(course_controller.CoursePopularController), new(*course_controller.CoursePopularControllerImpl)),
 )
 
-var courseSet = wire.NewSet(
+var courseRepositorySet = wire.NewSet(
 	course_repository.NewCourseRepositoryImpl,
 	wire.Bind(new(course_repository.CourseRepository), new(*course_repository.CourseRepositoryImpl)),
-	course_service.NewCourseServiceImpl,
-	wire.Bind(new(course_service.CourseService), new(*course_service.CourseServiceImpl)),
-	course_controller.NewCourseControllerImpl,
-	wire.Bind(new(course_controller.CourseController), new(*course_controller.CourseControllerImpl)),
+)
+
+var detailCourseSet = wire.NewSet(
+	course_controller.NewCourseDetailControllerImpl,
+	wire.Bind(new(course_controller.CourseDetailController), new(*course_controller.CourseDetailControllerImpl)),
+	course_service.NewCourseDetailServiceImpl,
+	wire.Bind(new(course_service.CourseDetailService), new(*course_service.CourseDetailServiceImpl)),
 )
 
 func InitializedEchoServer() *echo.Echo {
@@ -61,9 +64,10 @@ func InitializedEchoServer() *echo.Echo {
 		database.NewDB,
 		validator.New,
 		authenticationSet,
+		courseRepositorySet,
 		courseCategorySet,
 		popularCourseSet,
-		courseSet,
+		detailCourseSet,
 	)
 
 	return nil
@@ -75,9 +79,10 @@ func InitializedEchoServerForTest() *echo.Echo {
 		database.NewTestDB,
 		validator.New,
 		authenticationSet,
+		courseRepositorySet,
 		courseCategorySet,
 		popularCourseSet,
-		courseSet,
+		detailCourseSet,
 	)
 
 	return nil

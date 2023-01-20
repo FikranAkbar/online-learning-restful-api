@@ -34,7 +34,7 @@ func InitRoutes(
 	authenticationController authentication_controller.AuthenticationController,
 	courseCategoryController course_controller.CourseCategoryController,
 	coursePopularController course_controller.CoursePopularController,
-	courseController course_controller.CourseController,
+	courseController course_controller.CourseDetailController,
 	e *echo.Echo,
 ) {
 	apiGroup := e.Group("/api")

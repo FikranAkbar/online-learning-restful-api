@@ -13,7 +13,7 @@ func InitServerWithEcho(
 	authenticationController authentication_controller.AuthenticationController,
 	courseCategoryController course_controller.CourseCategoryController,
 	coursePopularController course_controller.CoursePopularController,
-	courseController course_controller.CourseController,
+	courseController course_controller.CourseDetailController,
 ) *echo.Echo {
 	e := echo.New()
 

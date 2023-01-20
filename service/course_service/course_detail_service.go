@@ -5,7 +5,7 @@ import (
 	"online-learning-restful-api/model/web/course"
 )
 
-type CourseService interface {
+type CourseDetailService interface {
 	GetCoursesByKeyword(ctx context.Context, keyword string) []course.ShortCourseResponse
 	GetDetailCourseByCourseId(ctx context.Context, courseId uint, userId *uint) course.DetailCourseResponse
 	GetUserCourseProgressionByCourseId(ctx context.Context, courseId uint) course.UserCourseProgressionResponse

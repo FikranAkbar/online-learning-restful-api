@@ -10,16 +10,16 @@ import (
 	"online-learning-restful-api/repository/course_repository"
 )
 
-type CourseServiceImpl struct {
+type CourseDetailServiceImpl struct {
 	course_repository.CourseRepository
 	*gorm.DB
 }
 
-func NewCourseServiceImpl(courseRepository course_repository.CourseRepository, DB *gorm.DB) *CourseServiceImpl {
-	return &CourseServiceImpl{CourseRepository: courseRepository, DB: DB}
+func NewCourseDetailServiceImpl(courseRepository course_repository.CourseRepository, DB *gorm.DB) *CourseDetailServiceImpl {
+	return &CourseDetailServiceImpl{CourseRepository: courseRepository, DB: DB}
 }
 
-func (service *CourseServiceImpl) GetCoursesByKeyword(ctx context.Context, keyword string) []course.ShortCourseResponse {
+func (service *CourseDetailServiceImpl) GetCoursesByKeyword(ctx context.Context, keyword string) []course.ShortCourseResponse {
 	tx := service.DB.Begin()
 	defer helper.CommitOrRollback(tx)
 
@@ -40,7 +40,7 @@ func (service *CourseServiceImpl) GetCoursesByKeyword(ctx context.Context, keywo
 	return coursesResponse
 }
 
-func (service *CourseServiceImpl) GetDetailCourseByCourseId(ctx context.Context, courseId uint, userId *uint) course.DetailCourseResponse {
+func (service *CourseDetailServiceImpl) GetDetailCourseByCourseId(ctx context.Context, courseId uint, userId *uint) course.DetailCourseResponse {
 	tx := service.DB.Begin()
 	defer helper.CommitOrRollback(tx)
 
@@ -69,7 +69,7 @@ func (service *CourseServiceImpl) GetDetailCourseByCourseId(ctx context.Context,
 	return detailCourseResponse
 }
 
-func (service *CourseServiceImpl) GetUserCourseProgressionByCourseId(ctx context.Context, courseId uint) course.UserCourseProgressionResponse {
+func (service *CourseDetailServiceImpl) GetUserCourseProgressionByCourseId(ctx context.Context, courseId uint) course.UserCourseProgressionResponse {
 	tx := service.DB.Begin()
 	defer helper.CommitOrRollback(tx)
 
