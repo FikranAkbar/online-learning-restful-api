@@ -5,6 +5,7 @@ import (
 	"online-learning-restful-api/app/router/middleware"
 	"online-learning-restful-api/controller/authentication_controller"
 	"online-learning-restful-api/controller/course_controller"
+	"online-learning-restful-api/controller/webinar_session_controller"
 )
 
 var (
@@ -20,7 +21,7 @@ var (
 	RegisterAPIRoute = "/register"
 )
 
-// Course Categories Routes
+// Course Routes
 var (
 	CoursesAPIRoute            = "/courses"
 	CourseIdAPIRoute           = "/:courseId"
@@ -29,6 +30,8 @@ var (
 	CategoryIdAPIRoute         = "/:categoryId"
 	PopularAPIRoute            = "/popular"
 	ReviewAPIRoute             = "/reviews"
+	OverviewAPIRoute           = "/overview"
+	WebinarSessionsAPIRoute    = "/webinar-sessions"
 )
 
 func InitRoutes(
@@ -37,6 +40,7 @@ func InitRoutes(
 	popularCourseController course_controller.PopularCourseController,
 	detailCourseController course_controller.DetailCourseController,
 	courseReviewController course_controller.CourseReviewController,
+	webinarSessionController webinar_session_controller.WebinarSessionController,
 	e *echo.Echo,
 ) {
 	apiGroup := e.Group("/api")
@@ -59,20 +63,56 @@ func InitRoutes(
 	}
 
 	// authentication route
-	publicUserRouteGroup.POST(LoginAPIRoute, authenticationController.LoginUserWithEmailPassword).Name = "Login with email and password"
-	publicUserRouteGroup.POST(RegisterAPIRoute, authenticationController.RegisterUserWithEmailPassword).Name = "Register user"
-	protectedUserRouteGroup.POST(LogoutAPIRoute, authenticationController.LogoutUser).Name = "Logout user"
+	publicUserRouteGroup.POST(
+		LoginAPIRoute,
+		authenticationController.LoginUserWithEmailPassword,
+	).Name = "Login with email and password"
+	publicUserRouteGroup.POST(
+		RegisterAPIRoute,
+		authenticationController.RegisterUserWithEmailPassword,
+	).Name = "Register user"
+	protectedUserRouteGroup.POST(
+		LogoutAPIRoute,
+		authenticationController.LogoutUser,
+	).Name = "Logout user"
 
 	// course category route
-	publicCourseRouteGroup.GET(CategoriesAPIRoute, courseCategoryController.GetAllCourseCategories).Name = "Get all course's categories"
-	publicCourseRouteGroup.GET(CategoriesAPIRoute+CategoryIdAPIRoute, courseCategoryController.GetCoursesByCategoryId).Name = "Get courses by category id"
+	publicCourseRouteGroup.GET(
+		CategoriesAPIRoute,
+		courseCategoryController.GetAllCourseCategories,
+	).Name = "Get all course's categories"
+	publicCourseRouteGroup.GET(
+		CategoriesAPIRoute+CategoryIdAPIRoute,
+		courseCategoryController.GetCoursesByCategoryId,
+	).Name = "Get courses by category id"
 
 	// popular course route
-	publicCourseRouteGroup.GET(PopularAPIRoute, popularCourseController.GetPopularCourses).Name = "Get Popular Courses"
+	publicCourseRouteGroup.GET(
+		PopularAPIRoute,
+		popularCourseController.GetPopularCourses,
+	).Name = "Get Popular Courses"
 
 	// course route
-	publicCourseRouteGroup.GET("", detailCourseController.GetCoursesByKeyword).Name = "Get Courses By Keyword"
-	publicCourseRouteGroup.GET(CourseIdAPIRoute, detailCourseController.GetDetailCourseByCourseId).Name = "Get Detail Course By Course Id and User Id"
-	protectedCourseRouteGroup.GET(CourseIdAPIRoute+CourseProgressionsAPIRoute, detailCourseController.GetUserCourseProgressionByCourseId).Name = "Get User Course Progression By Course Id"
-	publicCourseRouteGroup.GET(CourseIdAPIRoute+ReviewAPIRoute, courseReviewController.GetCourseReviewsByCourseId).Name = "Get Course Review By Course Id"
+	publicCourseRouteGroup.GET(
+		"",
+		detailCourseController.GetCoursesByKeyword,
+	).Name = "Get Courses By Keyword"
+	publicCourseRouteGroup.GET(
+		CourseIdAPIRoute,
+		detailCourseController.GetDetailCourseByCourseId,
+	).Name = "Get Detail Course By Course Id and User Id"
+	protectedCourseRouteGroup.GET(
+		CourseIdAPIRoute+CourseProgressionsAPIRoute,
+		detailCourseController.GetUserCourseProgressionByCourseId,
+	).Name = "Get User Course Progression By Course Id"
+	publicCourseRouteGroup.GET(
+		CourseIdAPIRoute+ReviewAPIRoute,
+		courseReviewController.GetCourseReviewsByCourseId,
+	).Name = "Get Course Review By Course Id"
+
+	// webinar session route
+	publicCourseRouteGroup.GET(
+		CourseIdAPIRoute+OverviewAPIRoute+WebinarSessionsAPIRoute,
+		webinarSessionController.GetOverviewWebinarSessionsByCourseId,
+	).Name = "Get overview of webinar sessions by course id"
 }
