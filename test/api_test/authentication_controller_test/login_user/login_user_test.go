@@ -29,7 +29,7 @@ func TestLoginUserSuccess(t *testing.T) {
 
 	req := httptest.NewRequest(
 		http.MethodPost,
-		router.HostURL+router.UsersAPIRoute+router.LoginAPIRoute,
+		router.HostURLTest+router.UsersAPIRoute+router.LoginAPIRoute,
 		strings.NewReader(userLoginSuccessRequestBody))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
@@ -59,7 +59,7 @@ func TestLoginUserFailedEmptyEmail(t *testing.T) {
 
 	req := httptest.NewRequest(
 		http.MethodPost,
-		router.HostURL+router.UsersAPIRoute+router.LoginAPIRoute,
+		router.HostURLTest+router.UsersAPIRoute+router.LoginAPIRoute,
 		strings.NewReader(userLoginFailedEmptyEmailRequestBody))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
@@ -83,7 +83,7 @@ func TestLoginUserFailedWrongEmailOrPassword(t *testing.T) {
 
 	req := httptest.NewRequest(
 		http.MethodPost,
-		router.HostURL+router.UsersAPIRoute+router.LoginAPIRoute,
+		router.HostURLTest+router.UsersAPIRoute+router.LoginAPIRoute,
 		strings.NewReader(userLoginFailedWrongEmailOrPasswordRequestBody))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()

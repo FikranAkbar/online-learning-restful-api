@@ -16,11 +16,16 @@ type UserTokenInfo struct {
 	UserName  string
 }
 
+var (
+	ContextUserInfoKey    = "user_info"
+	UnauthorizedErrorInfo = exception.Unauthorized + ". User token was not found"
+)
+
 func JWTAuthorization(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		authorizationHeader := c.Request().Header.Get("Authorization")
 		if !strings.Contains(authorizationHeader, "Bearer") {
-			return exception.GenerateHTTPError(exception.BadRequest, "Invalid token")
+			return exception.GenerateHTTPError(exception.Unauthorized, "Invalid token")
 		}
 
 		tokenString := strings.Replace(authorizationHeader, "Bearer ", "", -1)
@@ -36,12 +41,12 @@ func JWTAuthorization(next echo.HandlerFunc) echo.HandlerFunc {
 		})
 
 		if err != nil {
-			return exception.GenerateHTTPError(exception.BadRequest, err.Error())
+			return exception.GenerateHTTPError(exception.Unauthorized, err.Error())
 		}
 
 		claims, ok := token.Claims.(jwt.MapClaims)
 		if !ok || !token.Valid {
-			return exception.GenerateHTTPError(exception.BadRequest, "Parsing to jwt map claims failed")
+			return exception.GenerateHTTPError(exception.Unauthorized, "Parsing to jwt map claims failed")
 		}
 
 		userId := uint(claims["user_id"].(float64))
@@ -54,7 +59,7 @@ func JWTAuthorization(next echo.HandlerFunc) echo.HandlerFunc {
 			UserName:  userName,
 		}
 
-		ctx := context.WithValue(c.Request().Context(), "user_token_info", userTokenInfo)
+		ctx := context.WithValue(c.Request().Context(), ContextUserInfoKey, userTokenInfo)
 		newRequest := c.Request().WithContext(ctx)
 		c.SetRequest(newRequest)
 
