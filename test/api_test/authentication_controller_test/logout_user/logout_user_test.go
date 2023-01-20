@@ -29,7 +29,7 @@ func TestLogoutUserSuccess(t *testing.T) {
 
 	req := httptest.NewRequest(
 		http.MethodPost,
-		router.HostURL+router.UsersAPIRoute+router.LogoutAPIRoute,
+		router.HostURLTest+router.UsersAPIRoute+router.LogoutAPIRoute,
 		nil)
 	req.Header.Set(echo.HeaderAuthorization, "Bearer "+currentJWTToken)
 	rec := httptest.NewRecorder()
@@ -53,20 +53,20 @@ func TestLogoutUserFailed(t *testing.T) {
 
 	req := httptest.NewRequest(
 		http.MethodPost,
-		router.HostURL+router.UsersAPIRoute+router.LogoutAPIRoute,
+		router.HostURLTest+router.UsersAPIRoute+router.LogoutAPIRoute,
 		nil)
 	rec := httptest.NewRecorder()
 
 	e.ServeHTTP(rec, req)
 
 	response := rec.Result()
-	assert.Equal(t, http.StatusBadRequest, response.StatusCode)
+	assert.Equal(t, http.StatusUnauthorized, response.StatusCode)
 
 	body, _ := io.ReadAll(response.Body)
 	var responseBody web.APIResponse
 
 	_ = json.Unmarshal(body, &responseBody)
-	assert.Equal(t, http.StatusBadRequest, responseBody.Status)
-	assert.Equal(t, test.MessageBadRequest, responseBody.Message)
+	assert.Equal(t, http.StatusUnauthorized, responseBody.Status)
+	assert.Equal(t, test.MessageUnauthorized, responseBody.Message)
 	assert.Regexp(t, regexp.MustCompile(`(?i)invalid token`), responseBody.Data)
 }

@@ -19,7 +19,7 @@ func TestGetCoursesByCategoryIdSuccess(t *testing.T) {
 	e := di.InitializedEchoServerForTest()
 
 	categoryId := "/1"
-	urlRoute := router.HostURL + router.CoursesAPIRoute + router.CategoriesAPIRoute + categoryId
+	urlRoute := router.HostURLTest + router.CoursesAPIRoute + router.CategoriesAPIRoute + categoryId
 	req := httptest.NewRequest(
 		http.MethodGet,
 		urlRoute,

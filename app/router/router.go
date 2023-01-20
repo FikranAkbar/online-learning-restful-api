@@ -8,7 +8,8 @@ import (
 )
 
 var (
-	HostURL = "http://localhost:8000/api"
+	HostURL     = "http://localhost:8000/api"
+	HostURLTest = "http://localhost:8001/api"
 )
 
 // Users Routes

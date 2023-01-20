@@ -22,7 +22,7 @@ func TestGetDetailCourseSuccessWithAlreadyOwnedTrue(t *testing.T) {
 
 	courseId := "/1"
 	userIdQuery := "?userid=1"
-	urlRoute := router.HostURL + router.CoursesAPIRoute + courseId + userIdQuery
+	urlRoute := router.HostURLTest + router.CoursesAPIRoute + courseId + userIdQuery
 	req := httptest.NewRequest(
 		http.MethodGet,
 		urlRoute,
@@ -57,7 +57,7 @@ func TestGetDetailCourseSuccessWithAlreadyOwnedFalse(t *testing.T) {
 
 	courseId := "/1"
 	userIdQuery := "?userid=1010101"
-	urlRoute := router.HostURL + router.CoursesAPIRoute + courseId + userIdQuery
+	urlRoute := router.HostURLTest + router.CoursesAPIRoute + courseId + userIdQuery
 	req := httptest.NewRequest(
 		http.MethodGet,
 		urlRoute,
@@ -92,7 +92,7 @@ func TestGetDetailCourseFailedCourseNotFound(t *testing.T) {
 
 	courseId := "/10101"
 	userIdQuery := "?userid=1"
-	urlRoute := router.HostURL + router.CoursesAPIRoute + courseId + userIdQuery
+	urlRoute := router.HostURLTest + router.CoursesAPIRoute + courseId + userIdQuery
 	req := httptest.NewRequest(
 		http.MethodGet,
 		urlRoute,

@@ -19,6 +19,7 @@ var (
 	MessageOk           = "OK"
 	MessageBadRequest   = "BAD REQUEST"
 	MessageUnauthorized = "UNAUTHORIZED"
+	MessageForbidden    = "FORBIDDEN"
 	MessageNotFound     = "NOT FOUND"
 )
 

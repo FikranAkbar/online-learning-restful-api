@@ -48,7 +48,7 @@ func TestTableRegisterUser(t *testing.T) {
 	t.Run("Register User Success", func(t *testing.T) {
 		req := httptest.NewRequest(
 			http.MethodPost,
-			router.HostURL+router.UsersAPIRoute+router.RegisterAPIRoute,
+			router.HostURLTest+router.UsersAPIRoute+router.RegisterAPIRoute,
 			strings.NewReader(userRegisterSuccessRequestBody))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		rec := httptest.NewRecorder()
@@ -84,7 +84,7 @@ func TestTableRegisterUser(t *testing.T) {
 	t.Run("Register User Failed Field Not Complete", func(t *testing.T) {
 		req := httptest.NewRequest(
 			http.MethodPost,
-			router.HostURL+router.UsersAPIRoute+router.RegisterAPIRoute,
+			router.HostURLTest+router.UsersAPIRoute+router.RegisterAPIRoute,
 			strings.NewReader(userRegisterFailedFieldNotComplete))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		rec := httptest.NewRecorder()
@@ -105,7 +105,7 @@ func TestTableRegisterUser(t *testing.T) {
 	t.Run("Register User Failed Email Already Exist", func(t *testing.T) {
 		req := httptest.NewRequest(
 			http.MethodPost,
-			router.HostURL+router.UsersAPIRoute+router.RegisterAPIRoute,
+			router.HostURLTest+router.UsersAPIRoute+router.RegisterAPIRoute,
 			strings.NewReader(userRegisterFailedEmailAlreadyExist))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		rec := httptest.NewRecorder()

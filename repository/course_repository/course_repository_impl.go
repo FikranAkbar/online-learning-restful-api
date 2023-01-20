@@ -143,7 +143,7 @@ func (repository *CourseRepositoryImpl) GetUserCourseProgressionByCourseId(ctx c
 		First(&userCourseEntity).Error
 	if exception.CheckErrorContains(err, exception.NotFound) {
 		logError := "User not owned the access to course with id " + strconv.Itoa(int(courseId))
-		return domain.UserCourse{}, exception.GenerateHTTPError(exception.Unauthorized, logError)
+		return domain.UserCourse{}, exception.GenerateHTTPError(exception.Forbidden, logError)
 	}
 
 	userCourse := domain.UserCourse{

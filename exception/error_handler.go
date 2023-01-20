@@ -11,6 +11,7 @@ import (
 const (
 	Unauthorized = "Unauthorized"
 	NotFound     = "Not found"
+	Forbidden    = "Forbidden"
 	BadRequest   = "Bad request"
 	Validation   = "Validation"
 	Duplicate    = "Duplicate"
@@ -36,6 +37,11 @@ func ErrorHandler(err error, c echo.Context) {
 
 	if CheckErrorContains(err, Unauthorized) {
 		unauthorizedError(err, c)
+		return
+	}
+
+	if CheckErrorContains(err, Forbidden) {
+		forbiddenError(err, c)
 		return
 	}
 
@@ -65,6 +71,16 @@ func recordNotFoundError(err error, c echo.Context) {
 	}
 
 	_ = c.JSON(http.StatusNotFound, response)
+}
+
+func forbiddenError(err error, c echo.Context) {
+	response := web.APIResponse{
+		Status:  403,
+		Message: "FORBIDDEN",
+		Data:    err.Error(),
+	}
+
+	_ = c.JSON(http.StatusForbidden, response)
 }
 
 func unauthorizedError(err error, c echo.Context) {

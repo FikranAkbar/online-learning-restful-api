@@ -20,7 +20,7 @@ func TestGetAllCourseCategoriesSuccess(t *testing.T) {
 
 	req := httptest.NewRequest(
 		http.MethodGet,
-		router.HostURL+router.CoursesAPIRoute+router.CategoriesAPIRoute,
+		router.HostURLTest+router.CoursesAPIRoute+router.CategoriesAPIRoute,
 		nil)
 	rec := httptest.NewRecorder()
 
