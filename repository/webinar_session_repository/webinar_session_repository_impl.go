@@ -2,8 +2,10 @@ package webinar_session_repository
 
 import (
 	"context"
+	"fmt"
 	"gorm.io/gorm"
 	"online-learning-restful-api/app/database/entity"
+	"online-learning-restful-api/exception"
 	"online-learning-restful-api/model/domain"
 )
 
@@ -15,8 +17,20 @@ func NewWebinarSessionRepositoryImpl() *WebinarSessionRepositoryImpl {
 }
 
 func (repository WebinarSessionRepositoryImpl) GetOverviewWebinarSessionsByCourseId(ctx context.Context, db *gorm.DB, courseId uint) ([]domain.WebinarSession, error) {
-	var webinarSessionEntities []entity.MasterWebinarSession
+	var courseEntity entity.MasterCourse
 	err := db.WithContext(ctx).
+		Where("id = ?", courseId).
+		Preload("Webinars").
+		First(&courseEntity).Error
+	if err != nil && exception.CheckErrorContains(err, exception.NotFound) {
+		logError := fmt.Sprintf("Course with id %v not found", courseId)
+		return []domain.WebinarSession{}, exception.GenerateHTTPError(exception.NotFound, logError)
+	} else if err != nil {
+		return []domain.WebinarSession{}, err
+	}
+
+	webinarSessionEntities := courseEntity.Webinars
+	err = db.WithContext(ctx).
 		Where("course_id = ?", courseId).
 		Preload("Day").
 		Preload("Sequence").
