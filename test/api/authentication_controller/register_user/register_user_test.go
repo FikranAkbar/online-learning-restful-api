@@ -1,4 +1,4 @@
-package register_user_test
+package register_user
 
 import (
 	"encoding/json"

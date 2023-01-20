@@ -10,17 +10,17 @@ import (
 	"strconv"
 )
 
-type CourseControllerImpl struct {
-	course_service.CourseService
+type DetailCourseControllerImpl struct {
+	course_service.CourseDetailService
 }
 
-func NewCourseControllerImpl(courseService course_service.CourseService) *CourseControllerImpl {
-	return &CourseControllerImpl{CourseService: courseService}
+func NewDetailCourseControllerImpl(courseService course_service.CourseDetailService) *DetailCourseControllerImpl {
+	return &DetailCourseControllerImpl{CourseDetailService: courseService}
 }
 
-func (controller *CourseControllerImpl) GetCoursesByKeyword(c echo.Context) error {
+func (controller *DetailCourseControllerImpl) GetCoursesByKeyword(c echo.Context) error {
 	keyword := c.QueryParam("keyword")
-	coursesResponse := controller.CourseService.GetCoursesByKeyword(c.Request().Context(), keyword)
+	coursesResponse := controller.CourseDetailService.GetCoursesByKeyword(c.Request().Context(), keyword)
 
 	apiResponse := web.APIResponse{
 		Status:  200,
@@ -31,7 +31,7 @@ func (controller *CourseControllerImpl) GetCoursesByKeyword(c echo.Context) erro
 	return c.JSON(http.StatusOK, apiResponse)
 }
 
-func (controller *CourseControllerImpl) GetDetailCourseByCourseId(c echo.Context) error {
+func (controller *DetailCourseControllerImpl) GetDetailCourseByCourseId(c echo.Context) error {
 	courseId, courseIdErr := strconv.Atoi(c.Param("courseId"))
 	helper.PanicIfError(courseIdErr)
 
@@ -39,12 +39,12 @@ func (controller *CourseControllerImpl) GetDetailCourseByCourseId(c echo.Context
 
 	userIdQuery := c.QueryParam("userid")
 	if userIdQuery == "" {
-		detailCourseResponse = controller.CourseService.GetDetailCourseByCourseId(c.Request().Context(), uint(courseId), nil)
+		detailCourseResponse = controller.CourseDetailService.GetDetailCourseByCourseId(c.Request().Context(), uint(courseId), nil)
 	} else {
 		userId, userIdErr := strconv.Atoi(userIdQuery)
 		helper.PanicIfError(userIdErr)
 		newUserId := uint(userId)
-		detailCourseResponse = controller.CourseService.GetDetailCourseByCourseId(c.Request().Context(), uint(courseId), &newUserId)
+		detailCourseResponse = controller.CourseDetailService.GetDetailCourseByCourseId(c.Request().Context(), uint(courseId), &newUserId)
 	}
 
 	apiResponse := web.APIResponse{
@@ -56,12 +56,12 @@ func (controller *CourseControllerImpl) GetDetailCourseByCourseId(c echo.Context
 	return c.JSON(200, apiResponse)
 }
 
-func (controller *CourseControllerImpl) GetUserCourseProgressionByCourseId(c echo.Context) error {
+func (controller *DetailCourseControllerImpl) GetUserCourseProgressionByCourseId(c echo.Context) error {
 	courseId := c.Param("courseId")
 	newCourseId, err := strconv.Atoi(courseId)
 	helper.PanicIfError(err)
 
-	userCourseProgressionResponse := controller.CourseService.GetUserCourseProgressionByCourseId(c.Request().Context(), uint(newCourseId))
+	userCourseProgressionResponse := controller.CourseDetailService.GetUserCourseProgressionByCourseId(c.Request().Context(), uint(newCourseId))
 
 	apiResponse := web.APIResponse{
 		Status:  200,

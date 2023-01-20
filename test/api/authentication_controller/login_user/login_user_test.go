@@ -1,4 +1,4 @@
-package login_user_test
+package login_user
 
 import (
 	"encoding/json"

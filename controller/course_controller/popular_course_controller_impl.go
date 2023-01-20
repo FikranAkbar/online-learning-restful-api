@@ -7,15 +7,15 @@ import (
 	"online-learning-restful-api/service/course_service"
 )
 
-type CoursePopularControllerImpl struct {
+type PopularCourseControllerImpl struct {
 	course_service.CoursePopularService
 }
 
-func NewCoursePopularControllerImpl(service course_service.CoursePopularService) *CoursePopularControllerImpl {
-	return &CoursePopularControllerImpl{service}
+func NewPopularCourseControllerImpl(service course_service.CoursePopularService) *PopularCourseControllerImpl {
+	return &PopularCourseControllerImpl{service}
 }
 
-func (controller *CoursePopularControllerImpl) GetPopularCourses(c echo.Context) error {
+func (controller *PopularCourseControllerImpl) GetPopularCourses(c echo.Context) error {
 	coursesResponse := controller.CoursePopularService.GetPopularCourses(c.Request().Context())
 
 	apiResponse := web.APIResponse{
@@ -26,4 +26,3 @@ func (controller *CoursePopularControllerImpl) GetPopularCourses(c echo.Context)
 
 	return c.JSON(http.StatusOK, apiResponse)
 }
-

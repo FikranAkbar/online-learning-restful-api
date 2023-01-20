@@ -42,17 +42,27 @@ var courseCategorySet = wire.NewSet(
 var popularCourseSet = wire.NewSet(
 	course_service.NewCoursePopularServiceImpl,
 	wire.Bind(new(course_service.CoursePopularService), new(*course_service.CoursePopularServiceImpl)),
-	course_controller.NewCoursePopularControllerImpl,
-	wire.Bind(new(course_controller.CoursePopularController), new(*course_controller.CoursePopularControllerImpl)),
+	course_controller.NewPopularCourseControllerImpl,
+	wire.Bind(new(course_controller.PopularCourseController), new(*course_controller.PopularCourseControllerImpl)),
 )
 
-var courseSet = wire.NewSet(
+var courseRepositorySet = wire.NewSet(
 	course_repository.NewCourseRepositoryImpl,
 	wire.Bind(new(course_repository.CourseRepository), new(*course_repository.CourseRepositoryImpl)),
-	course_service.NewCourseServiceImpl,
-	wire.Bind(new(course_service.CourseService), new(*course_service.CourseServiceImpl)),
-	course_controller.NewCourseControllerImpl,
-	wire.Bind(new(course_controller.CourseController), new(*course_controller.CourseControllerImpl)),
+)
+
+var detailCourseSet = wire.NewSet(
+	course_controller.NewDetailCourseControllerImpl,
+	wire.Bind(new(course_controller.DetailCourseController), new(*course_controller.DetailCourseControllerImpl)),
+	course_service.NewCourseDetailServiceImpl,
+	wire.Bind(new(course_service.CourseDetailService), new(*course_service.CourseDetailServiceImpl)),
+)
+
+var reviewCourseSet = wire.NewSet(
+	course_controller.NewCourseReviewControllerImpl,
+	wire.Bind(new(course_controller.CourseReviewController), new(*course_controller.CourseReviewControllerImpl)),
+	course_service.NewCourseReviewServiceImpl,
+	wire.Bind(new(course_service.CourseReviewService), new(*course_service.CourseReviewServiceImpl)),
 )
 
 func InitializedEchoServer() *echo.Echo {
@@ -61,9 +71,11 @@ func InitializedEchoServer() *echo.Echo {
 		database.NewDB,
 		validator.New,
 		authenticationSet,
+		courseRepositorySet,
 		courseCategorySet,
 		popularCourseSet,
-		courseSet,
+		detailCourseSet,
+		reviewCourseSet,
 	)
 
 	return nil
@@ -75,9 +87,11 @@ func InitializedEchoServerForTest() *echo.Echo {
 		database.NewTestDB,
 		validator.New,
 		authenticationSet,
+		courseRepositorySet,
 		courseCategorySet,
 		popularCourseSet,
-		courseSet,
+		detailCourseSet,
+		reviewCourseSet,
 	)
 
 	return nil

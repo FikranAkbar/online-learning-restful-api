@@ -1,4 +1,4 @@
-package logout_user_test
+package logout_user
 
 import (
 	"encoding/json"

@@ -5,8 +5,8 @@ import (
 )
 
 type TrxUserCourse struct {
-	UserId               uint         `gorm:"column:user_id;primaryKey;autoIncrement:false"`
-	User                 MasterUser   `gorm:"foreignKey:UserId"`
+	UserId uint `gorm:"column:user_id;primaryKey;autoIncrement:false"`
+	//User                 MasterUser   `gorm:"foreignKey:UserId"`
 	CourseId             uint         `gorm:"column:course_id;primaryKey;autoIncrement:false"`
 	Course               MasterCourse `gorm:"foreignKey:CourseId"`
 	LastUnlockedModule   uint         `gorm:"column:last_unlocked_module;default=1;not null"`

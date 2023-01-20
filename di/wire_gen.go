@@ -36,10 +36,12 @@ func InitializedEchoServer() *echo.Echo {
 	courseCategoryControllerImpl := course_controller.NewCourseCategoryControllerImpl(courseCategoryServiceImpl)
 	courseRepositoryImpl := course_repository.NewCourseRepositoryImpl()
 	coursePopularServiceImpl := course_service.NewCoursePopularServiceImpl(courseRepositoryImpl, db)
-	coursePopularControllerImpl := course_controller.NewCoursePopularControllerImpl(coursePopularServiceImpl)
-	courseServiceImpl := course_service.NewCourseServiceImpl(courseRepositoryImpl, db)
-	courseControllerImpl := course_controller.NewCourseControllerImpl(courseServiceImpl)
-	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, coursePopularControllerImpl, courseControllerImpl)
+	popularCourseControllerImpl := course_controller.NewPopularCourseControllerImpl(coursePopularServiceImpl)
+	courseDetailServiceImpl := course_service.NewCourseDetailServiceImpl(courseRepositoryImpl, db)
+	detailCourseControllerImpl := course_controller.NewDetailCourseControllerImpl(courseDetailServiceImpl)
+	courseReviewServiceImpl := course_service.NewCourseReviewServiceImpl(courseRepositoryImpl, db)
+	courseReviewControllerImpl := course_controller.NewCourseReviewControllerImpl(courseReviewServiceImpl)
+	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl)
 	return echoEcho
 }
 
@@ -55,10 +57,12 @@ func InitializedEchoServerForTest() *echo.Echo {
 	courseCategoryControllerImpl := course_controller.NewCourseCategoryControllerImpl(courseCategoryServiceImpl)
 	courseRepositoryImpl := course_repository.NewCourseRepositoryImpl()
 	coursePopularServiceImpl := course_service.NewCoursePopularServiceImpl(courseRepositoryImpl, db)
-	coursePopularControllerImpl := course_controller.NewCoursePopularControllerImpl(coursePopularServiceImpl)
-	courseServiceImpl := course_service.NewCourseServiceImpl(courseRepositoryImpl, db)
-	courseControllerImpl := course_controller.NewCourseControllerImpl(courseServiceImpl)
-	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, coursePopularControllerImpl, courseControllerImpl)
+	popularCourseControllerImpl := course_controller.NewPopularCourseControllerImpl(coursePopularServiceImpl)
+	courseDetailServiceImpl := course_service.NewCourseDetailServiceImpl(courseRepositoryImpl, db)
+	detailCourseControllerImpl := course_controller.NewDetailCourseControllerImpl(courseDetailServiceImpl)
+	courseReviewServiceImpl := course_service.NewCourseReviewServiceImpl(courseRepositoryImpl, db)
+	courseReviewControllerImpl := course_controller.NewCourseReviewControllerImpl(courseReviewServiceImpl)
+	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl)
 	return echoEcho
 }
 
@@ -68,6 +72,10 @@ var authenticationSet = wire.NewSet(account_repository.NewAccountRepositoryImpl,
 
 var courseCategorySet = wire.NewSet(category_repository.NewCategoryRepositoryImpl, wire.Bind(new(category_repository.CategoryRepository), new(*category_repository.CategoryRepositoryImpl)), course_service.NewCourseCategoryServiceImpl, wire.Bind(new(course_service.CourseCategoryService), new(*course_service.CourseCategoryServiceImpl)), course_controller.NewCourseCategoryControllerImpl, wire.Bind(new(course_controller.CourseCategoryController), new(*course_controller.CourseCategoryControllerImpl)))
 
-var popularCourseSet = wire.NewSet(course_service.NewCoursePopularServiceImpl, wire.Bind(new(course_service.CoursePopularService), new(*course_service.CoursePopularServiceImpl)), course_controller.NewCoursePopularControllerImpl, wire.Bind(new(course_controller.CoursePopularController), new(*course_controller.CoursePopularControllerImpl)))
+var popularCourseSet = wire.NewSet(course_service.NewCoursePopularServiceImpl, wire.Bind(new(course_service.CoursePopularService), new(*course_service.CoursePopularServiceImpl)), course_controller.NewPopularCourseControllerImpl, wire.Bind(new(course_controller.PopularCourseController), new(*course_controller.PopularCourseControllerImpl)))
 
-var courseSet = wire.NewSet(course_repository.NewCourseRepositoryImpl, wire.Bind(new(course_repository.CourseRepository), new(*course_repository.CourseRepositoryImpl)), course_service.NewCourseServiceImpl, wire.Bind(new(course_service.CourseService), new(*course_service.CourseServiceImpl)), course_controller.NewCourseControllerImpl, wire.Bind(new(course_controller.CourseController), new(*course_controller.CourseControllerImpl)))
+var courseRepositorySet = wire.NewSet(course_repository.NewCourseRepositoryImpl, wire.Bind(new(course_repository.CourseRepository), new(*course_repository.CourseRepositoryImpl)))
+
+var detailCourseSet = wire.NewSet(course_controller.NewDetailCourseControllerImpl, wire.Bind(new(course_controller.DetailCourseController), new(*course_controller.DetailCourseControllerImpl)), course_service.NewCourseDetailServiceImpl, wire.Bind(new(course_service.CourseDetailService), new(*course_service.CourseDetailServiceImpl)))
+
+var reviewCourseSet = wire.NewSet(course_controller.NewCourseReviewControllerImpl, wire.Bind(new(course_controller.CourseReviewController), new(*course_controller.CourseReviewControllerImpl)), course_service.NewCourseReviewServiceImpl, wire.Bind(new(course_service.CourseReviewService), new(*course_service.CourseReviewServiceImpl)))

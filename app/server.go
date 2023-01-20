@@ -12,8 +12,9 @@ import (
 func InitServerWithEcho(
 	authenticationController authentication_controller.AuthenticationController,
 	courseCategoryController course_controller.CourseCategoryController,
-	coursePopularController course_controller.CoursePopularController,
-	courseController course_controller.CourseController,
+	coursePopularController course_controller.PopularCourseController,
+	detailCourseController course_controller.DetailCourseController,
+	courseReviewController course_controller.CourseReviewController,
 ) *echo.Echo {
 	e := echo.New()
 
@@ -21,7 +22,8 @@ func InitServerWithEcho(
 		authenticationController,
 		courseCategoryController,
 		coursePopularController,
-		courseController,
+		detailCourseController,
+		courseReviewController,
 		e)
 	middleware.InitMiddleware(e)
 

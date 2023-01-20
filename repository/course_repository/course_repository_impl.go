@@ -155,3 +155,34 @@ func (repository *CourseRepositoryImpl) GetUserCourseProgressionByCourseId(ctx c
 	}
 	return userCourse, nil
 }
+
+func (repository *CourseRepositoryImpl) GetCourseReviewsByCourseId(ctx context.Context, db *gorm.DB, courseId uint) ([]domain.CourseReview, error) {
+	var courseEntity entity.MasterCourse
+	err := db.WithContext(ctx).Where("id = ?", courseId).Preload("Reviews").First(&courseEntity).Error
+	if err != nil && exception.CheckErrorContains(err, exception.NotFound) {
+		logError := fmt.Sprintf("Course with id %v not found", courseId)
+		return []domain.CourseReview{}, exception.GenerateHTTPError(exception.NotFound, logError)
+	} else if err != nil {
+		return []domain.CourseReview{}, err
+	}
+
+	courseReviewEntities := courseEntity.Reviews
+	err = db.WithContext(ctx).Preload("User").Find(&courseReviewEntities).Error
+	if err != nil {
+		return []domain.CourseReview{}, err
+	}
+
+	var courseReviews []domain.CourseReview
+	for _, courseReview := range courseReviewEntities {
+		courseReviews = append(courseReviews, domain.CourseReview{
+			Id:         courseReview.ID,
+			CourseId:   courseReview.CourseId,
+			UserId:     courseReview.UserId,
+			UserName:   courseReview.User.Name,
+			ReviewDesc: courseReview.ReviewDesc,
+			ReviewRate: courseReview.ReviewRate,
+		})
+	}
+
+	return courseReviews, nil
+}
