@@ -28,13 +28,15 @@ var (
 	CategoriesAPIRoute         = "/categories"
 	CategoryIdAPIRoute         = "/:categoryId"
 	PopularAPIRoute            = "/popular"
+	ReviewAPIRoute             = "/reviews"
 )
 
 func InitRoutes(
 	authenticationController authentication_controller.AuthenticationController,
 	courseCategoryController course_controller.CourseCategoryController,
-	coursePopularController course_controller.CoursePopularController,
-	courseController course_controller.CourseDetailController,
+	popularCourseController course_controller.PopularCourseController,
+	detailCourseController course_controller.DetailCourseController,
+	courseReviewController course_controller.CourseReviewController,
 	e *echo.Echo,
 ) {
 	apiGroup := e.Group("/api")
@@ -66,10 +68,11 @@ func InitRoutes(
 	publicCourseRouteGroup.GET(CategoriesAPIRoute+CategoryIdAPIRoute, courseCategoryController.GetCoursesByCategoryId).Name = "Get courses by category id"
 
 	// popular course route
-	publicCourseRouteGroup.GET(PopularAPIRoute, coursePopularController.GetPopularCourses).Name = "Get Popular Courses"
+	publicCourseRouteGroup.GET(PopularAPIRoute, popularCourseController.GetPopularCourses).Name = "Get Popular Courses"
 
 	// course route
-	publicCourseRouteGroup.GET("", courseController.GetCoursesByKeyword).Name = "Get Courses By Keyword"
-	publicCourseRouteGroup.GET(CourseIdAPIRoute, courseController.GetDetailCourseByCourseId).Name = "Get Detail Course By Course Id and User Id"
-	protectedCourseRouteGroup.GET(CourseIdAPIRoute+CourseProgressionsAPIRoute, courseController.GetUserCourseProgressionByCourseId).Name = "Get User Course Progression By Course Id"
+	publicCourseRouteGroup.GET("", detailCourseController.GetCoursesByKeyword).Name = "Get Courses By Keyword"
+	publicCourseRouteGroup.GET(CourseIdAPIRoute, detailCourseController.GetDetailCourseByCourseId).Name = "Get Detail Course By Course Id and User Id"
+	protectedCourseRouteGroup.GET(CourseIdAPIRoute+CourseProgressionsAPIRoute, detailCourseController.GetUserCourseProgressionByCourseId).Name = "Get User Course Progression By Course Id"
+	publicCourseRouteGroup.GET(CourseIdAPIRoute+ReviewAPIRoute, courseReviewController.GetCourseReviewsByCourseId).Name = "Get Course Review By Course Id"
 }

@@ -42,8 +42,8 @@ var courseCategorySet = wire.NewSet(
 var popularCourseSet = wire.NewSet(
 	course_service.NewCoursePopularServiceImpl,
 	wire.Bind(new(course_service.CoursePopularService), new(*course_service.CoursePopularServiceImpl)),
-	course_controller.NewCoursePopularControllerImpl,
-	wire.Bind(new(course_controller.CoursePopularController), new(*course_controller.CoursePopularControllerImpl)),
+	course_controller.NewPopularCourseControllerImpl,
+	wire.Bind(new(course_controller.PopularCourseController), new(*course_controller.PopularCourseControllerImpl)),
 )
 
 var courseRepositorySet = wire.NewSet(
@@ -52,10 +52,17 @@ var courseRepositorySet = wire.NewSet(
 )
 
 var detailCourseSet = wire.NewSet(
-	course_controller.NewCourseDetailControllerImpl,
-	wire.Bind(new(course_controller.CourseDetailController), new(*course_controller.CourseDetailControllerImpl)),
+	course_controller.NewDetailCourseControllerImpl,
+	wire.Bind(new(course_controller.DetailCourseController), new(*course_controller.DetailCourseControllerImpl)),
 	course_service.NewCourseDetailServiceImpl,
 	wire.Bind(new(course_service.CourseDetailService), new(*course_service.CourseDetailServiceImpl)),
+)
+
+var reviewCourseSet = wire.NewSet(
+	course_controller.NewCourseReviewControllerImpl,
+	wire.Bind(new(course_controller.CourseReviewController), new(*course_controller.CourseReviewControllerImpl)),
+	course_service.NewCourseReviewServiceImpl,
+	wire.Bind(new(course_service.CourseReviewService), new(*course_service.CourseReviewServiceImpl)),
 )
 
 func InitializedEchoServer() *echo.Echo {
@@ -68,6 +75,7 @@ func InitializedEchoServer() *echo.Echo {
 		courseCategorySet,
 		popularCourseSet,
 		detailCourseSet,
+		reviewCourseSet,
 	)
 
 	return nil
@@ -83,6 +91,7 @@ func InitializedEchoServerForTest() *echo.Echo {
 		courseCategorySet,
 		popularCourseSet,
 		detailCourseSet,
+		reviewCourseSet,
 	)
 
 	return nil

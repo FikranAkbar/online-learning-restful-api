@@ -3,5 +3,5 @@ package course_controller
 import "github.com/labstack/echo/v4"
 
 type CourseReviewController interface {
-	GetCourseReviewsByCourseId(c echo.Echo) error
+	GetCourseReviewsByCourseId(c echo.Context) error
 }

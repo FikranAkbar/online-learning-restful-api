@@ -235,21 +235,21 @@ func InitCourseReviewData() []entity.TrxCourseReview {
 		//#Review for Intro to Creative
 		{
 			ID:         28,
-			CourseId:   12,
+			CourseId:   4,
 			UserId:     1,
 			ReviewDesc: "Coursenya mantaps, kesukaan gue banget",
 			ReviewRate: 4.0,
 		},
 		{
 			ID:         29,
-			CourseId:   12,
+			CourseId:   4,
 			UserId:     4,
 			ReviewDesc: "Ajibb ajibbbb coursenya",
 			ReviewRate: 4.7,
 		},
 		{
 			ID:         30,
-			CourseId:   12,
+			CourseId:   4,
 			UserId:     3,
 			ReviewDesc: "Penjelasan expertnya sangat mudah dimengerti",
 			ReviewRate: 5.0,
@@ -259,21 +259,21 @@ func InitCourseReviewData() []entity.TrxCourseReview {
 		//#Review for Intermediate to Creative
 		{
 			ID:         31,
-			CourseId:   12,
+			CourseId:   8,
 			UserId:     3,
 			ReviewDesc: "Modulnya sangat detail dan videonya mantap",
 			ReviewRate: 4.2,
 		},
 		{
 			ID:         32,
-			CourseId:   12,
+			CourseId:   8,
 			UserId:     2,
 			ReviewDesc: "Expertnya favorit bangets",
 			ReviewRate: 4.8,
 		},
 		{
 			ID:         33,
-			CourseId:   12,
+			CourseId:   8,
 			UserId:     4,
 			ReviewDesc: "Penjelasan materinya sangat detail dan quiznya bagus sekali",
 			ReviewRate: 4.5,

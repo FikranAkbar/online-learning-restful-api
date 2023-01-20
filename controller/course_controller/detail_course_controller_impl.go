@@ -10,15 +10,15 @@ import (
 	"strconv"
 )
 
-type CourseDetailControllerImpl struct {
+type DetailCourseControllerImpl struct {
 	course_service.CourseDetailService
 }
 
-func NewCourseDetailControllerImpl(courseService course_service.CourseDetailService) *CourseDetailControllerImpl {
-	return &CourseDetailControllerImpl{CourseDetailService: courseService}
+func NewDetailCourseControllerImpl(courseService course_service.CourseDetailService) *DetailCourseControllerImpl {
+	return &DetailCourseControllerImpl{CourseDetailService: courseService}
 }
 
-func (controller *CourseDetailControllerImpl) GetCoursesByKeyword(c echo.Context) error {
+func (controller *DetailCourseControllerImpl) GetCoursesByKeyword(c echo.Context) error {
 	keyword := c.QueryParam("keyword")
 	coursesResponse := controller.CourseDetailService.GetCoursesByKeyword(c.Request().Context(), keyword)
 
@@ -31,7 +31,7 @@ func (controller *CourseDetailControllerImpl) GetCoursesByKeyword(c echo.Context
 	return c.JSON(http.StatusOK, apiResponse)
 }
 
-func (controller *CourseDetailControllerImpl) GetDetailCourseByCourseId(c echo.Context) error {
+func (controller *DetailCourseControllerImpl) GetDetailCourseByCourseId(c echo.Context) error {
 	courseId, courseIdErr := strconv.Atoi(c.Param("courseId"))
 	helper.PanicIfError(courseIdErr)
 
@@ -56,7 +56,7 @@ func (controller *CourseDetailControllerImpl) GetDetailCourseByCourseId(c echo.C
 	return c.JSON(200, apiResponse)
 }
 
-func (controller *CourseDetailControllerImpl) GetUserCourseProgressionByCourseId(c echo.Context) error {
+func (controller *DetailCourseControllerImpl) GetUserCourseProgressionByCourseId(c echo.Context) error {
 	courseId := c.Param("courseId")
 	newCourseId, err := strconv.Atoi(courseId)
 	helper.PanicIfError(err)
