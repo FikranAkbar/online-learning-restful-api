@@ -33,3 +33,21 @@ func (controller *WebinarSessionControllerImpl) GetOverviewWebinarSessionsByCour
 	return c.JSON(http.StatusOK, apiResponse)
 }
 
+func (controller *WebinarSessionControllerImpl) GetDetailWebinarSessionsByWebinarSessionId(c echo.Context) error {
+	courseId, err := strconv.Atoi(c.Param("courseId"))
+	helper.PanicIfError(err)
+
+	webinarId, err := strconv.Atoi(c.Param("webinarSessionId"))
+	helper.PanicIfError(err)
+
+	detailWebinarSessionsResponse := controller.WebinarSessionService.
+		GetDetailWebinarSessionByWebinarSessionId(c.Request().Context(), uint(courseId), uint(webinarId))
+
+	apiResponse := web.APIResponse{
+		Status:  200,
+		Message: "OK",
+		Data:    detailWebinarSessionsResponse,
+	}
+
+	return c.JSON(http.StatusOK, apiResponse)
+}

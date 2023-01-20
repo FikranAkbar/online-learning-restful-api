@@ -28,7 +28,7 @@ func LoginUserFirst(userCredJSON string) string {
 
 	req := httptest.NewRequest(
 		http.MethodPost,
-		router.HostURL+router.UsersAPIRoute+router.LoginAPIRoute,
+		router.HostURL+router.UsersURLPath+router.LoginURLPath,
 		strings.NewReader(userCredJSON))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()

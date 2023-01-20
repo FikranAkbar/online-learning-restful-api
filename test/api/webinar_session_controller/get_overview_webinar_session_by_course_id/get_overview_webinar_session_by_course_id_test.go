@@ -21,10 +21,10 @@ func TestGetOverviewWebinarSessionSuccess(t *testing.T) {
 
 	courseIdPath := "/1"
 	urlRoute := router.HostURLTest +
-		router.CoursesAPIRoute +
+		router.CourseURLPath +
 		courseIdPath +
-		router.OverviewAPIRoute +
-		router.WebinarSessionsAPIRoute
+		router.OverviewURLPath +
+		router.WebinarSessionsURLPath
 	req := httptest.NewRequest(
 		http.MethodGet,
 		urlRoute,
@@ -57,10 +57,10 @@ func TestGetOverviewWebinarSessionFailedCourseNotFound(t *testing.T) {
 
 	courseIdPath := "/101"
 	urlRoute := router.HostURLTest +
-		router.CoursesAPIRoute +
+		router.CourseURLPath +
 		courseIdPath +
-		router.OverviewAPIRoute +
-		router.WebinarSessionsAPIRoute
+		router.OverviewURLPath +
+		router.WebinarSessionsURLPath
 	req := httptest.NewRequest(
 		http.MethodGet,
 		urlRoute,

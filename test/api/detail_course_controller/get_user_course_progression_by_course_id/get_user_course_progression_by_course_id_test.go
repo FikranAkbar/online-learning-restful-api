@@ -29,7 +29,7 @@ func TestGetUserCourseProgressionByCourseIdSuccess(t *testing.T) {
 	e := di.InitializedEchoServerForTest()
 
 	courseId := "/1"
-	urlRoute := router.HostURLTest + router.CoursesAPIRoute + courseId + router.CourseProgressionsAPIRoute
+	urlRoute := router.HostURLTest + router.CourseURLPath + courseId + router.CourseProgressionsURLPath
 	req := httptest.NewRequest(
 		http.MethodGet,
 		urlRoute,
@@ -61,7 +61,7 @@ func TestGetUserCourseFailedNotOwnedTheAccess(t *testing.T) {
 	e := di.InitializedEchoServerForTest()
 
 	courseId := "/101"
-	urlRoute := router.HostURLTest + router.CoursesAPIRoute + courseId + router.CourseProgressionsAPIRoute
+	urlRoute := router.HostURLTest + router.CourseURLPath + courseId + router.CourseProgressionsURLPath
 	req := httptest.NewRequest(
 		http.MethodGet,
 		urlRoute,
@@ -87,7 +87,7 @@ func TestGetUserCourseFailedInvalidToken(t *testing.T) {
 	e := di.InitializedEchoServerForTest()
 
 	courseId := "/101"
-	urlRoute := router.HostURLTest + router.CoursesAPIRoute + courseId + router.CourseProgressionsAPIRoute
+	urlRoute := router.HostURLTest + router.CourseURLPath + courseId + router.CourseProgressionsURLPath
 	req := httptest.NewRequest(
 		http.MethodGet,
 		urlRoute,

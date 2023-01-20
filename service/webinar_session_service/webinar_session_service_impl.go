@@ -40,3 +40,24 @@ func (service *WebinarSessionServiceImpl) GetOverviewWebinarSessionsByCourseId(c
 
 	return overviewWebinarSessionsResponse
 }
+
+func (service *WebinarSessionServiceImpl) GetDetailWebinarSessionByWebinarSessionId(ctx context.Context, courseId uint, webinarSessionId uint) webinar_session.DetailWebinarSessionResponse {
+	tx := service.DB.Begin()
+	defer helper.CommitOrRollback(tx)
+
+	webinarSession, err := service.WebinarSessionRepository.GetDetailWebinarSessionByWebinarSessionId(ctx, tx, courseId, webinarSessionId)
+	helper.PanicIfError(err)
+
+	return webinar_session.DetailWebinarSessionResponse{
+		CourseId:         webinarSession.CourseId,
+		WebinarSessionId: webinarSession.Id,
+		Title:            webinarSession.Title,
+		Desc:             webinarSession.Desc,
+		Cover:            webinarSession.Cover,
+		ZoomLink:         webinarSession.ZoomLink,
+		ScheduleDay:      webinarSession.ScheduleDay,
+		ScheduleDate:     webinarSession.ScheduleDate,
+		TimeStart:        webinarSession.TimeStart,
+		TimeFinish:       webinarSession.TimeFinish,
+	}
+}

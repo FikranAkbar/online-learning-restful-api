@@ -20,7 +20,7 @@ func TestGetCourseReviewSuccess(t *testing.T) {
 	e := di.InitializedEchoServerForTest()
 
 	courseIdPath := "/1"
-	urlRoute := router.HostURLTest + router.CoursesAPIRoute + courseIdPath + router.ReviewAPIRoute
+	urlRoute := router.HostURLTest + router.CourseURLPath + courseIdPath + router.ReviewsURLPath
 	req := httptest.NewRequest(
 		http.MethodGet,
 		urlRoute,
@@ -51,7 +51,7 @@ func TestGetCourseReviewFailedCourseNotFound(t *testing.T) {
 	e := di.InitializedEchoServerForTest()
 
 	courseIdPath := "/101"
-	urlRoute := router.HostURLTest + router.CoursesAPIRoute + courseIdPath + router.ReviewAPIRoute
+	urlRoute := router.HostURLTest + router.CourseURLPath + courseIdPath + router.ReviewsURLPath
 	req := httptest.NewRequest(
 		http.MethodGet,
 		urlRoute,
