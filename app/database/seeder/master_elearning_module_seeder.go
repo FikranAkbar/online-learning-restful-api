@@ -718,7 +718,7 @@ func InitElearningModuleData() []entity.MasterElearningModule {
 				String: "<h2>JUDUL</h2>\n                    <p>Mengenal dan mempelajari dasar-dasar serta membangun fundamental baru dalam memiliki kekreatifitasan yang dapat dibangun juga dari pembelajaran-pembelajaran serta pengetahuan yang memperluas cara pandang dan kreatifitaspun dapat terbentuk dan dapat digunakan untuk banyak hal, yang mana kreatifitas sudah menjadi salah satu hal yang sangat penting untuk dimiliki dalam dunia kerja bahkan membangun usaha.</p>\n                    <br>\n                    <img src=\"https://images.unsplash.com/photo-1560421683-6856ea585c78?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=874&q=80\" alt=\"Testing Photo\">\n                    <br>\n                    <h3>SUB JUDUL</h3>\n                    <p>kreatifitas menjadi kunci baru dalam membuka banyak hal, salah satu contohnya membuka peluang kerja baru, dengan adanya kreatifitas membangun sesuatu yang baru dan invoatif demi perkembangan zaman pun bisa terjadi karena merupakasan suatu kunci kesuksesan dan pembaharuan bagi masyarakat dan dunia dalam menciptakan sesuatu yang belum pernah ditemukan.</p>",
 				Valid:  true,
 			},
-			IsPublished: true,
+			IsPublished: false,
 		},
 		//#
 	}

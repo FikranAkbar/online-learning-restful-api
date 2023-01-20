@@ -22,7 +22,8 @@ func (repository *WebinarSessionRepositoryImpl) GetOverviewWebinarSessionsByCour
 		Where("id = ?", courseId).
 		Preload("Webinars").
 		First(&courseEntity).Error
-	if err != nil && exception.CheckErrorContains(err, exception.NotFound) {
+	fmt.Println("Is Published:", courseEntity.IsPublished)
+	if (err != nil && exception.CheckErrorContains(err, exception.NotFound)) || !courseEntity.IsPublished {
 		logError := fmt.Sprintf("Course with id %v not found", courseId)
 		return []domain.WebinarSession{}, exception.GenerateHTTPError(exception.NotFound, logError)
 	} else if err != nil {
@@ -68,7 +69,7 @@ func (repository *WebinarSessionRepositoryImpl) GetDetailWebinarSessionByWebinar
 		Where("id = ?", courseId).
 		Preload("Webinars").
 		First(&courseEntity).Error
-	if err != nil && exception.CheckErrorContains(err, exception.NotFound) {
+	if err != nil && exception.CheckErrorContains(err, exception.NotFound) || !courseEntity.IsPublished {
 		logError := fmt.Sprintf("Course with id %v not found", courseId)
 		return domain.WebinarSession{}, exception.GenerateHTTPError(exception.NotFound, logError)
 	} else if err != nil {
@@ -82,7 +83,7 @@ func (repository *WebinarSessionRepositoryImpl) GetDetailWebinarSessionByWebinar
 		Preload("Day").
 		Preload("Sequence").
 		First(&webinarSessionEntities).Error
-	if err != nil && exception.CheckErrorContains(err, exception.NotFound) {
+	if (err != nil && exception.CheckErrorContains(err, exception.NotFound)) || !webinarSessionEntities[0].IsPublished {
 		logError := fmt.Sprintf("Webinar session with id %v not found", webinarSessionId)
 		return domain.WebinarSession{}, exception.GenerateHTTPError(exception.NotFound, logError)
 	} else if err != nil {

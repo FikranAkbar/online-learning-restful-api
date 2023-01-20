@@ -731,7 +731,7 @@ func InitWebinarSessionData() []entity.MasterWebinarSession {
 			ScheduleDate: scheduleDate1,
 			TimeStart:    timeStart1,
 			TimeFinish:   timeFinish1,
-			IsPublished:  true,
+			IsPublished:  false,
 		},
 		//#
 	}
