@@ -5,6 +5,7 @@ import (
 	"online-learning-restful-api/app/router/middleware"
 	"online-learning-restful-api/controller/authentication_controller"
 	"online-learning-restful-api/controller/course_controller"
+	"online-learning-restful-api/controller/webinar_session_controller"
 )
 
 var (
@@ -14,21 +15,25 @@ var (
 
 // Users Routes
 var (
-	UsersAPIRoute    = "/users"
-	LoginAPIRoute    = "/login"
-	LogoutAPIRoute   = "/logout"
-	RegisterAPIRoute = "/register"
+	UsersURLPath    = "/users"
+	LoginURLPath    = "/login"
+	LogoutURLPath   = "/logout"
+	RegisterURLPath = "/register"
 )
 
-// Course Categories Routes
+// Course Routes
 var (
-	CoursesAPIRoute            = "/courses"
-	CourseIdAPIRoute           = "/:courseId"
-	CourseProgressionsAPIRoute = "/progressions"
-	CategoriesAPIRoute         = "/categories"
-	CategoryIdAPIRoute         = "/:categoryId"
-	PopularAPIRoute            = "/popular"
-	ReviewAPIRoute             = "/reviews"
+	CourseURLPath             = "/courses"
+	CourseIdPath              = "/:courseId"
+	CourseProgressionsURLPath = "/progressions"
+	CategoriesURLPath         = "/categories"
+	CategoryIdPath            = "/:categoryId"
+	PopularURLPath            = "/popular"
+	ReviewsURLPath            = "/reviews"
+	OverviewURLPath           = "/overview"
+	WebinarSessionsURLPath    = "/webinar-sessions"
+	WebinarSessionIdPath      = "/:webinarSessionId"
+	LearnURLPath              = "/learn"
 )
 
 func InitRoutes(
@@ -37,17 +42,18 @@ func InitRoutes(
 	popularCourseController course_controller.PopularCourseController,
 	detailCourseController course_controller.DetailCourseController,
 	courseReviewController course_controller.CourseReviewController,
+	webinarSessionController webinar_session_controller.WebinarSessionController,
 	e *echo.Echo,
 ) {
 	apiGroup := e.Group("/api")
 
 	// users route
-	publicUserRouteGroup := apiGroup.Group(UsersAPIRoute)
-	protectedUserRouteGroup := apiGroup.Group(UsersAPIRoute)
+	publicUserRouteGroup := apiGroup.Group(UsersURLPath)
+	protectedUserRouteGroup := apiGroup.Group(UsersURLPath)
 
 	// courses route
-	publicCourseRouteGroup := apiGroup.Group(CoursesAPIRoute)
-	protectedCourseRouteGroup := apiGroup.Group(CoursesAPIRoute)
+	publicCourseRouteGroup := apiGroup.Group(CourseURLPath)
+	protectedCourseRouteGroup := apiGroup.Group(CourseURLPath)
 
 	protectedRouteGroups := []*echo.Group{
 		protectedUserRouteGroup,
@@ -59,20 +65,60 @@ func InitRoutes(
 	}
 
 	// authentication route
-	publicUserRouteGroup.POST(LoginAPIRoute, authenticationController.LoginUserWithEmailPassword).Name = "Login with email and password"
-	publicUserRouteGroup.POST(RegisterAPIRoute, authenticationController.RegisterUserWithEmailPassword).Name = "Register user"
-	protectedUserRouteGroup.POST(LogoutAPIRoute, authenticationController.LogoutUser).Name = "Logout user"
+	publicUserRouteGroup.POST(
+		LoginURLPath,
+		authenticationController.LoginUserWithEmailPassword,
+	).Name = "Login with email and password"
+	publicUserRouteGroup.POST(
+		RegisterURLPath,
+		authenticationController.RegisterUserWithEmailPassword,
+	).Name = "Register user"
+	protectedUserRouteGroup.POST(
+		LogoutURLPath,
+		authenticationController.LogoutUser,
+	).Name = "Logout user"
 
 	// course category route
-	publicCourseRouteGroup.GET(CategoriesAPIRoute, courseCategoryController.GetAllCourseCategories).Name = "Get all course's categories"
-	publicCourseRouteGroup.GET(CategoriesAPIRoute+CategoryIdAPIRoute, courseCategoryController.GetCoursesByCategoryId).Name = "Get courses by category id"
+	publicCourseRouteGroup.GET(
+		CategoriesURLPath,
+		courseCategoryController.GetAllCourseCategories,
+	).Name = "Get all course's categories"
+	publicCourseRouteGroup.GET(
+		CategoriesURLPath+CategoryIdPath,
+		courseCategoryController.GetCoursesByCategoryId,
+	).Name = "Get courses by category id"
 
 	// popular course route
-	publicCourseRouteGroup.GET(PopularAPIRoute, popularCourseController.GetPopularCourses).Name = "Get Popular Courses"
+	publicCourseRouteGroup.GET(
+		PopularURLPath,
+		popularCourseController.GetPopularCourses,
+	).Name = "Get Popular Courses"
 
 	// course route
-	publicCourseRouteGroup.GET("", detailCourseController.GetCoursesByKeyword).Name = "Get Courses By Keyword"
-	publicCourseRouteGroup.GET(CourseIdAPIRoute, detailCourseController.GetDetailCourseByCourseId).Name = "Get Detail Course By Course Id and User Id"
-	protectedCourseRouteGroup.GET(CourseIdAPIRoute+CourseProgressionsAPIRoute, detailCourseController.GetUserCourseProgressionByCourseId).Name = "Get User Course Progression By Course Id"
-	publicCourseRouteGroup.GET(CourseIdAPIRoute+ReviewAPIRoute, courseReviewController.GetCourseReviewsByCourseId).Name = "Get Course Review By Course Id"
+	publicCourseRouteGroup.GET(
+		"",
+		detailCourseController.GetCoursesByKeyword,
+	).Name = "Get Courses By Keyword"
+	publicCourseRouteGroup.GET(
+		CourseIdPath,
+		detailCourseController.GetDetailCourseByCourseId,
+	).Name = "Get Detail Course By Course Id and User Id"
+	protectedCourseRouteGroup.GET(
+		CourseIdPath+CourseProgressionsURLPath,
+		detailCourseController.GetUserCourseProgressionByCourseId,
+	).Name = "Get User Course Progression By Course Id"
+	publicCourseRouteGroup.GET(
+		CourseIdPath+ReviewsURLPath,
+		courseReviewController.GetCourseReviewsByCourseId,
+	).Name = "Get Course Review By Course Id"
+
+	// webinar session route
+	publicCourseRouteGroup.GET(
+		CourseIdPath+OverviewURLPath+WebinarSessionsURLPath,
+		webinarSessionController.GetOverviewWebinarSessionsByCourseId,
+	).Name = "Get overview of webinar sessions by course id"
+	protectedCourseRouteGroup.GET(
+		CourseIdPath+LearnURLPath+WebinarSessionsURLPath+WebinarSessionIdPath,
+		webinarSessionController.GetDetailWebinarSessionsByWebinarSessionId,
+	).Name = "Get detail of webinar sessions by course id"
 }

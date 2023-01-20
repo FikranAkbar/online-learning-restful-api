@@ -29,7 +29,7 @@ func TestLogoutUserSuccess(t *testing.T) {
 
 	req := httptest.NewRequest(
 		http.MethodPost,
-		router.HostURLTest+router.UsersAPIRoute+router.LogoutAPIRoute,
+		router.HostURLTest+router.UsersURLPath+router.LogoutURLPath,
 		nil)
 	req.Header.Set(echo.HeaderAuthorization, "Bearer "+currentJWTToken)
 	rec := httptest.NewRecorder()
@@ -53,7 +53,7 @@ func TestLogoutUserFailed(t *testing.T) {
 
 	req := httptest.NewRequest(
 		http.MethodPost,
-		router.HostURLTest+router.UsersAPIRoute+router.LogoutAPIRoute,
+		router.HostURLTest+router.UsersURLPath+router.LogoutURLPath,
 		nil)
 	rec := httptest.NewRecorder()
 

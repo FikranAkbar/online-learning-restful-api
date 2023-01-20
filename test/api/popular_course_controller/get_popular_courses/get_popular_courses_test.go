@@ -19,7 +19,7 @@ import (
 func TestGetPopularCoursesSuccess(t *testing.T) {
 	e := di.InitializedEchoServerForTest()
 
-	urlRoute := router.HostURLTest + router.CoursesAPIRoute + router.PopularAPIRoute
+	urlRoute := router.HostURLTest + router.CourseURLPath + router.PopularURLPath
 	req := httptest.NewRequest(
 		http.MethodGet,
 		urlRoute,

@@ -1,4 +1,4 @@
-package get_course_review_by_course_id
+package get_overview_webinar_session_by_course_id
 
 import (
 	"encoding/json"
@@ -10,17 +10,21 @@ import (
 	"online-learning-restful-api/app/router"
 	"online-learning-restful-api/di"
 	"online-learning-restful-api/model/web"
-	"online-learning-restful-api/model/web/course"
+	"online-learning-restful-api/model/web/webinar_session"
 	"online-learning-restful-api/test"
 	"regexp"
 	"testing"
 )
 
-func TestGetCourseReviewSuccess(t *testing.T) {
+func TestGetOverviewWebinarSessionSuccess(t *testing.T) {
 	e := di.InitializedEchoServerForTest()
 
 	courseIdPath := "/1"
-	urlRoute := router.HostURLTest + router.CourseURLPath + courseIdPath + router.ReviewsURLPath
+	urlRoute := router.HostURLTest +
+		router.CourseURLPath +
+		courseIdPath +
+		router.OverviewURLPath +
+		router.WebinarSessionsURLPath
 	req := httptest.NewRequest(
 		http.MethodGet,
 		urlRoute,
@@ -34,24 +38,29 @@ func TestGetCourseReviewSuccess(t *testing.T) {
 
 	body, _ := io.ReadAll(response.Body)
 	var responseBody web.APIResponse
-	var courseReviews []course.ReviewCourseResponse
+	var overviewWebinarSessionsResponse []webinar_session.OverviewWebinarSessionResponse
 
 	_ = json.Unmarshal(body, &responseBody)
 	assert.Equal(t, http.StatusOK, responseBody.Status)
 	assert.Equal(t, test.MessageOk, responseBody.Message)
 	assert.NotNil(t, responseBody.Data)
 
-	_ = mapstructure.Decode(responseBody.Data, &courseReviews)
-	assert.NotNil(t, courseReviews[0].ReviewRate)
-	assert.NotNil(t, courseReviews[0].ReviewDesc)
-	assert.NotNil(t, courseReviews[0].UserName)
+	_ = mapstructure.Decode(responseBody.Data, &overviewWebinarSessionsResponse)
+	assert.NotNil(t, overviewWebinarSessionsResponse)
+	assert.NotEqual(t, 0, len(overviewWebinarSessionsResponse))
+	assert.NotNil(t, overviewWebinarSessionsResponse[0].CourseId)
+	assert.NotNil(t, overviewWebinarSessionsResponse[0].WebinarSessionId)
 }
 
-func TestGetCourseReviewFailedCourseNotFound(t *testing.T) {
+func TestGetOverviewWebinarSessionFailedCourseNotFound(t *testing.T) {
 	e := di.InitializedEchoServerForTest()
 
 	courseIdPath := "/101"
-	urlRoute := router.HostURLTest + router.CourseURLPath + courseIdPath + router.ReviewsURLPath
+	urlRoute := router.HostURLTest +
+		router.CourseURLPath +
+		courseIdPath +
+		router.OverviewURLPath +
+		router.WebinarSessionsURLPath
 	req := httptest.NewRequest(
 		http.MethodGet,
 		urlRoute,
@@ -69,5 +78,5 @@ func TestGetCourseReviewFailedCourseNotFound(t *testing.T) {
 	_ = json.Unmarshal(body, &responseBody)
 	assert.Equal(t, http.StatusNotFound, responseBody.Status)
 	assert.Equal(t, test.MessageNotFound, responseBody.Message)
-	assert.Regexp(t, regexp.MustCompile(`(?i)not found`), responseBody.Data)
+	assert.Regexp(t, regexp.MustCompile(`(?i)not found`), responseBody.Data.(string))
 }

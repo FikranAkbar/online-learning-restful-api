@@ -14,12 +14,15 @@ import (
 	"online-learning-restful-api/app/database"
 	"online-learning-restful-api/controller/authentication_controller"
 	"online-learning-restful-api/controller/course_controller"
+	"online-learning-restful-api/controller/webinar_session_controller"
 	"online-learning-restful-api/repository/account_repository"
 	"online-learning-restful-api/repository/category_repository"
 	"online-learning-restful-api/repository/course_repository"
 	"online-learning-restful-api/repository/user_repository"
+	"online-learning-restful-api/repository/webinar_session_repository"
 	"online-learning-restful-api/service/authentication_service"
 	"online-learning-restful-api/service/course_service"
+	"online-learning-restful-api/service/webinar_session_service"
 )
 
 // Injectors from injector.go:
@@ -41,7 +44,10 @@ func InitializedEchoServer() *echo.Echo {
 	detailCourseControllerImpl := course_controller.NewDetailCourseControllerImpl(courseDetailServiceImpl)
 	courseReviewServiceImpl := course_service.NewCourseReviewServiceImpl(courseRepositoryImpl, db)
 	courseReviewControllerImpl := course_controller.NewCourseReviewControllerImpl(courseReviewServiceImpl)
-	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl)
+	webinarSessionRepositoryImpl := webinar_session_repository.NewWebinarSessionRepositoryImpl()
+	webinarSessionServiceImpl := webinar_session_service.NewWebinarSessionServiceImpl(webinarSessionRepositoryImpl, db)
+	webinarSessionControllerImpl := webinar_session_controller.NewWebinarSessionControllerImpl(webinarSessionServiceImpl)
+	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl)
 	return echoEcho
 }
 
@@ -62,7 +68,10 @@ func InitializedEchoServerForTest() *echo.Echo {
 	detailCourseControllerImpl := course_controller.NewDetailCourseControllerImpl(courseDetailServiceImpl)
 	courseReviewServiceImpl := course_service.NewCourseReviewServiceImpl(courseRepositoryImpl, db)
 	courseReviewControllerImpl := course_controller.NewCourseReviewControllerImpl(courseReviewServiceImpl)
-	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl)
+	webinarSessionRepositoryImpl := webinar_session_repository.NewWebinarSessionRepositoryImpl()
+	webinarSessionServiceImpl := webinar_session_service.NewWebinarSessionServiceImpl(webinarSessionRepositoryImpl, db)
+	webinarSessionControllerImpl := webinar_session_controller.NewWebinarSessionControllerImpl(webinarSessionServiceImpl)
+	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl)
 	return echoEcho
 }
 
@@ -79,3 +88,14 @@ var courseRepositorySet = wire.NewSet(course_repository.NewCourseRepositoryImpl,
 var detailCourseSet = wire.NewSet(course_controller.NewDetailCourseControllerImpl, wire.Bind(new(course_controller.DetailCourseController), new(*course_controller.DetailCourseControllerImpl)), course_service.NewCourseDetailServiceImpl, wire.Bind(new(course_service.CourseDetailService), new(*course_service.CourseDetailServiceImpl)))
 
 var reviewCourseSet = wire.NewSet(course_controller.NewCourseReviewControllerImpl, wire.Bind(new(course_controller.CourseReviewController), new(*course_controller.CourseReviewControllerImpl)), course_service.NewCourseReviewServiceImpl, wire.Bind(new(course_service.CourseReviewService), new(*course_service.CourseReviewServiceImpl)))
+
+var webinarSessionSet = wire.NewSet(webinar_session_repository.NewWebinarSessionRepositoryImpl, wire.Bind(new(webinar_session_repository.WebinarSessionRepository), new(*webinar_session_repository.WebinarSessionRepositoryImpl)), webinar_session_service.NewWebinarSessionServiceImpl, wire.Bind(new(webinar_session_service.WebinarSessionService), new(*webinar_session_service.WebinarSessionServiceImpl)), webinar_session_controller.NewWebinarSessionControllerImpl, wire.Bind(new(webinar_session_controller.WebinarSessionController), new(*webinar_session_controller.WebinarSessionControllerImpl)))
+
+var completeSet = wire.NewSet(app.InitServerWithEcho, validator.New, authenticationSet,
+	courseRepositorySet,
+	courseCategorySet,
+	popularCourseSet,
+	detailCourseSet,
+	reviewCourseSet,
+	webinarSessionSet,
+)

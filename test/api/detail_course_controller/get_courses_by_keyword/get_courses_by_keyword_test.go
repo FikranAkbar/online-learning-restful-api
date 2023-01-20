@@ -20,7 +20,7 @@ func TestGetCoursesByKeywordSuccess(t *testing.T) {
 	e := di.InitializedEchoServerForTest()
 
 	keywordQuery := "?keyword=Intro%20To%20Entrepreneurship"
-	urlRoute := router.HostURLTest + router.CoursesAPIRoute + keywordQuery
+	urlRoute := router.HostURLTest + router.CourseURLPath + keywordQuery
 	req := httptest.NewRequest(
 		http.MethodGet,
 		urlRoute,
