@@ -33,3 +33,21 @@ func (controller *ElearningModuleControllerImpl) GetOverviewElearningModulesByCo
 	return c.JSON(http.StatusOK, apiResponse)
 }
 
+func (controller *ElearningModuleControllerImpl) GetDetailElearningModuleByElearningModuleId(c echo.Context) error {
+	courseId, err := strconv.Atoi(c.Param("courseId"))
+	helper.PanicIfError(err)
+
+	elearningModuleId, err := strconv.Atoi(c.Param("moduleId"))
+	helper.PanicIfError(err)
+
+	detailElearningModuleResponse := controller.ElearningModuleService.
+		GetDetailElearningModuleByElearningModuleId(c.Request().Context(), uint(courseId), uint(elearningModuleId))
+
+	apiResponse := web.APIResponse{
+		Status:  200,
+		Message: "OK",
+		Data:    detailElearningModuleResponse,
+	}
+
+	return c.JSON(http.StatusOK, apiResponse)
+}

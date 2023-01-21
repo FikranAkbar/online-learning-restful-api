@@ -124,11 +124,15 @@ func InitRoutes(
 	protectedCourseRouteGroup.GET(
 		CourseIdPath+LearnURLPath+WebinarSessionsURLPath+WebinarSessionIdPath,
 		webinarSessionController.GetDetailWebinarSessionsByWebinarSessionId,
-	).Name = "Get detail of webinar sessions by course id"
+	).Name = "Get detail of webinar session by webinar session id"
 
 	// elearning module route
 	publicCourseRouteGroup.GET(
 		CourseIdPath+OverviewURLPath+ElearningModuleURLPath,
 		elearningModuleController.GetOverviewElearningModulesByCourseId,
 	).Name = "Get overview of elearning modules by course id"
+	protectedCourseRouteGroup.GET(
+		CourseIdPath+LearnURLPath+ElearningModuleURLPath+ElearningModuleIdPath,
+		elearningModuleController.GetDetailElearningModuleByElearningModuleId,
+	).Name = "Get detail of elearning module by elearning module id"
 }

@@ -7,4 +7,5 @@ import (
 
 type ElearningModuleService interface {
 	GetOverviewElearningModulesByCourseId(ctx context.Context, courseId uint) []elearning_module.OverviewElearningModuleResponse
+	GetDetailElearningModuleByElearningModuleId(ctx context.Context, courseId uint, elearningModuleId uint) elearning_module.DetailElearningModuleResponse
 }

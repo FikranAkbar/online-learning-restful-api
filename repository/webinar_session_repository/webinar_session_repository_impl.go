@@ -7,6 +7,7 @@ import (
 	"online-learning-restful-api/app/database/entity"
 	"online-learning-restful-api/exception"
 	"online-learning-restful-api/model/domain"
+	"sort"
 )
 
 type WebinarSessionRepositoryImpl struct {
@@ -60,6 +61,10 @@ func (repository *WebinarSessionRepositoryImpl) GetOverviewWebinarSessionsByCour
 			SequenceNumber: webinarSession.Sequence.OrderNumber,
 		})
 	}
+
+	sort.Slice(webinarSessions, func(i, j int) bool {
+		return webinarSessions[i].SequenceNumber < webinarSessions[j].SequenceNumber
+	})
 
 	return webinarSessions, nil
 }
