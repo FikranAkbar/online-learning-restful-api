@@ -42,6 +42,9 @@ func (repository *WebinarSessionRepositoryImpl) GetOverviewWebinarSessionsByCour
 
 	var webinarSessions []domain.WebinarSession
 	for _, webinarSession := range webinarSessionEntities {
+		if !webinarSession.IsPublished {
+			continue
+		}
 		webinarSessions = append(webinarSessions, domain.WebinarSession{
 			Id:             webinarSession.ID,
 			CourseId:       webinarSession.CourseId,
@@ -62,8 +65,6 @@ func (repository *WebinarSessionRepositoryImpl) GetOverviewWebinarSessionsByCour
 }
 
 func (repository *WebinarSessionRepositoryImpl) GetDetailWebinarSessionByWebinarSessionId(ctx context.Context, db *gorm.DB, courseId uint, webinarSessionId uint) (domain.WebinarSession, error) {
-	fmt.Println("Repository Get Detail Webinar Session")
-
 	var courseEntity entity.MasterCourse
 	err := db.WithContext(ctx).
 		Where("id = ?", courseId).

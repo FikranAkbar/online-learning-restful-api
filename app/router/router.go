@@ -5,6 +5,7 @@ import (
 	"online-learning-restful-api/app/router/middleware"
 	"online-learning-restful-api/controller/authentication_controller"
 	"online-learning-restful-api/controller/course_controller"
+	"online-learning-restful-api/controller/elearning_module_controller"
 	"online-learning-restful-api/controller/webinar_session_controller"
 )
 
@@ -33,6 +34,8 @@ var (
 	OverviewURLPath           = "/overview"
 	WebinarSessionsURLPath    = "/webinar-sessions"
 	WebinarSessionIdPath      = "/:webinarSessionId"
+	ElearningModuleURLPath    = "/modules"
+	ElearningModuleIdPath     = "/:moduleId"
 	LearnURLPath              = "/learn"
 )
 
@@ -43,6 +46,7 @@ func InitRoutes(
 	detailCourseController course_controller.DetailCourseController,
 	courseReviewController course_controller.CourseReviewController,
 	webinarSessionController webinar_session_controller.WebinarSessionController,
+	elearningModuleController elearning_module_controller.ElearningModuleController,
 	e *echo.Echo,
 ) {
 	apiGroup := e.Group("/api")
@@ -121,4 +125,10 @@ func InitRoutes(
 		CourseIdPath+LearnURLPath+WebinarSessionsURLPath+WebinarSessionIdPath,
 		webinarSessionController.GetDetailWebinarSessionsByWebinarSessionId,
 	).Name = "Get detail of webinar sessions by course id"
+
+	// elearning module route
+	publicCourseRouteGroup.GET(
+		CourseIdPath+OverviewURLPath+ElearningModuleURLPath,
+		elearningModuleController.GetOverviewElearningModulesByCourseId,
+	).Name = "Get overview of elearning modules by course id"
 }
