@@ -1,6 +1,6 @@
 package video
 
 type UserVideoProgressionRequest struct {
-	Progression float32 `json:"progression,omitempty"`
-	IsComplete  bool    `json:"is_complete,omitempty"`
+	Progression float32 `json:"progression" validate:"required"`
+	IsComplete  bool    `json:"is_complete" validate:"required"`
 }

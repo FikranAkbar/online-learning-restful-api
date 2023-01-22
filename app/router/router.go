@@ -6,6 +6,7 @@ import (
 	"online-learning-restful-api/controller/authentication_controller"
 	"online-learning-restful-api/controller/course_controller"
 	"online-learning-restful-api/controller/elearning_module_controller"
+	"online-learning-restful-api/controller/quiz_controller"
 	"online-learning-restful-api/controller/webinar_session_controller"
 )
 
@@ -38,6 +39,8 @@ var (
 	ElearningModuleIdPath       = "/:moduleId"
 	LearnURLPath                = "/learn"
 	SaveVideoProgressionURLPath = "/save-video-progressions"
+	QuizAnswersURLPath          = "/quiz-answers"
+	ComingSoonURLPath           = "/coming-soon"
 )
 
 func InitRoutes(
@@ -48,6 +51,8 @@ func InitRoutes(
 	courseReviewController course_controller.CourseReviewController,
 	webinarSessionController webinar_session_controller.WebinarSessionController,
 	elearningModuleController elearning_module_controller.ElearningModuleController,
+	quizController quiz_controller.QuizController,
+	courseComingSoonController course_controller.ComingSoonCourseController,
 	e *echo.Echo,
 ) {
 	apiGroup := e.Group("/api")
@@ -140,4 +145,20 @@ func InitRoutes(
 		CourseIdPath+LearnURLPath+ElearningModuleURLPath+ElearningModuleIdPath+SaveVideoProgressionURLPath,
 		elearningModuleController.SaveVideoProgressionInModule,
 	).Name = "Save video progression in Module"
+
+	// quiz route
+	protectedCourseRouteGroup.GET(
+		CourseIdPath+LearnURLPath+ElearningModuleURLPath+ElearningModuleIdPath+QuizAnswersURLPath,
+		quizController.GetQuizAnswersByModuleId,
+	).Name = "Get quiz answers by module id"
+	protectedCourseRouteGroup.POST(
+		CourseIdPath+LearnURLPath+ElearningModuleURLPath+ElearningModuleIdPath+QuizAnswersURLPath,
+		quizController.CreateNewQuizAnswer,
+	).Name = "Create new quiz answer"
+
+	// coming soon course route
+	publicCourseRouteGroup.GET(
+		ComingSoonURLPath,
+		courseComingSoonController.GetComingSoonCourses,
+	).Name = "Get coming soon courses"
 }

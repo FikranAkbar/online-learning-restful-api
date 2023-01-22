@@ -7,6 +7,7 @@ import (
 	"online-learning-restful-api/controller/authentication_controller"
 	"online-learning-restful-api/controller/course_controller"
 	"online-learning-restful-api/controller/elearning_module_controller"
+	"online-learning-restful-api/controller/quiz_controller"
 	"online-learning-restful-api/controller/webinar_session_controller"
 	"online-learning-restful-api/exception"
 )
@@ -19,6 +20,8 @@ func InitServerWithEcho(
 	courseReviewController course_controller.CourseReviewController,
 	webinarSessionController webinar_session_controller.WebinarSessionController,
 	elearningModuleController elearning_module_controller.ElearningModuleController,
+	quizController quiz_controller.QuizController,
+	comingSoonCourseController course_controller.ComingSoonCourseController,
 ) *echo.Echo {
 	e := echo.New()
 
@@ -30,6 +33,8 @@ func InitServerWithEcho(
 		courseReviewController,
 		webinarSessionController,
 		elearningModuleController,
+		quizController,
+		comingSoonCourseController,
 		e)
 	middleware.InitMiddleware(e)
 

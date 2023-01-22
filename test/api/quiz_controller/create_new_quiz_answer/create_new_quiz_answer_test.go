@@ -1,4 +1,4 @@
-package save_user_video_progression
+package create_new_quiz_answer
 
 import (
 	"encoding/json"
@@ -12,7 +12,7 @@ import (
 	"online-learning-restful-api/di"
 	"online-learning-restful-api/helper"
 	"online-learning-restful-api/model/web"
-	"online-learning-restful-api/model/web/video"
+	"online-learning-restful-api/model/web/quiz"
 	"online-learning-restful-api/test"
 	"os"
 	"regexp"
@@ -20,12 +20,13 @@ import (
 	"testing"
 )
 
-var userVideoProgressionRequestSuccess = video.UserVideoProgressionRequest{
-	Progression: 10000,
-	IsComplete:  true,
+var quizAnswerRequestSuccess = quiz.ShortQuizAnswerRequest{
+	Answer: "Test",
 }
 
-var userVideoProgressionRequestFailed = video.UserVideoProgressionRequest{}
+var quizAnswerRequestFailed = quiz.ShortQuizAnswerRequest{
+	Answer: "",
+}
 
 var currentJWTToken = ""
 
@@ -35,7 +36,7 @@ func TestMain(m *testing.M) {
 	os.Exit(code)
 }
 
-func TestSaveUserVideoProgressionSuccess(t *testing.T) {
+func TestCreateNewQuizAnswerSuccess(t *testing.T) {
 	e := di.InitializedEchoServerForTest()
 
 	courseIdPath := "/1"
@@ -46,17 +47,17 @@ func TestSaveUserVideoProgressionSuccess(t *testing.T) {
 		router.LearnURLPath +
 		router.ElearningModuleURLPath +
 		elearningModuleIdPath +
-		router.SaveVideoProgressionURLPath
+		router.QuizAnswersURLPath
 
-	requestJSON, err := json.Marshal(userVideoProgressionRequestSuccess)
+	requestJSON, err := json.Marshal(quizAnswerRequestSuccess)
 	helper.PanicIfError(err)
 
 	req := httptest.NewRequest(
 		http.MethodPost,
 		urlRoute,
 		strings.NewReader(string(requestJSON)))
-	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	req.Header.Set("Authorization", "Bearer "+currentJWTToken)
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
 	e.ServeHTTP(rec, req)
@@ -66,19 +67,21 @@ func TestSaveUserVideoProgressionSuccess(t *testing.T) {
 
 	body, _ := io.ReadAll(response.Body)
 	var responseBody web.APIResponse
-	var userVideoProgressionResponse video.UserVideoProgressionResponse
+	var quizAnswersResponse quiz.ShortQuizAnswerResponse
 
 	_ = json.Unmarshal(body, &responseBody)
 	assert.Equal(t, http.StatusOK, responseBody.Status)
 	assert.Equal(t, test.MessageOk, responseBody.Message)
 	assert.NotNil(t, responseBody.Data)
 
-	_ = mapstructure.Decode(responseBody.Data, &userVideoProgressionResponse)
-	assert.Equal(t, userVideoProgressionRequestSuccess.Progression, userVideoProgressionResponse.Progressions)
-	assert.Equal(t, userVideoProgressionRequestSuccess.IsComplete, userVideoProgressionResponse.IsComplete)
+	_ = mapstructure.Decode(responseBody.Data, &quizAnswersResponse)
+	assert.NotNil(t, quizAnswersResponse)
+	assert.NotNil(t, quizAnswersResponse.QuizAnswer)
+	assert.NotNil(t, quizAnswersResponse.UserId)
+	assert.NotNil(t, quizAnswersResponse.QuizId)
 }
 
-func TestSaveUserVideoProgressionFailedEmptyRequest(t *testing.T) {
+func TestCreateNewQuizAnswerFailedInvalidToken(t *testing.T) {
 	e := di.InitializedEchoServerForTest()
 
 	courseIdPath := "/1"
@@ -89,9 +92,46 @@ func TestSaveUserVideoProgressionFailedEmptyRequest(t *testing.T) {
 		router.LearnURLPath +
 		router.ElearningModuleURLPath +
 		elearningModuleIdPath +
-		router.SaveVideoProgressionURLPath
+		router.QuizAnswersURLPath
 
-	requestJSON, err := json.Marshal(userVideoProgressionRequestFailed)
+	requestJSON, err := json.Marshal(quizAnswerRequestFailed)
+	helper.PanicIfError(err)
+
+	req := httptest.NewRequest(
+		http.MethodPost,
+		urlRoute,
+		strings.NewReader(string(requestJSON)))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	rec := httptest.NewRecorder()
+
+	e.ServeHTTP(rec, req)
+
+	response := rec.Result()
+	assert.Equal(t, http.StatusUnauthorized, rec.Code)
+
+	body, _ := io.ReadAll(response.Body)
+	var responseBody web.APIResponse
+
+	_ = json.Unmarshal(body, &responseBody)
+	assert.Equal(t, http.StatusUnauthorized, responseBody.Status)
+	assert.Equal(t, test.MessageUnauthorized, responseBody.Message)
+	assert.Regexp(t, regexp.MustCompile(`(?i)invalid token`), responseBody.Data)
+}
+
+func TestCreateNewQuizAnswerFailedEmptyRequest(t *testing.T) {
+	e := di.InitializedEchoServerForTest()
+
+	courseIdPath := "/1"
+	elearningModuleIdPath := "/1"
+	urlRoute := router.HostURLTest +
+		router.CourseURLPath +
+		courseIdPath +
+		router.LearnURLPath +
+		router.ElearningModuleURLPath +
+		elearningModuleIdPath +
+		router.QuizAnswersURLPath
+
+	requestJSON, err := json.Marshal(quizAnswerRequestFailed)
 	helper.PanicIfError(err)
 
 	req := httptest.NewRequest(
@@ -116,44 +156,7 @@ func TestSaveUserVideoProgressionFailedEmptyRequest(t *testing.T) {
 	assert.Regexp(t, regexp.MustCompile(`(?i)required`), responseBody.Data)
 }
 
-func TestSaveUserVideoProgressionFailedInvalidToken(t *testing.T) {
-	e := di.InitializedEchoServerForTest()
-
-	courseIdPath := "/1"
-	elearningModuleIdPath := "/1"
-	urlRoute := router.HostURLTest +
-		router.CourseURLPath +
-		courseIdPath +
-		router.LearnURLPath +
-		router.ElearningModuleURLPath +
-		elearningModuleIdPath +
-		router.SaveVideoProgressionURLPath
-
-	requestJSON, err := json.Marshal(userVideoProgressionRequestSuccess)
-	helper.PanicIfError(err)
-
-	req := httptest.NewRequest(
-		http.MethodPost,
-		urlRoute,
-		strings.NewReader(string(requestJSON)))
-	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
-	rec := httptest.NewRecorder()
-
-	e.ServeHTTP(rec, req)
-
-	response := rec.Result()
-	assert.Equal(t, http.StatusUnauthorized, rec.Code)
-
-	body, _ := io.ReadAll(response.Body)
-	var responseBody web.APIResponse
-
-	_ = json.Unmarshal(body, &responseBody)
-	assert.Equal(t, http.StatusUnauthorized, responseBody.Status)
-	assert.Equal(t, test.MessageUnauthorized, responseBody.Message)
-	assert.Regexp(t, regexp.MustCompile(`(?i)invalid token`), responseBody.Data)
-}
-
-func TestSaveUserVideoProgressionFailedCourseNotFound(t *testing.T) {
+func TestCreateNewQuizAnswerCourseNotFound(t *testing.T) {
 	e := di.InitializedEchoServerForTest()
 
 	courseIdPath := "/101"
@@ -164,17 +167,17 @@ func TestSaveUserVideoProgressionFailedCourseNotFound(t *testing.T) {
 		router.LearnURLPath +
 		router.ElearningModuleURLPath +
 		elearningModuleIdPath +
-		router.SaveVideoProgressionURLPath
+		router.QuizAnswersURLPath
 
-	requestJSON, err := json.Marshal(userVideoProgressionRequestSuccess)
+	requestJSON, err := json.Marshal(quizAnswerRequestSuccess)
 	helper.PanicIfError(err)
 
 	req := httptest.NewRequest(
 		http.MethodPost,
 		urlRoute,
 		strings.NewReader(string(requestJSON)))
-	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	req.Header.Set("Authorization", "Bearer "+currentJWTToken)
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
 	e.ServeHTTP(rec, req)
@@ -188,11 +191,11 @@ func TestSaveUserVideoProgressionFailedCourseNotFound(t *testing.T) {
 	_ = json.Unmarshal(body, &responseBody)
 	assert.Equal(t, http.StatusNotFound, responseBody.Status)
 	assert.Equal(t, test.MessageNotFound, responseBody.Message)
-	assert.Regexp(t, regexp.MustCompile(`(?i)course`), responseBody.Data.(string))
-	assert.Regexp(t, regexp.MustCompile(`(?i)not found`), responseBody.Data.(string))
+	assert.Regexp(t, regexp.MustCompile(`(?i)course`), responseBody.Data)
+	assert.Regexp(t, regexp.MustCompile("(?i)not found"), responseBody.Data)
 }
 
-func TestSaveUserVideoProgressionFailedModuleNotFound(t *testing.T) {
+func TestCreateNewQuizAnswerModuleNotFound(t *testing.T) {
 	e := di.InitializedEchoServerForTest()
 
 	courseIdPath := "/1"
@@ -203,17 +206,17 @@ func TestSaveUserVideoProgressionFailedModuleNotFound(t *testing.T) {
 		router.LearnURLPath +
 		router.ElearningModuleURLPath +
 		elearningModuleIdPath +
-		router.SaveVideoProgressionURLPath
+		router.QuizAnswersURLPath
 
-	requestJSON, err := json.Marshal(userVideoProgressionRequestSuccess)
+	requestJSON, err := json.Marshal(quizAnswerRequestSuccess)
 	helper.PanicIfError(err)
 
 	req := httptest.NewRequest(
 		http.MethodPost,
 		urlRoute,
 		strings.NewReader(string(requestJSON)))
-	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	req.Header.Set("Authorization", "Bearer "+currentJWTToken)
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
 	e.ServeHTTP(rec, req)
@@ -227,6 +230,6 @@ func TestSaveUserVideoProgressionFailedModuleNotFound(t *testing.T) {
 	_ = json.Unmarshal(body, &responseBody)
 	assert.Equal(t, http.StatusNotFound, responseBody.Status)
 	assert.Equal(t, test.MessageNotFound, responseBody.Message)
-	assert.Regexp(t, regexp.MustCompile(`(?i)module`), responseBody.Data.(string))
-	assert.Regexp(t, regexp.MustCompile(`(?i)not found`), responseBody.Data.(string))
+	assert.Regexp(t, regexp.MustCompile(`(?i)module`), responseBody.Data)
+	assert.Regexp(t, regexp.MustCompile("(?i)not found"), responseBody.Data)
 }

@@ -186,3 +186,22 @@ func (repository *CourseRepositoryImpl) GetCourseReviewsByCourseId(ctx context.C
 
 	return courseReviews, nil
 }
+
+func (repository *CourseRepositoryImpl) GetComingSoonCourses(ctx context.Context, db *gorm.DB) ([]domain.Course, error) {
+	var courseEntities []entity.MasterCourseComingSoon
+	err := db.WithContext(ctx).Find(&courseEntities).Error
+	if err != nil {
+		return []domain.Course{}, err
+	}
+
+	var courses []domain.Course
+	for _, courseEntity := range courseEntities {
+		courses = append(courses, domain.Course{
+			Id:       courseEntity.ID,
+			Name:     courseEntity.Name,
+			PhotoUrl: courseEntity.Cover.String,
+		})
+	}
+
+	return courses, nil
+}

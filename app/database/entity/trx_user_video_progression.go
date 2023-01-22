@@ -5,7 +5,7 @@ import (
 )
 
 type TrxUserVideoProgression struct {
-	ID          uint `gorm:"column:id;primarykey"`
+	ID          uint `gorm:"column:id;primaryKey"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 	VideoId     uint       `gorm:"column:video_id;not null"`
