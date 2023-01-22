@@ -6,6 +6,7 @@ import (
 	"online-learning-restful-api/controller/authentication_controller"
 	"online-learning-restful-api/controller/course_controller"
 	"online-learning-restful-api/controller/elearning_module_controller"
+	"online-learning-restful-api/controller/industry_insight_controller"
 	"online-learning-restful-api/controller/quiz_controller"
 	"online-learning-restful-api/controller/webinar_session_controller"
 )
@@ -15,7 +16,7 @@ var (
 	HostURLTest = "http://localhost:8001/api"
 )
 
-// Users Routes
+// Users URL
 var (
 	UsersURLPath    = "/users"
 	LoginURLPath    = "/login"
@@ -23,7 +24,7 @@ var (
 	RegisterURLPath = "/register"
 )
 
-// Course Routes
+// Course URL
 var (
 	CourseURLPath               = "/courses"
 	CourseIdPath                = "/:courseId"
@@ -41,6 +42,13 @@ var (
 	SaveVideoProgressionURLPath = "/save-video-progressions"
 	QuizAnswersURLPath          = "/quiz-answers"
 	ComingSoonURLPath           = "/coming-soon"
+	SummaryURLPath              = "/summary"
+)
+
+// Industry Insight URL
+var (
+	IndustryInsightsURLPath = "/industry-insights"
+	IndustryInsightIdPath   = "/:industryInsightId"
 )
 
 func InitRoutes(
@@ -53,6 +61,8 @@ func InitRoutes(
 	elearningModuleController elearning_module_controller.ElearningModuleController,
 	quizController quiz_controller.QuizController,
 	courseComingSoonController course_controller.ComingSoonCourseController,
+	courseSummaryController course_controller.CourseSummaryController,
+	industryInsightController industry_insight_controller.IndustryInsightController,
 	e *echo.Echo,
 ) {
 	apiGroup := e.Group("/api")
@@ -64,6 +74,9 @@ func InitRoutes(
 	// courses route
 	publicCourseRouteGroup := apiGroup.Group(CourseURLPath)
 	protectedCourseRouteGroup := apiGroup.Group(CourseURLPath)
+
+	// industry insights route
+	publicIndustryInsightsGroup := apiGroup.Group(IndustryInsightsURLPath)
 
 	protectedRouteGroups := []*echo.Group{
 		protectedUserRouteGroup,
@@ -161,4 +174,21 @@ func InitRoutes(
 		ComingSoonURLPath,
 		courseComingSoonController.GetComingSoonCourses,
 	).Name = "Get coming soon courses"
+
+	// course summary route
+	protectedCourseRouteGroup.GET(
+		CourseIdPath+SummaryURLPath,
+		courseSummaryController.GetCourseSummary,
+	).Name = "Get course summary"
+
+	// industry insight route
+	publicIndustryInsightsGroup.GET(
+		"",
+		industryInsightController.GetIndustryInsights,
+	).Name = "Get industry insights"
+	publicIndustryInsightsGroup.GET(
+		IndustryInsightIdPath,
+		industryInsightController.GetIndustryInsightById,
+	).Name = "Get industry insights By Id"
+
 }

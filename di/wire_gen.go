@@ -15,18 +15,21 @@ import (
 	"online-learning-restful-api/controller/authentication_controller"
 	"online-learning-restful-api/controller/course_controller"
 	"online-learning-restful-api/controller/elearning_module_controller"
+	"online-learning-restful-api/controller/industry_insight_controller"
 	"online-learning-restful-api/controller/quiz_controller"
 	"online-learning-restful-api/controller/webinar_session_controller"
 	"online-learning-restful-api/repository/account_repository"
 	"online-learning-restful-api/repository/category_repository"
 	"online-learning-restful-api/repository/course_repository"
 	"online-learning-restful-api/repository/elearning_module_repository"
+	"online-learning-restful-api/repository/industry_insight_repository"
 	"online-learning-restful-api/repository/quiz_repository"
 	"online-learning-restful-api/repository/user_repository"
 	"online-learning-restful-api/repository/webinar_session_repository"
 	"online-learning-restful-api/service/authentication_service"
 	"online-learning-restful-api/service/course_service"
 	"online-learning-restful-api/service/elearning_module_service"
+	"online-learning-restful-api/service/industry_insight_service"
 	"online-learning-restful-api/service/quiz_service"
 	"online-learning-restful-api/service/webinar_session_service"
 )
@@ -61,7 +64,12 @@ func InitializedEchoServer() *echo.Echo {
 	quizControllerImpl := quiz_controller.NewQuizControllerImpl(quizServiceImpl)
 	comingSoonCourseServiceImpl := course_service.NewComingSoonCourseServiceImpl(courseRepositoryImpl, db)
 	comingSoonCourseControllerImpl := course_controller.NewComingSoonCourseControllerImpl(comingSoonCourseServiceImpl)
-	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl, elearningModuleControllerImpl, quizControllerImpl, comingSoonCourseControllerImpl)
+	courseSummaryServiceImpl := course_service.NewCourseSummaryServiceImpl(courseRepositoryImpl, db)
+	courseSummaryControllerImpl := course_controller.NewCourseSummaryControllerImpl(courseSummaryServiceImpl)
+	industryInsightRepositoryImpl := industry_insight_repository.NewIndustryInsightRepositoryImpl()
+	industryInsightServiceImpl := industry_insight_service.NewIndustryInsightServiceImpl(industryInsightRepositoryImpl, db)
+	industryInsightControllerImpl := industry_insight_controller.NewIndustryInsightControllerImpl(industryInsightServiceImpl)
+	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl, elearningModuleControllerImpl, quizControllerImpl, comingSoonCourseControllerImpl, courseSummaryControllerImpl, industryInsightControllerImpl)
 	return echoEcho
 }
 
@@ -93,7 +101,12 @@ func InitializedEchoServerForTest() *echo.Echo {
 	quizControllerImpl := quiz_controller.NewQuizControllerImpl(quizServiceImpl)
 	comingSoonCourseServiceImpl := course_service.NewComingSoonCourseServiceImpl(courseRepositoryImpl, db)
 	comingSoonCourseControllerImpl := course_controller.NewComingSoonCourseControllerImpl(comingSoonCourseServiceImpl)
-	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl, elearningModuleControllerImpl, quizControllerImpl, comingSoonCourseControllerImpl)
+	courseSummaryServiceImpl := course_service.NewCourseSummaryServiceImpl(courseRepositoryImpl, db)
+	courseSummaryControllerImpl := course_controller.NewCourseSummaryControllerImpl(courseSummaryServiceImpl)
+	industryInsightRepositoryImpl := industry_insight_repository.NewIndustryInsightRepositoryImpl()
+	industryInsightServiceImpl := industry_insight_service.NewIndustryInsightServiceImpl(industryInsightRepositoryImpl, db)
+	industryInsightControllerImpl := industry_insight_controller.NewIndustryInsightControllerImpl(industryInsightServiceImpl)
+	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl, elearningModuleControllerImpl, quizControllerImpl, comingSoonCourseControllerImpl, courseSummaryControllerImpl, industryInsightControllerImpl)
 	return echoEcho
 }
 
@@ -119,6 +132,10 @@ var quizSet = wire.NewSet(quiz_repository.NewQuizRepositoryImpl, wire.Bind(new(q
 
 var comingSoonCourseSet = wire.NewSet(course_service.NewComingSoonCourseServiceImpl, wire.Bind(new(course_service.ComingSoonCourseService), new(*course_service.ComingSoonCourseServiceImpl)), course_controller.NewComingSoonCourseControllerImpl, wire.Bind(new(course_controller.ComingSoonCourseController), new(*course_controller.ComingSoonCourseControllerImpl)))
 
+var courseSummarySet = wire.NewSet(course_service.NewCourseSummaryServiceImpl, wire.Bind(new(course_service.CourseSummaryService), new(*course_service.CourseSummaryServiceImpl)), course_controller.NewCourseSummaryControllerImpl, wire.Bind(new(course_controller.CourseSummaryController), new(*course_controller.CourseSummaryControllerImpl)))
+
+var industryInsightSet = wire.NewSet(industry_insight_repository.NewIndustryInsightRepositoryImpl, wire.Bind(new(industry_insight_repository.IndustryInsightRepository), new(*industry_insight_repository.IndustryInsightRepositoryImpl)), industry_insight_service.NewIndustryInsightServiceImpl, wire.Bind(new(industry_insight_service.IndustryInsightService), new(*industry_insight_service.IndustryInsightServiceImpl)), industry_insight_controller.NewIndustryInsightControllerImpl, wire.Bind(new(industry_insight_controller.IndustryInsightController), new(*industry_insight_controller.IndustryInsightControllerImpl)))
+
 var completeSet = wire.NewSet(app.InitServerWithEcho, validator.New, authenticationSet,
 	courseRepositorySet,
 	courseCategorySet,
@@ -129,4 +146,6 @@ var completeSet = wire.NewSet(app.InitServerWithEcho, validator.New, authenticat
 	elearningModuleSet,
 	quizSet,
 	comingSoonCourseSet,
+	courseSummarySet,
+	industryInsightSet,
 )
