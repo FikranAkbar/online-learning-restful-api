@@ -12,16 +12,19 @@ import (
 	"online-learning-restful-api/controller/authentication_controller"
 	"online-learning-restful-api/controller/course_controller"
 	"online-learning-restful-api/controller/elearning_module_controller"
+	"online-learning-restful-api/controller/quiz_controller"
 	"online-learning-restful-api/controller/webinar_session_controller"
 	"online-learning-restful-api/repository/account_repository"
 	"online-learning-restful-api/repository/category_repository"
 	"online-learning-restful-api/repository/course_repository"
 	"online-learning-restful-api/repository/elearning_module_repository"
+	"online-learning-restful-api/repository/quiz_repository"
 	"online-learning-restful-api/repository/user_repository"
 	"online-learning-restful-api/repository/webinar_session_repository"
 	"online-learning-restful-api/service/authentication_service"
 	"online-learning-restful-api/service/course_service"
 	"online-learning-restful-api/service/elearning_module_service"
+	"online-learning-restful-api/service/quiz_service"
 	"online-learning-restful-api/service/webinar_session_service"
 )
 
@@ -89,6 +92,15 @@ var elearningModuleSet = wire.NewSet(
 	wire.Bind(new(elearning_module_controller.ElearningModuleController), new(*elearning_module_controller.ElearningModuleControllerImpl)),
 )
 
+var quizSet = wire.NewSet(
+	quiz_repository.NewQuizRepositoryImpl,
+	wire.Bind(new(quiz_repository.QuizRepository), new(*quiz_repository.QuizRepositoryImpl)),
+	quiz_service.NewQuizServiceImpl,
+	wire.Bind(new(quiz_service.QuizService), new(*quiz_service.QuizServiceImpl)),
+	quiz_controller.NewQuizControllerImpl,
+	wire.Bind(new(quiz_controller.QuizController), new(*quiz_controller.QuizControllerImpl)),
+)
+
 var completeSet = wire.NewSet(
 	app.InitServerWithEcho,
 	validator.New,
@@ -100,6 +112,7 @@ var completeSet = wire.NewSet(
 	reviewCourseSet,
 	webinarSessionSet,
 	elearningModuleSet,
+	quizSet,
 )
 
 func InitializedEchoServer() *echo.Echo {

@@ -55,6 +55,8 @@ func (controller *ElearningModuleControllerImpl) GetDetailElearningModuleByElear
 }
 
 func (controller *ElearningModuleControllerImpl) SaveVideoProgressionInModule(c echo.Context) error {
+	fmt.Println("URL Save Video Progression:", c.Path())
+
 	courseId, err := strconv.Atoi(c.Param("courseId"))
 	helper.PanicIfError(err)
 
