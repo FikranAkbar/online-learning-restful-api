@@ -22,7 +22,7 @@ func InitQuizData() []entity.MasterQuiz {
 			ID:           uint(i),
 			ModuleId:     uint(i),
 			QuizQuestion: "Ini adalah deskripsi dari pertanyaan quiz. Berikut adalah pertanyaannya dan silahkan tuliskan jawaban quiznya, bagaimana pendapat anda mengenai materi yang baru saja anda pelajari ?",
-			IsPublished:  false,
+			IsPublished:  true,
 		}
 
 		quizData = append(quizData, data)

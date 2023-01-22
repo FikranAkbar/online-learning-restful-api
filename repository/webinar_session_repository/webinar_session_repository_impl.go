@@ -7,6 +7,7 @@ import (
 	"online-learning-restful-api/app/database/entity"
 	"online-learning-restful-api/exception"
 	"online-learning-restful-api/model/domain"
+	"sort"
 )
 
 type WebinarSessionRepositoryImpl struct {
@@ -42,6 +43,9 @@ func (repository *WebinarSessionRepositoryImpl) GetOverviewWebinarSessionsByCour
 
 	var webinarSessions []domain.WebinarSession
 	for _, webinarSession := range webinarSessionEntities {
+		if !webinarSession.IsPublished {
+			continue
+		}
 		webinarSessions = append(webinarSessions, domain.WebinarSession{
 			Id:             webinarSession.ID,
 			CourseId:       webinarSession.CourseId,
@@ -58,12 +62,14 @@ func (repository *WebinarSessionRepositoryImpl) GetOverviewWebinarSessionsByCour
 		})
 	}
 
+	sort.Slice(webinarSessions, func(i, j int) bool {
+		return webinarSessions[i].SequenceNumber < webinarSessions[j].SequenceNumber
+	})
+
 	return webinarSessions, nil
 }
 
 func (repository *WebinarSessionRepositoryImpl) GetDetailWebinarSessionByWebinarSessionId(ctx context.Context, db *gorm.DB, courseId uint, webinarSessionId uint) (domain.WebinarSession, error) {
-	fmt.Println("Repository Get Detail Webinar Session")
-
 	var courseEntity entity.MasterCourse
 	err := db.WithContext(ctx).
 		Where("id = ?", courseId).

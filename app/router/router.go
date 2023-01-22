@@ -5,6 +5,7 @@ import (
 	"online-learning-restful-api/app/router/middleware"
 	"online-learning-restful-api/controller/authentication_controller"
 	"online-learning-restful-api/controller/course_controller"
+	"online-learning-restful-api/controller/elearning_module_controller"
 	"online-learning-restful-api/controller/webinar_session_controller"
 )
 
@@ -23,17 +24,20 @@ var (
 
 // Course Routes
 var (
-	CourseURLPath             = "/courses"
-	CourseIdPath              = "/:courseId"
-	CourseProgressionsURLPath = "/progressions"
-	CategoriesURLPath         = "/categories"
-	CategoryIdPath            = "/:categoryId"
-	PopularURLPath            = "/popular"
-	ReviewsURLPath            = "/reviews"
-	OverviewURLPath           = "/overview"
-	WebinarSessionsURLPath    = "/webinar-sessions"
-	WebinarSessionIdPath      = "/:webinarSessionId"
-	LearnURLPath              = "/learn"
+	CourseURLPath               = "/courses"
+	CourseIdPath                = "/:courseId"
+	CourseProgressionsURLPath   = "/progressions"
+	CategoriesURLPath           = "/categories"
+	CategoryIdPath              = "/:categoryId"
+	PopularURLPath              = "/popular"
+	ReviewsURLPath              = "/reviews"
+	OverviewURLPath             = "/overview"
+	WebinarSessionsURLPath      = "/webinar-sessions"
+	WebinarSessionIdPath        = "/:webinarSessionId"
+	ElearningModuleURLPath      = "/modules"
+	ElearningModuleIdPath       = "/:moduleId"
+	LearnURLPath                = "/learn"
+	SaveVideoProgressionURLPath = "/save-video-progressions"
 )
 
 func InitRoutes(
@@ -43,6 +47,7 @@ func InitRoutes(
 	detailCourseController course_controller.DetailCourseController,
 	courseReviewController course_controller.CourseReviewController,
 	webinarSessionController webinar_session_controller.WebinarSessionController,
+	elearningModuleController elearning_module_controller.ElearningModuleController,
 	e *echo.Echo,
 ) {
 	apiGroup := e.Group("/api")
@@ -120,5 +125,19 @@ func InitRoutes(
 	protectedCourseRouteGroup.GET(
 		CourseIdPath+LearnURLPath+WebinarSessionsURLPath+WebinarSessionIdPath,
 		webinarSessionController.GetDetailWebinarSessionsByWebinarSessionId,
-	).Name = "Get detail of webinar sessions by course id"
+	).Name = "Get detail of webinar session by webinar session id"
+
+	// elearning module route
+	publicCourseRouteGroup.GET(
+		CourseIdPath+OverviewURLPath+ElearningModuleURLPath,
+		elearningModuleController.GetOverviewElearningModulesByCourseId,
+	).Name = "Get overview of elearning modules by course id"
+	protectedCourseRouteGroup.GET(
+		CourseIdPath+LearnURLPath+ElearningModuleURLPath+ElearningModuleIdPath,
+		elearningModuleController.GetDetailElearningModuleByElearningModuleId,
+	).Name = "Get detail of elearning module by elearning module id"
+	protectedCourseRouteGroup.POST(
+		CourseIdPath+LearnURLPath+ElearningModuleURLPath+ElearningModuleIdPath+SaveVideoProgressionURLPath,
+		elearningModuleController.SaveVideoProgressionInModule,
+	).Name = "Save video progression in Module"
 }
