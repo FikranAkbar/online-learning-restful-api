@@ -15,6 +15,7 @@ import (
 	"online-learning-restful-api/controller/authentication_controller"
 	"online-learning-restful-api/controller/course_controller"
 	"online-learning-restful-api/controller/elearning_module_controller"
+	"online-learning-restful-api/controller/expert_controller"
 	"online-learning-restful-api/controller/industry_insight_controller"
 	"online-learning-restful-api/controller/quiz_controller"
 	"online-learning-restful-api/controller/webinar_session_controller"
@@ -22,6 +23,7 @@ import (
 	"online-learning-restful-api/repository/category_repository"
 	"online-learning-restful-api/repository/course_repository"
 	"online-learning-restful-api/repository/elearning_module_repository"
+	"online-learning-restful-api/repository/expert_repository"
 	"online-learning-restful-api/repository/industry_insight_repository"
 	"online-learning-restful-api/repository/quiz_repository"
 	"online-learning-restful-api/repository/user_repository"
@@ -29,6 +31,7 @@ import (
 	"online-learning-restful-api/service/authentication_service"
 	"online-learning-restful-api/service/course_service"
 	"online-learning-restful-api/service/elearning_module_service"
+	"online-learning-restful-api/service/expert_service"
 	"online-learning-restful-api/service/industry_insight_service"
 	"online-learning-restful-api/service/quiz_service"
 	"online-learning-restful-api/service/webinar_session_service"
@@ -69,7 +72,10 @@ func InitializedEchoServer() *echo.Echo {
 	industryInsightRepositoryImpl := industry_insight_repository.NewIndustryInsightRepositoryImpl()
 	industryInsightServiceImpl := industry_insight_service.NewIndustryInsightServiceImpl(industryInsightRepositoryImpl, db)
 	industryInsightControllerImpl := industry_insight_controller.NewIndustryInsightControllerImpl(industryInsightServiceImpl)
-	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl, elearningModuleControllerImpl, quizControllerImpl, comingSoonCourseControllerImpl, courseSummaryControllerImpl, industryInsightControllerImpl)
+	expertRepositoryImpl := expert_repository.NewExpertRepositoryImpl()
+	expertServiceImpl := expert_service.NewExpertServiceImpl(expertRepositoryImpl, db)
+	expertControllerImpl := expert_controller.NewExpertControllerImpl(expertServiceImpl)
+	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl, elearningModuleControllerImpl, quizControllerImpl, comingSoonCourseControllerImpl, courseSummaryControllerImpl, industryInsightControllerImpl, expertControllerImpl)
 	return echoEcho
 }
 
@@ -106,7 +112,10 @@ func InitializedEchoServerForTest() *echo.Echo {
 	industryInsightRepositoryImpl := industry_insight_repository.NewIndustryInsightRepositoryImpl()
 	industryInsightServiceImpl := industry_insight_service.NewIndustryInsightServiceImpl(industryInsightRepositoryImpl, db)
 	industryInsightControllerImpl := industry_insight_controller.NewIndustryInsightControllerImpl(industryInsightServiceImpl)
-	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl, elearningModuleControllerImpl, quizControllerImpl, comingSoonCourseControllerImpl, courseSummaryControllerImpl, industryInsightControllerImpl)
+	expertRepositoryImpl := expert_repository.NewExpertRepositoryImpl()
+	expertServiceImpl := expert_service.NewExpertServiceImpl(expertRepositoryImpl, db)
+	expertControllerImpl := expert_controller.NewExpertControllerImpl(expertServiceImpl)
+	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl, elearningModuleControllerImpl, quizControllerImpl, comingSoonCourseControllerImpl, courseSummaryControllerImpl, industryInsightControllerImpl, expertControllerImpl)
 	return echoEcho
 }
 
@@ -136,6 +145,8 @@ var courseSummarySet = wire.NewSet(course_service.NewCourseSummaryServiceImpl, w
 
 var industryInsightSet = wire.NewSet(industry_insight_repository.NewIndustryInsightRepositoryImpl, wire.Bind(new(industry_insight_repository.IndustryInsightRepository), new(*industry_insight_repository.IndustryInsightRepositoryImpl)), industry_insight_service.NewIndustryInsightServiceImpl, wire.Bind(new(industry_insight_service.IndustryInsightService), new(*industry_insight_service.IndustryInsightServiceImpl)), industry_insight_controller.NewIndustryInsightControllerImpl, wire.Bind(new(industry_insight_controller.IndustryInsightController), new(*industry_insight_controller.IndustryInsightControllerImpl)))
 
+var expertSet = wire.NewSet(expert_repository.NewExpertRepositoryImpl, wire.Bind(new(expert_repository.ExpertRepository), new(*expert_repository.ExpertRepositoryImpl)), expert_service.NewExpertServiceImpl, wire.Bind(new(expert_service.ExpertService), new(*expert_service.ExpertServiceImpl)), expert_controller.NewExpertControllerImpl, wire.Bind(new(expert_controller.ExpertController), new(*expert_controller.ExpertControllerImpl)))
+
 var completeSet = wire.NewSet(app.InitServerWithEcho, validator.New, authenticationSet,
 	courseRepositorySet,
 	courseCategorySet,
@@ -148,4 +159,5 @@ var completeSet = wire.NewSet(app.InitServerWithEcho, validator.New, authenticat
 	comingSoonCourseSet,
 	courseSummarySet,
 	industryInsightSet,
+	expertSet,
 )
