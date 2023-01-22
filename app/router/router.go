@@ -6,6 +6,7 @@ import (
 	"online-learning-restful-api/controller/authentication_controller"
 	"online-learning-restful-api/controller/course_controller"
 	"online-learning-restful-api/controller/elearning_module_controller"
+	"online-learning-restful-api/controller/expert_controller"
 	"online-learning-restful-api/controller/industry_insight_controller"
 	"online-learning-restful-api/controller/quiz_controller"
 	"online-learning-restful-api/controller/webinar_session_controller"
@@ -51,6 +52,12 @@ var (
 	IndustryInsightIdPath   = "/:industryInsightId"
 )
 
+// Expert URL
+var (
+	ExpertsURLPath = "/experts"
+	ExpertIdPath   = "/:expertId"
+)
+
 func InitRoutes(
 	authenticationController authentication_controller.AuthenticationController,
 	courseCategoryController course_controller.CourseCategoryController,
@@ -63,6 +70,7 @@ func InitRoutes(
 	courseComingSoonController course_controller.ComingSoonCourseController,
 	courseSummaryController course_controller.CourseSummaryController,
 	industryInsightController industry_insight_controller.IndustryInsightController,
+	expertController expert_controller.ExpertController,
 	e *echo.Echo,
 ) {
 	apiGroup := e.Group("/api")
@@ -82,6 +90,9 @@ func InitRoutes(
 		protectedUserRouteGroup,
 		protectedCourseRouteGroup,
 	}
+
+	// experts route
+	publicExpertsGroup := apiGroup.Group(ExpertsURLPath)
 
 	for _, routeGroup := range protectedRouteGroups {
 		routeGroup.Use(middleware.JWTAuthorization)
@@ -191,4 +202,9 @@ func InitRoutes(
 		industryInsightController.GetIndustryInsightById,
 	).Name = "Get industry insights By Id"
 
+	// expert route
+	publicExpertsGroup.GET(
+		ExpertIdPath,
+		expertController.GetExpertDetailById,
+	).Name = "Get expert detail by expert id"
 }

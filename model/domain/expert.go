@@ -14,4 +14,5 @@ type Expert struct {
 	AverageRate  float32
 	TotalStudent int
 	ReviewsCount int
+	TotalCourse  int
 }
