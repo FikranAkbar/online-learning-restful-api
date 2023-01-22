@@ -2,6 +2,7 @@ package elearning_module_service
 
 import (
 	"context"
+	"github.com/go-playground/validator/v10"
 	"gorm.io/gorm"
 	"online-learning-restful-api/helper"
 	"online-learning-restful-api/model/domain"
@@ -14,11 +15,12 @@ import (
 
 type ElearningModuleServiceImpl struct {
 	elearning_module_repository.ElearningModuleRepository
+	*validator.Validate
 	*gorm.DB
 }
 
-func NewElearningModuleServiceImpl(elearningModuleRepository elearning_module_repository.ElearningModuleRepository, DB *gorm.DB) *ElearningModuleServiceImpl {
-	return &ElearningModuleServiceImpl{ElearningModuleRepository: elearningModuleRepository, DB: DB}
+func NewElearningModuleServiceImpl(repository elearning_module_repository.ElearningModuleRepository, validate *validator.Validate, DB *gorm.DB) *ElearningModuleServiceImpl {
+	return &ElearningModuleServiceImpl{ElearningModuleRepository: repository, Validate: validate, DB: DB}
 }
 
 func (service *ElearningModuleServiceImpl) GetOverviewElearningModulesByCourseId(ctx context.Context, courseId uint) []elearning_module.OverviewElearningModuleResponse {
@@ -87,6 +89,9 @@ func (service *ElearningModuleServiceImpl) GetDetailElearningModuleByElearningMo
 }
 
 func (service *ElearningModuleServiceImpl) SaveVideoProgressionInModule(ctx context.Context, courseId uint, elearningModuleId uint, request video.UserVideoProgressionRequest) video.UserVideoProgressionResponse {
+	err := service.Validate.Struct(request)
+	helper.PanicIfError(err)
+
 	tx := service.DB.Begin()
 	defer helper.CommitOrRollback(tx)
 
@@ -107,4 +112,3 @@ func (service *ElearningModuleServiceImpl) SaveVideoProgressionInModule(ctx cont
 
 	return userVideoProgressionResponse
 }
-
