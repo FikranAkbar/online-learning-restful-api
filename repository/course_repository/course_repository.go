@@ -12,4 +12,5 @@ type CourseRepository interface {
 	GetCourseDetailByCourseId(ctx context.Context, db *gorm.DB, courseId uint, userId *uint) (domain.Course, domain.Expert, error)
 	GetUserCourseProgressionByCourseId(ctx context.Context, db *gorm.DB, courseId uint) (domain.UserCourse, error)
 	GetCourseReviewsByCourseId(ctx context.Context, db *gorm.DB, courseId uint) ([]domain.CourseReview, error)
+	GetComingSoonCourses(ctx context.Context, db *gorm.DB) ([]domain.Course, error)
 }

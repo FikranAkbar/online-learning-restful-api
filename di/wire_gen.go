@@ -59,7 +59,9 @@ func InitializedEchoServer() *echo.Echo {
 	quizRepositoryImpl := quiz_repository.NewQuizRepositoryImpl()
 	quizServiceImpl := quiz_service.NewQuizServiceImpl(quizRepositoryImpl, validate, db)
 	quizControllerImpl := quiz_controller.NewQuizControllerImpl(quizServiceImpl)
-	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl, elearningModuleControllerImpl, quizControllerImpl)
+	comingSoonCourseServiceImpl := course_service.NewComingSoonCourseServiceImpl(courseRepositoryImpl, db)
+	comingSoonCourseControllerImpl := course_controller.NewComingSoonCourseControllerImpl(comingSoonCourseServiceImpl)
+	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl, elearningModuleControllerImpl, quizControllerImpl, comingSoonCourseControllerImpl)
 	return echoEcho
 }
 
@@ -89,7 +91,9 @@ func InitializedEchoServerForTest() *echo.Echo {
 	quizRepositoryImpl := quiz_repository.NewQuizRepositoryImpl()
 	quizServiceImpl := quiz_service.NewQuizServiceImpl(quizRepositoryImpl, validate, db)
 	quizControllerImpl := quiz_controller.NewQuizControllerImpl(quizServiceImpl)
-	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl, elearningModuleControllerImpl, quizControllerImpl)
+	comingSoonCourseServiceImpl := course_service.NewComingSoonCourseServiceImpl(courseRepositoryImpl, db)
+	comingSoonCourseControllerImpl := course_controller.NewComingSoonCourseControllerImpl(comingSoonCourseServiceImpl)
+	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl, elearningModuleControllerImpl, quizControllerImpl, comingSoonCourseControllerImpl)
 	return echoEcho
 }
 
@@ -113,6 +117,8 @@ var elearningModuleSet = wire.NewSet(elearning_module_repository.NewElearningMod
 
 var quizSet = wire.NewSet(quiz_repository.NewQuizRepositoryImpl, wire.Bind(new(quiz_repository.QuizRepository), new(*quiz_repository.QuizRepositoryImpl)), quiz_service.NewQuizServiceImpl, wire.Bind(new(quiz_service.QuizService), new(*quiz_service.QuizServiceImpl)), quiz_controller.NewQuizControllerImpl, wire.Bind(new(quiz_controller.QuizController), new(*quiz_controller.QuizControllerImpl)))
 
+var comingSoonCourseSet = wire.NewSet(course_service.NewComingSoonCourseServiceImpl, wire.Bind(new(course_service.ComingSoonCourseService), new(*course_service.ComingSoonCourseServiceImpl)), course_controller.NewComingSoonCourseControllerImpl, wire.Bind(new(course_controller.ComingSoonCourseController), new(*course_controller.ComingSoonCourseControllerImpl)))
+
 var completeSet = wire.NewSet(app.InitServerWithEcho, validator.New, authenticationSet,
 	courseRepositorySet,
 	courseCategorySet,
@@ -122,4 +128,5 @@ var completeSet = wire.NewSet(app.InitServerWithEcho, validator.New, authenticat
 	webinarSessionSet,
 	elearningModuleSet,
 	quizSet,
+	comingSoonCourseSet,
 )

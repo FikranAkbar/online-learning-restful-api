@@ -101,6 +101,13 @@ var quizSet = wire.NewSet(
 	wire.Bind(new(quiz_controller.QuizController), new(*quiz_controller.QuizControllerImpl)),
 )
 
+var comingSoonCourseSet = wire.NewSet(
+	course_service.NewComingSoonCourseServiceImpl,
+	wire.Bind(new(course_service.ComingSoonCourseService), new(*course_service.ComingSoonCourseServiceImpl)),
+	course_controller.NewComingSoonCourseControllerImpl,
+	wire.Bind(new(course_controller.ComingSoonCourseController), new(*course_controller.ComingSoonCourseControllerImpl)),
+)
+
 var completeSet = wire.NewSet(
 	app.InitServerWithEcho,
 	validator.New,
@@ -113,6 +120,7 @@ var completeSet = wire.NewSet(
 	webinarSessionSet,
 	elearningModuleSet,
 	quizSet,
+	comingSoonCourseSet,
 )
 
 func InitializedEchoServer() *echo.Echo {

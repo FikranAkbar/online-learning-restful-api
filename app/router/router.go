@@ -40,6 +40,7 @@ var (
 	LearnURLPath                = "/learn"
 	SaveVideoProgressionURLPath = "/save-video-progressions"
 	QuizAnswersURLPath          = "/quiz-answers"
+	ComingSoonURLPath           = "/coming-soon"
 )
 
 func InitRoutes(
@@ -51,6 +52,7 @@ func InitRoutes(
 	webinarSessionController webinar_session_controller.WebinarSessionController,
 	elearningModuleController elearning_module_controller.ElearningModuleController,
 	quizController quiz_controller.QuizController,
+	courseComingSoonController course_controller.ComingSoonCourseController,
 	e *echo.Echo,
 ) {
 	apiGroup := e.Group("/api")
@@ -153,4 +155,10 @@ func InitRoutes(
 		CourseIdPath+LearnURLPath+ElearningModuleURLPath+ElearningModuleIdPath+QuizAnswersURLPath,
 		quizController.CreateNewQuizAnswer,
 	).Name = "Create new quiz answer"
+
+	// coming soon course route
+	publicCourseRouteGroup.GET(
+		ComingSoonURLPath,
+		courseComingSoonController.GetComingSoonCourses,
+	).Name = "Get coming soon courses"
 }
