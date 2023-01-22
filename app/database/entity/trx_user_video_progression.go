@@ -12,7 +12,7 @@ type TrxUserVideoProgression struct {
 	UserId      uint       `gorm:"column:user_id;not null"`
 	User        MasterUser `gorm:"foreignKey:UserId;joinForeignKey:ID"`
 	Progression float32    `gorm:"column:progression"`
-	IsComplete  bool       `gorm:"column:is_complete;default:false"`
+	IsComplete  bool       `gorm:"column:is_complete;type:boolean"`
 }
 
 func (TrxUserVideoProgression) TableName() string {

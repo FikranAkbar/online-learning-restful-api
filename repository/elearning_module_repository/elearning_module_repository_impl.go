@@ -207,3 +207,91 @@ func (repository *ElearningModuleRepositoryImpl) GetDetailElearningModuleByElear
 
 	return elearningModule, video, quizQuestion, quizAnswers, nil
 }
+
+func (repository *ElearningModuleRepositoryImpl) SaveVideoProgressionInModule(ctx context.Context, db *gorm.DB, courseId uint, elearningModuleId uint, userVideoProgression domain.UserVideoProgression) (domain.UserVideoProgression, error) {
+	userTokenInfo, ok := ctx.Value(middleware.ContextUserInfoKey).(middleware.UserTokenInfo)
+	if !ok {
+		panic(middleware.UnauthorizedErrorInfo)
+	}
+
+	// Finding Entities Data
+	var courseEntity entity.MasterCourse
+	err := db.WithContext(ctx).
+		Where("id = ?", courseId).
+		Preload("Modules").
+		First(&courseEntity).Error
+	if err != nil && exception.CheckErrorContains(err, exception.NotFound) || !courseEntity.IsPublished {
+		logError := fmt.Sprintf("Course with id %v not found", courseId)
+		return userVideoProgression, exception.GenerateHTTPError(exception.NotFound, logError)
+	} else if err != nil {
+		return userVideoProgression, err
+	}
+
+	elearningModuleEntities := courseEntity.Modules
+	err = db.WithContext(ctx).
+		Where("course_id = ?", courseId).
+		Where("id = ?", elearningModuleId).
+		Preload("Quiz").
+		Preload("Video").
+		Preload("Sequence").
+		First(&elearningModuleEntities).Error
+	if (err != nil && exception.CheckErrorContains(err, exception.NotFound)) || !elearningModuleEntities[0].IsPublished {
+		logError := fmt.Sprintf("E-learning Module with id %v not found", elearningModuleId)
+		return userVideoProgression, exception.GenerateHTTPError(exception.NotFound, logError)
+	} else if err != nil {
+		return userVideoProgression, err
+	}
+
+	elearningModuleEntity := elearningModuleEntities[0]
+
+	videoEntity := elearningModuleEntity.Video
+	err = db.WithContext(ctx).
+		Where("course_id = ?", courseId).
+		Where("module_id = ?", elearningModuleId).
+		Preload("UserVideoProgression", "user_id = ?", userTokenInfo.UserId).
+		First(&videoEntity).Error
+	if (err != nil && exception.CheckErrorContains(err, exception.NotFound)) || !elearningModuleEntities[0].IsPublished {
+		logError := fmt.Sprintf("Video in E-learning Module with id %v not found", elearningModuleId)
+		return userVideoProgression, exception.GenerateHTTPError(exception.NotFound, logError)
+	} else if err != nil {
+		return userVideoProgression, err
+	}
+
+	userVideoProgressionEntity := entity.TrxUserVideoProgression{
+		Progression: userVideoProgression.Progression,
+		IsComplete:  userVideoProgression.IsComplete,
+	}
+	rowsAffected := db.WithContext(ctx).
+		Model(&userVideoProgressionEntity).
+		Where("user_id = ?", userTokenInfo.UserId).
+		Where("video_id = ?", videoEntity.ID).
+		Updates(userVideoProgressionEntity).
+		First(&userVideoProgressionEntity).RowsAffected
+
+	if rowsAffected == 0 {
+		userVideoProgressionEntity = entity.TrxUserVideoProgression{
+			VideoId:     videoEntity.ID,
+			UserId:      userTokenInfo.UserId,
+			Progression: userVideoProgression.Progression,
+			IsComplete:  userVideoProgression.IsComplete,
+		}
+
+		err = db.WithContext(ctx).
+			Create(&userVideoProgressionEntity).Error
+	}
+
+	if err != nil {
+		return userVideoProgression, err
+	}
+
+	userVideoProgression = domain.UserVideoProgression{
+		ID:          userVideoProgressionEntity.ID,
+		VideoId:     userVideoProgressionEntity.VideoId,
+		UserId:      userVideoProgressionEntity.UserId,
+		Progression: userVideoProgressionEntity.Progression,
+		IsComplete:  userVideoProgressionEntity.IsComplete,
+	}
+
+	return userVideoProgression, nil
+
+}

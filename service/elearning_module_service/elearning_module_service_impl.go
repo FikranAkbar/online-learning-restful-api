@@ -4,6 +4,7 @@ import (
 	"context"
 	"gorm.io/gorm"
 	"online-learning-restful-api/helper"
+	"online-learning-restful-api/model/domain"
 	"online-learning-restful-api/model/web/elearning_module"
 	"online-learning-restful-api/model/web/quiz"
 	"online-learning-restful-api/model/web/video"
@@ -84,3 +85,26 @@ func (service *ElearningModuleServiceImpl) GetDetailElearningModuleByElearningMo
 		},
 	}
 }
+
+func (service *ElearningModuleServiceImpl) SaveVideoProgressionInModule(ctx context.Context, courseId uint, elearningModuleId uint, request video.UserVideoProgressionRequest) video.UserVideoProgressionResponse {
+	tx := service.DB.Begin()
+	defer helper.CommitOrRollback(tx)
+
+	data := domain.UserVideoProgression{
+		Progression: request.Progression,
+		IsComplete:  request.IsComplete,
+	}
+
+	userVideoProgression, err := service.ElearningModuleRepository.SaveVideoProgressionInModule(ctx, tx, courseId, elearningModuleId, data)
+	helper.PanicIfError(err)
+
+	userVideoProgressionResponse := video.UserVideoProgressionResponse{
+		VideoId:      userVideoProgression.VideoId,
+		UserId:       userVideoProgression.UserId,
+		Progressions: userVideoProgression.Progression,
+		IsComplete:   userVideoProgression.IsComplete,
+	}
+
+	return userVideoProgressionResponse
+}
+

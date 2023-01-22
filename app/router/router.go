@@ -24,19 +24,20 @@ var (
 
 // Course Routes
 var (
-	CourseURLPath             = "/courses"
-	CourseIdPath              = "/:courseId"
-	CourseProgressionsURLPath = "/progressions"
-	CategoriesURLPath         = "/categories"
-	CategoryIdPath            = "/:categoryId"
-	PopularURLPath            = "/popular"
-	ReviewsURLPath            = "/reviews"
-	OverviewURLPath           = "/overview"
-	WebinarSessionsURLPath    = "/webinar-sessions"
-	WebinarSessionIdPath      = "/:webinarSessionId"
-	ElearningModuleURLPath    = "/modules"
-	ElearningModuleIdPath     = "/:moduleId"
-	LearnURLPath              = "/learn"
+	CourseURLPath               = "/courses"
+	CourseIdPath                = "/:courseId"
+	CourseProgressionsURLPath   = "/progressions"
+	CategoriesURLPath           = "/categories"
+	CategoryIdPath              = "/:categoryId"
+	PopularURLPath              = "/popular"
+	ReviewsURLPath              = "/reviews"
+	OverviewURLPath             = "/overview"
+	WebinarSessionsURLPath      = "/webinar-sessions"
+	WebinarSessionIdPath        = "/:webinarSessionId"
+	ElearningModuleURLPath      = "/modules"
+	ElearningModuleIdPath       = "/:moduleId"
+	LearnURLPath                = "/learn"
+	SaveVideoProgressionURLPath = "/save-video-progressions"
 )
 
 func InitRoutes(
@@ -135,4 +136,8 @@ func InitRoutes(
 		CourseIdPath+LearnURLPath+ElearningModuleURLPath+ElearningModuleIdPath,
 		elearningModuleController.GetDetailElearningModuleByElearningModuleId,
 	).Name = "Get detail of elearning module by elearning module id"
+	protectedCourseRouteGroup.POST(
+		CourseIdPath+LearnURLPath+ElearningModuleURLPath+ElearningModuleIdPath+SaveVideoProgressionURLPath,
+		elearningModuleController.SaveVideoProgressionInModule,
+	).Name = "Save video progression in Module"
 }
