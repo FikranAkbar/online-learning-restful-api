@@ -37,3 +37,29 @@ func (service *IndustryInsightServiceImpl) GetIndustryInsights(ctx context.Conte
 
 	return industryInsightsResponse
 }
+
+func (service *IndustryInsightServiceImpl) GetIndustryInsightById(ctx context.Context, industryInsightId uint) industry_insight.IndustryInsightResponse {
+	tx := service.DB.Begin()
+	defer helper.CommitOrRollback(tx)
+
+	industryInsight, insightAttachments, err := service.IndustryInsightRepository.GetIndustryInsightById(ctx, tx, industryInsightId)
+	helper.PanicIfError(err)
+
+	var insightAttachmentsResponse []industry_insight.InsightAttachmentResponse
+	for _, insightAttachment := range insightAttachments {
+		insightAttachmentsResponse = append(insightAttachmentsResponse, industry_insight.InsightAttachmentResponse{
+			Id:             insightAttachment.ID,
+			AttachmentName: insightAttachment.AttachmentName,
+			DocURL:         insightAttachment.DocURL,
+		})
+	}
+
+	return industry_insight.IndustryInsightResponse{
+		Id:                 industryInsight.Id,
+		TitleInsight:       industryInsight.TitleInsight,
+		CoverInsight:       industryInsight.CoverInsight,
+		BodyContent:        industryInsight.BodyContent,
+		IdUserAuthor:       industryInsight.UserAuthorId,
+		InsightAttachments: insightAttachmentsResponse,
+	}
+}

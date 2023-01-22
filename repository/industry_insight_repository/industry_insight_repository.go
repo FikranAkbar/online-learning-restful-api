@@ -8,4 +8,5 @@ import (
 
 type IndustryInsightRepository interface {
 	GetIndustryInsights(ctx context.Context, db *gorm.DB) ([]domain.IndustryInsight, error)
+	GetIndustryInsightById(ctx context.Context, db *gorm.DB, industryInsightId uint) (domain.IndustryInsight, []domain.InsightAttachment, error)
 }

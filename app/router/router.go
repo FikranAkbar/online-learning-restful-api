@@ -178,4 +178,8 @@ func InitRoutes(
 		"",
 		industryInsightController.GetIndustryInsights,
 	).Name = "Get industry insights"
+	publicIndustryInsightsGroup.GET(
+		IndustryInsightIdPath,
+		industryInsightController.GetIndustryInsightById,
+	).Name = "Get industry insights By Id"
 }
