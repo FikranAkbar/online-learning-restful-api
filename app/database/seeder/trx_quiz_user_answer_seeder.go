@@ -20,7 +20,6 @@ func InitQuizUserAnswerData() []entity.TrxQuizUserAnswer {
 	var i uint
 	for i = 0; i < 48; i++ {
 		data := entity.TrxQuizUserAnswer{
-			ID:         i + 1,
 			QuizId:     i + 1,
 			UserId:     (i % 4) + 1,
 			QuizAnswer: fmt.Sprintf("Quiz Answer Number %v", i+1),

@@ -125,3 +125,79 @@ func (repository *QuizRepositoryImpl) GetQuizAnswersByModuleId(ctx context.Conte
 
 	return quizAnswers, nil
 }
+
+func (repository *QuizRepositoryImpl) CreateNewQuizAnswer(ctx context.Context, db *gorm.DB, courseId uint, elearningModuleId uint, quizAnswer domain.QuizAnswer) (domain.QuizAnswer, error) {
+	userTokenInfo, ok := ctx.Value(middleware.ContextUserInfoKey).(middleware.UserTokenInfo)
+	if !ok {
+		panic(middleware.UnauthorizedErrorInfo)
+	}
+
+	// Finding Entities Data
+	var courseEntity entity.MasterCourse
+	err := db.WithContext(ctx).
+		Where("id = ?", courseId).
+		Preload("Modules").
+		First(&courseEntity).Error
+	if err != nil && exception.CheckErrorContains(err, exception.NotFound) || !courseEntity.IsPublished {
+		logError := fmt.Sprintf("Course with id %v not found", courseId)
+		return domain.QuizAnswer{}, exception.GenerateHTTPError(exception.NotFound, logError)
+	} else if err != nil {
+		return domain.QuizAnswer{}, err
+	}
+
+	elearningModuleEntities := courseEntity.Modules
+	err = db.WithContext(ctx).
+		Where("course_id = ?", courseId).
+		Where("id = ?", elearningModuleId).
+		Preload("Quiz").
+		Preload("Video").
+		Preload("Sequence").
+		First(&elearningModuleEntities).Error
+	if (err != nil && exception.CheckErrorContains(err, exception.NotFound)) || !elearningModuleEntities[0].IsPublished {
+		logError := fmt.Sprintf("E-learning Module with id %v not found", elearningModuleId)
+		return domain.QuizAnswer{}, exception.GenerateHTTPError(exception.NotFound, logError)
+	} else if err != nil {
+		return domain.QuizAnswer{}, err
+	}
+
+	elearningModuleEntity := elearningModuleEntities[0]
+
+	videoEntity := elearningModuleEntity.Video
+	err = db.WithContext(ctx).
+		Where("course_id = ?", courseId).
+		Where("module_id = ?", elearningModuleId).
+		Preload("UserVideoProgression", "user_id = ?", userTokenInfo.UserId).
+		Find(&videoEntity).Error
+	helper.PanicIfError(err)
+
+	quizEntity := elearningModuleEntity.Quiz
+	err = db.WithContext(ctx).
+		Where("module_id = ?", elearningModuleId).
+		Preload("Answers").
+		First(&quizEntity).Error
+	if (err != nil && exception.CheckErrorContains(err, exception.NotFound)) || !quizEntity.IsPublished {
+		logError := fmt.Sprintf("Quiz question in module with id %v not found", elearningModuleEntity.ID)
+		return domain.QuizAnswer{}, exception.GenerateHTTPError(exception.NotFound, logError)
+	} else if err != nil {
+		return domain.QuizAnswer{}, err
+	}
+
+	quizAnswerEntity := entity.TrxQuizUserAnswer{
+		QuizAnswer: quizAnswer.QuizAnswer,
+		UserId:     userTokenInfo.UserId,
+		QuizId:     quizEntity.ID,
+	}
+	err = db.WithContext(ctx).
+		Create(&quizAnswerEntity).
+		Error
+	if err != nil {
+		return domain.QuizAnswer{}, err
+	}
+
+	return domain.QuizAnswer{
+		QuizId:     quizAnswerEntity.QuizId,
+		UserId:     quizAnswerEntity.UserId,
+		QuizAnswer: quizAnswerEntity.QuizAnswer,
+	}, nil
+
+}

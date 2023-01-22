@@ -57,7 +57,7 @@ func InitializedEchoServer() *echo.Echo {
 	elearningModuleServiceImpl := elearning_module_service.NewElearningModuleServiceImpl(elearningModuleRepositoryImpl, db)
 	elearningModuleControllerImpl := elearning_module_controller.NewElearningModuleControllerImpl(elearningModuleServiceImpl)
 	quizRepositoryImpl := quiz_repository.NewQuizRepositoryImpl()
-	quizServiceImpl := quiz_service.NewQuizServiceImpl(quizRepositoryImpl, db)
+	quizServiceImpl := quiz_service.NewQuizServiceImpl(quizRepositoryImpl, validate, db)
 	quizControllerImpl := quiz_controller.NewQuizControllerImpl(quizServiceImpl)
 	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl, elearningModuleControllerImpl, quizControllerImpl)
 	return echoEcho
@@ -87,7 +87,7 @@ func InitializedEchoServerForTest() *echo.Echo {
 	elearningModuleServiceImpl := elearning_module_service.NewElearningModuleServiceImpl(elearningModuleRepositoryImpl, db)
 	elearningModuleControllerImpl := elearning_module_controller.NewElearningModuleControllerImpl(elearningModuleServiceImpl)
 	quizRepositoryImpl := quiz_repository.NewQuizRepositoryImpl()
-	quizServiceImpl := quiz_service.NewQuizServiceImpl(quizRepositoryImpl, db)
+	quizServiceImpl := quiz_service.NewQuizServiceImpl(quizRepositoryImpl, validate, db)
 	quizControllerImpl := quiz_controller.NewQuizControllerImpl(quizServiceImpl)
 	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl, elearningModuleControllerImpl, quizControllerImpl)
 	return echoEcho

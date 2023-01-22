@@ -149,4 +149,8 @@ func InitRoutes(
 		CourseIdPath+LearnURLPath+ElearningModuleURLPath+ElearningModuleIdPath+QuizAnswersURLPath,
 		quizController.GetQuizAnswersByModuleId,
 	).Name = "Get quiz answers by module id"
+	protectedCourseRouteGroup.POST(
+		CourseIdPath+LearnURLPath+ElearningModuleURLPath+ElearningModuleIdPath+QuizAnswersURLPath,
+		quizController.CreateNewQuizAnswer,
+	).Name = "Create new quiz answer"
 }
