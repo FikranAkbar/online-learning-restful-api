@@ -12,18 +12,21 @@ import (
 	"online-learning-restful-api/controller/authentication_controller"
 	"online-learning-restful-api/controller/course_controller"
 	"online-learning-restful-api/controller/elearning_module_controller"
+	"online-learning-restful-api/controller/industry_insight_controller"
 	"online-learning-restful-api/controller/quiz_controller"
 	"online-learning-restful-api/controller/webinar_session_controller"
 	"online-learning-restful-api/repository/account_repository"
 	"online-learning-restful-api/repository/category_repository"
 	"online-learning-restful-api/repository/course_repository"
 	"online-learning-restful-api/repository/elearning_module_repository"
+	"online-learning-restful-api/repository/industry_insight_repository"
 	"online-learning-restful-api/repository/quiz_repository"
 	"online-learning-restful-api/repository/user_repository"
 	"online-learning-restful-api/repository/webinar_session_repository"
 	"online-learning-restful-api/service/authentication_service"
 	"online-learning-restful-api/service/course_service"
 	"online-learning-restful-api/service/elearning_module_service"
+	"online-learning-restful-api/service/industry_insight_service"
 	"online-learning-restful-api/service/quiz_service"
 	"online-learning-restful-api/service/webinar_session_service"
 )
@@ -108,6 +111,15 @@ var comingSoonCourseSet = wire.NewSet(
 	wire.Bind(new(course_controller.ComingSoonCourseController), new(*course_controller.ComingSoonCourseControllerImpl)),
 )
 
+var industryInsightSet = wire.NewSet(
+	industry_insight_repository.NewIndustryInsightRepositoryImpl,
+	wire.Bind(new(industry_insight_repository.IndustryInsightRepository), new(*industry_insight_repository.IndustryInsightRepositoryImpl)),
+	industry_insight_service.NewIndustryInsightServiceImpl,
+	wire.Bind(new(industry_insight_service.IndustryInsightService), new(*industry_insight_service.IndustryInsightServiceImpl)),
+	industry_insight_controller.NewIndustryInsightControllerImpl,
+	wire.Bind(new(industry_insight_controller.IndustryInsightController), new(*industry_insight_controller.IndustryInsightControllerImpl)),
+)
+
 var completeSet = wire.NewSet(
 	app.InitServerWithEcho,
 	validator.New,
@@ -121,6 +133,7 @@ var completeSet = wire.NewSet(
 	elearningModuleSet,
 	quizSet,
 	comingSoonCourseSet,
+	industryInsightSet,
 )
 
 func InitializedEchoServer() *echo.Echo {
