@@ -111,6 +111,13 @@ var comingSoonCourseSet = wire.NewSet(
 	wire.Bind(new(course_controller.ComingSoonCourseController), new(*course_controller.ComingSoonCourseControllerImpl)),
 )
 
+var courseSummarySet = wire.NewSet(
+	course_service.NewCourseSummaryServiceImpl,
+	wire.Bind(new(course_service.CourseSummaryService), new(*course_service.CourseSummaryServiceImpl)),
+	course_controller.NewCourseSummaryControllerImpl,
+	wire.Bind(new(course_controller.CourseSummaryController), new(*course_controller.CourseSummaryControllerImpl)),
+)
+
 var industryInsightSet = wire.NewSet(
 	industry_insight_repository.NewIndustryInsightRepositoryImpl,
 	wire.Bind(new(industry_insight_repository.IndustryInsightRepository), new(*industry_insight_repository.IndustryInsightRepositoryImpl)),
@@ -133,6 +140,7 @@ var completeSet = wire.NewSet(
 	elearningModuleSet,
 	quizSet,
 	comingSoonCourseSet,
+	courseSummarySet,
 	industryInsightSet,
 )
 

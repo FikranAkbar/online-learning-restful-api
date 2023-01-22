@@ -205,3 +205,30 @@ func (repository *CourseRepositoryImpl) GetComingSoonCourses(ctx context.Context
 
 	return courses, nil
 }
+
+func (repository *CourseRepositoryImpl) GetCourseSummary(ctx context.Context, db *gorm.DB, courseId uint) (domain.CourseSummary, error) {
+	var courseEntity entity.MasterCourse
+	err := db.WithContext(ctx).
+		Where("id = ?", courseId).
+		Preload("Summary").
+		First(&courseEntity).Error
+	if err != nil && exception.CheckErrorContains(err, exception.NotFound) {
+		logError := fmt.Sprintf("Course with id %v not found", courseId)
+		return domain.CourseSummary{}, exception.GenerateHTTPError(exception.NotFound, logError)
+	} else if err != nil {
+		return domain.CourseSummary{}, err
+	}
+
+	courseSummaryEntity := courseEntity.Summary
+
+	if courseSummaryEntity.ID == 0 {
+		logError := fmt.Sprintf("Summary of the course with id %v not found", courseId)
+		return domain.CourseSummary{}, exception.GenerateHTTPError(exception.NotFound, logError)
+	}
+
+	return domain.CourseSummary{
+		ID:       courseSummaryEntity.ID,
+		CourseId: courseSummaryEntity.CourseId,
+		DocURL:   courseSummaryEntity.DocURL,
+	}, nil
+}

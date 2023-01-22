@@ -23,6 +23,7 @@ func InitServerWithEcho(
 	elearningModuleController elearning_module_controller.ElearningModuleController,
 	quizController quiz_controller.QuizController,
 	comingSoonCourseController course_controller.ComingSoonCourseController,
+	courseSummaryController course_controller.CourseSummaryController,
 	industryInsightController industry_insight_controller.IndustryInsightController,
 ) *echo.Echo {
 	e := echo.New()
@@ -37,6 +38,7 @@ func InitServerWithEcho(
 		elearningModuleController,
 		quizController,
 		comingSoonCourseController,
+		courseSummaryController,
 		industryInsightController,
 		e)
 	middleware.InitMiddleware(e)

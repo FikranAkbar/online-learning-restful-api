@@ -64,10 +64,12 @@ func InitializedEchoServer() *echo.Echo {
 	quizControllerImpl := quiz_controller.NewQuizControllerImpl(quizServiceImpl)
 	comingSoonCourseServiceImpl := course_service.NewComingSoonCourseServiceImpl(courseRepositoryImpl, db)
 	comingSoonCourseControllerImpl := course_controller.NewComingSoonCourseControllerImpl(comingSoonCourseServiceImpl)
+	courseSummaryServiceImpl := course_service.NewCourseSummaryServiceImpl(courseRepositoryImpl, db)
+	courseSummaryControllerImpl := course_controller.NewCourseSummaryControllerImpl(courseSummaryServiceImpl)
 	industryInsightRepositoryImpl := industry_insight_repository.NewIndustryInsightRepositoryImpl()
 	industryInsightServiceImpl := industry_insight_service.NewIndustryInsightServiceImpl(industryInsightRepositoryImpl, db)
 	industryInsightControllerImpl := industry_insight_controller.NewIndustryInsightControllerImpl(industryInsightServiceImpl)
-	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl, elearningModuleControllerImpl, quizControllerImpl, comingSoonCourseControllerImpl, industryInsightControllerImpl)
+	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl, elearningModuleControllerImpl, quizControllerImpl, comingSoonCourseControllerImpl, courseSummaryControllerImpl, industryInsightControllerImpl)
 	return echoEcho
 }
 
@@ -99,10 +101,12 @@ func InitializedEchoServerForTest() *echo.Echo {
 	quizControllerImpl := quiz_controller.NewQuizControllerImpl(quizServiceImpl)
 	comingSoonCourseServiceImpl := course_service.NewComingSoonCourseServiceImpl(courseRepositoryImpl, db)
 	comingSoonCourseControllerImpl := course_controller.NewComingSoonCourseControllerImpl(comingSoonCourseServiceImpl)
+	courseSummaryServiceImpl := course_service.NewCourseSummaryServiceImpl(courseRepositoryImpl, db)
+	courseSummaryControllerImpl := course_controller.NewCourseSummaryControllerImpl(courseSummaryServiceImpl)
 	industryInsightRepositoryImpl := industry_insight_repository.NewIndustryInsightRepositoryImpl()
 	industryInsightServiceImpl := industry_insight_service.NewIndustryInsightServiceImpl(industryInsightRepositoryImpl, db)
 	industryInsightControllerImpl := industry_insight_controller.NewIndustryInsightControllerImpl(industryInsightServiceImpl)
-	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl, elearningModuleControllerImpl, quizControllerImpl, comingSoonCourseControllerImpl, industryInsightControllerImpl)
+	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl, elearningModuleControllerImpl, quizControllerImpl, comingSoonCourseControllerImpl, courseSummaryControllerImpl, industryInsightControllerImpl)
 	return echoEcho
 }
 
@@ -128,6 +132,8 @@ var quizSet = wire.NewSet(quiz_repository.NewQuizRepositoryImpl, wire.Bind(new(q
 
 var comingSoonCourseSet = wire.NewSet(course_service.NewComingSoonCourseServiceImpl, wire.Bind(new(course_service.ComingSoonCourseService), new(*course_service.ComingSoonCourseServiceImpl)), course_controller.NewComingSoonCourseControllerImpl, wire.Bind(new(course_controller.ComingSoonCourseController), new(*course_controller.ComingSoonCourseControllerImpl)))
 
+var courseSummarySet = wire.NewSet(course_service.NewCourseSummaryServiceImpl, wire.Bind(new(course_service.CourseSummaryService), new(*course_service.CourseSummaryServiceImpl)), course_controller.NewCourseSummaryControllerImpl, wire.Bind(new(course_controller.CourseSummaryController), new(*course_controller.CourseSummaryControllerImpl)))
+
 var industryInsightSet = wire.NewSet(industry_insight_repository.NewIndustryInsightRepositoryImpl, wire.Bind(new(industry_insight_repository.IndustryInsightRepository), new(*industry_insight_repository.IndustryInsightRepositoryImpl)), industry_insight_service.NewIndustryInsightServiceImpl, wire.Bind(new(industry_insight_service.IndustryInsightService), new(*industry_insight_service.IndustryInsightServiceImpl)), industry_insight_controller.NewIndustryInsightControllerImpl, wire.Bind(new(industry_insight_controller.IndustryInsightController), new(*industry_insight_controller.IndustryInsightControllerImpl)))
 
 var completeSet = wire.NewSet(app.InitServerWithEcho, validator.New, authenticationSet,
@@ -140,5 +146,6 @@ var completeSet = wire.NewSet(app.InitServerWithEcho, validator.New, authenticat
 	elearningModuleSet,
 	quizSet,
 	comingSoonCourseSet,
+	courseSummarySet,
 	industryInsightSet,
 )

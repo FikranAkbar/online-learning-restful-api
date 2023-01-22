@@ -42,6 +42,7 @@ var (
 	SaveVideoProgressionURLPath = "/save-video-progressions"
 	QuizAnswersURLPath          = "/quiz-answers"
 	ComingSoonURLPath           = "/coming-soon"
+	SummaryURLPath              = "/summary"
 )
 
 // Industry Insight URL
@@ -60,6 +61,7 @@ func InitRoutes(
 	elearningModuleController elearning_module_controller.ElearningModuleController,
 	quizController quiz_controller.QuizController,
 	courseComingSoonController course_controller.ComingSoonCourseController,
+	courseSummaryController course_controller.CourseSummaryController,
 	industryInsightController industry_insight_controller.IndustryInsightController,
 	e *echo.Echo,
 ) {
@@ -173,6 +175,12 @@ func InitRoutes(
 		courseComingSoonController.GetComingSoonCourses,
 	).Name = "Get coming soon courses"
 
+	// course summary route
+	protectedCourseRouteGroup.GET(
+		CourseIdPath+SummaryURLPath,
+		courseSummaryController.GetCourseSummary,
+	).Name = "Get course summary"
+
 	// industry insight route
 	publicIndustryInsightsGroup.GET(
 		"",
@@ -182,4 +190,5 @@ func InitRoutes(
 		IndustryInsightIdPath,
 		industryInsightController.GetIndustryInsightById,
 	).Name = "Get industry insights By Id"
+
 }
