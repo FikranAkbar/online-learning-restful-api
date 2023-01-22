@@ -50,3 +50,25 @@ func (repository *ExpertRepositoryImpl) GetExpertDetailById(ctx context.Context,
 		ReviewsCount: len(courseEntities),
 	}, nil
 }
+
+func (repository *ExpertRepositoryImpl) GetExpertCoursesById(ctx context.Context, db *gorm.DB, expertId uint) ([]domain.Course, error) {
+	var courseEntities []entity.MasterCourse
+	err := db.WithContext(ctx).
+		Where("expert_id = ?", expertId).
+		Find(&courseEntities).Error
+	if err != nil {
+		return nil, err
+	}
+
+	var courses []domain.Course
+	for _, courseEntity := range courseEntities {
+		courses = append(courses, domain.Course{
+			Id:          courseEntity.ID,
+			Name:        courseEntity.Name,
+			PhotoUrl:    courseEntity.PhotoURL.String,
+			AverageRate: courseEntity.AverageRate,
+		})
+	}
+
+	return courses, nil
+}

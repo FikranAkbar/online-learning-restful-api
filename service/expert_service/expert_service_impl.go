@@ -4,6 +4,7 @@ import (
 	"context"
 	"gorm.io/gorm"
 	"online-learning-restful-api/helper"
+	"online-learning-restful-api/model/web/course"
 	"online-learning-restful-api/model/web/expert"
 	"online-learning-restful-api/repository/expert_repository"
 )
@@ -33,3 +34,25 @@ func (service *ExpertServiceImpl) GetExpertDetailById(ctx context.Context, exper
 		TotalCourse:  expertDetail.TotalCourse,
 	}
 }
+
+func (service *ExpertServiceImpl) GetExpertCoursesById(ctx context.Context, expertId uint) []course.ShortCourseResponse {
+	tx := service.DB.Begin()
+	defer helper.CommitOrRollback(tx)
+
+	courses, err := service.ExpertRepository.GetExpertCoursesById(ctx, tx, expertId)
+	helper.PanicIfError(err)
+
+	var coursesResponse []course.ShortCourseResponse
+	for _, data := range courses {
+		coursesResponse = append(coursesResponse, course.ShortCourseResponse{
+			Id:          data.Id,
+			Name:        data.Name,
+			PhotoUrl:    data.PhotoUrl,
+			AverageRate: data.AverageRate,
+			ExpertName:  data.ExpertName,
+		})
+	}
+
+	return coursesResponse
+}
+

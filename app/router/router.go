@@ -207,4 +207,8 @@ func InitRoutes(
 		ExpertIdPath,
 		expertController.GetExpertDetailById,
 	).Name = "Get expert detail by expert id"
+	publicExpertsGroup.GET(
+		ExpertIdPath+CourseURLPath,
+		expertController.GetExpertCoursesById,
+	).Name = "Get expert's courses by expert id"
 }

@@ -18,10 +18,10 @@ func NewExpertControllerImpl(expertService expert_service.ExpertService) *Expert
 }
 
 func (controller *ExpertControllerImpl) GetExpertDetailById(c echo.Context) error {
-	courseId, err := strconv.Atoi(c.Param("expertId"))
+	expertId, err := strconv.Atoi(c.Param("expertId"))
 	helper.PanicIfError(err)
 
-	detailExpertResponse := controller.ExpertService.GetExpertDetailById(c.Request().Context(), uint(courseId))
+	detailExpertResponse := controller.ExpertService.GetExpertDetailById(c.Request().Context(), uint(expertId))
 
 	apiResponse := web.APIResponse{
 		Status:  http.StatusOK,
@@ -31,3 +31,19 @@ func (controller *ExpertControllerImpl) GetExpertDetailById(c echo.Context) erro
 
 	return c.JSON(http.StatusOK, apiResponse)
 }
+
+func (controller *ExpertControllerImpl) GetExpertCoursesById(c echo.Context) error {
+	expertId, err := strconv.Atoi(c.Param("expertId"))
+	helper.PanicIfError(err)
+
+	coursesResponse := controller.ExpertService.GetExpertCoursesById(c.Request().Context(), uint(expertId))
+
+	apiResponse := web.APIResponse{
+		Status:  http.StatusOK,
+		Message: "OK",
+		Data:    coursesResponse,
+	}
+
+	return c.JSON(http.StatusOK, apiResponse)
+}
+
