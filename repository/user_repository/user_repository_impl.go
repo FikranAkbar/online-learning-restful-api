@@ -102,3 +102,42 @@ func (repository *UserRepositoryImpl) GetUserCourses(ctx context.Context, db *go
 
 	return courses, nil
 }
+
+func (repository *UserRepositoryImpl) GetProvinces(ctx context.Context, db *gorm.DB) ([]domain.Province, error) {
+	var provinceEntities []entity.MasterProvince
+	err := db.WithContext(ctx).Find(&provinceEntities).Error
+	if err != nil {
+		return nil, err
+	}
+
+	var provinces []domain.Province
+	for _, provinceEntity := range provinceEntities {
+		provinces = append(provinces, domain.Province{
+			Id:           provinceEntity.ID,
+			ProvinceName: provinceEntity.ProvinceName,
+		})
+	}
+
+	return provinces, nil
+}
+
+func (repository *UserRepositoryImpl) GetCitiesByProvinceId(ctx context.Context, db *gorm.DB, provinceId uint) ([]domain.City, error) {
+	var cityEntities []entity.MasterCity
+	err := db.WithContext(ctx).
+		Where("province_id = ?", provinceId).
+		Find(&cityEntities).Error
+	if err != nil {
+		return nil, err
+	}
+
+	var cities []domain.City
+	for _, cityEntity := range cityEntities {
+		cities = append(cities, domain.City{
+			Id:         cityEntity.ID,
+			CityName:   cityEntity.CityName,
+			ProvinceId: cityEntity.ProvinceId,
+		})
+	}
+
+	return cities, nil
+}
