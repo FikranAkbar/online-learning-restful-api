@@ -9,4 +9,5 @@ import (
 type UserRepository interface {
 	FindUserById(ctx context.Context, db *gorm.DB, userId uint) (domain.User, error)
 	CreateUserData(ctx context.Context, db *gorm.DB, user domain.User) (domain.User, error)
+	GetUserCourses(ctx context.Context, db *gorm.DB, courseStatus string) ([]domain.Course, error)
 }

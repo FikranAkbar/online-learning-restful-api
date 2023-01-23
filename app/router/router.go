@@ -9,6 +9,7 @@ import (
 	"online-learning-restful-api/controller/expert_controller"
 	"online-learning-restful-api/controller/industry_insight_controller"
 	"online-learning-restful-api/controller/quiz_controller"
+	"online-learning-restful-api/controller/user_controller"
 	"online-learning-restful-api/controller/webinar_session_controller"
 )
 
@@ -19,10 +20,11 @@ var (
 
 // Users URL
 var (
-	UsersURLPath    = "/users"
-	LoginURLPath    = "/login"
-	LogoutURLPath   = "/logout"
-	RegisterURLPath = "/register"
+	UsersURLPath       = "/users"
+	LoginURLPath       = "/login"
+	LogoutURLPath      = "/logout"
+	RegisterURLPath    = "/register"
+	EditProfileURLPath = "/edit-profile"
 )
 
 // Course URL
@@ -71,34 +73,34 @@ func InitRoutes(
 	courseSummaryController course_controller.CourseSummaryController,
 	industryInsightController industry_insight_controller.IndustryInsightController,
 	expertController expert_controller.ExpertController,
+	userController user_controller.UserController,
 	e *echo.Echo,
 ) {
 	apiGroup := e.Group("/api")
 
-	// users route
+	// users group route
 	publicUserRouteGroup := apiGroup.Group(UsersURLPath)
 	protectedUserRouteGroup := apiGroup.Group(UsersURLPath)
 
-	// courses route
+	// courses group route
 	publicCourseRouteGroup := apiGroup.Group(CourseURLPath)
 	protectedCourseRouteGroup := apiGroup.Group(CourseURLPath)
 
-	// industry insights route
+	// industry insights group route
 	publicIndustryInsightsGroup := apiGroup.Group(IndustryInsightsURLPath)
 
-	protectedRouteGroups := []*echo.Group{
-		protectedUserRouteGroup,
-		protectedCourseRouteGroup,
-	}
-
-	// experts route
+	// experts group route
 	publicExpertsGroup := apiGroup.Group(ExpertsURLPath)
 
-	for _, routeGroup := range protectedRouteGroups {
+	// protected route group
+	for _, routeGroup := range []*echo.Group{
+		protectedUserRouteGroup,
+		protectedCourseRouteGroup,
+	} {
 		routeGroup.Use(middleware.JWTAuthorization)
 	}
 
-	// authentication route
+	// authentication api route
 	publicUserRouteGroup.POST(
 		LoginURLPath,
 		authenticationController.LoginUserWithEmailPassword,
@@ -112,7 +114,7 @@ func InitRoutes(
 		authenticationController.LogoutUser,
 	).Name = "Logout user"
 
-	// course category route
+	// course category api route
 	publicCourseRouteGroup.GET(
 		CategoriesURLPath,
 		courseCategoryController.GetAllCourseCategories,
@@ -122,13 +124,13 @@ func InitRoutes(
 		courseCategoryController.GetCoursesByCategoryId,
 	).Name = "Get courses by category id"
 
-	// popular course route
+	// popular course api route
 	publicCourseRouteGroup.GET(
 		PopularURLPath,
 		popularCourseController.GetPopularCourses,
 	).Name = "Get Popular Courses"
 
-	// course route
+	// course api route
 	publicCourseRouteGroup.GET(
 		"",
 		detailCourseController.GetCoursesByKeyword,
@@ -146,7 +148,7 @@ func InitRoutes(
 		courseReviewController.GetCourseReviewsByCourseId,
 	).Name = "Get Course Review By Course Id"
 
-	// webinar session route
+	// webinar session api route
 	publicCourseRouteGroup.GET(
 		CourseIdPath+OverviewURLPath+WebinarSessionsURLPath,
 		webinarSessionController.GetOverviewWebinarSessionsByCourseId,
@@ -156,7 +158,7 @@ func InitRoutes(
 		webinarSessionController.GetDetailWebinarSessionsByWebinarSessionId,
 	).Name = "Get detail of webinar session by webinar session id"
 
-	// elearning module route
+	// elearning module api route
 	publicCourseRouteGroup.GET(
 		CourseIdPath+OverviewURLPath+ElearningModuleURLPath,
 		elearningModuleController.GetOverviewElearningModulesByCourseId,
@@ -170,7 +172,7 @@ func InitRoutes(
 		elearningModuleController.SaveVideoProgressionInModule,
 	).Name = "Save video progression in Module"
 
-	// quiz route
+	// quiz api route
 	protectedCourseRouteGroup.GET(
 		CourseIdPath+LearnURLPath+ElearningModuleURLPath+ElearningModuleIdPath+QuizAnswersURLPath,
 		quizController.GetQuizAnswersByModuleId,
@@ -180,19 +182,19 @@ func InitRoutes(
 		quizController.CreateNewQuizAnswer,
 	).Name = "Create new quiz answer"
 
-	// coming soon course route
+	// coming soon course api route
 	publicCourseRouteGroup.GET(
 		ComingSoonURLPath,
 		courseComingSoonController.GetComingSoonCourses,
 	).Name = "Get coming soon courses"
 
-	// course summary route
+	// course summary api route
 	protectedCourseRouteGroup.GET(
 		CourseIdPath+SummaryURLPath,
 		courseSummaryController.GetCourseSummary,
 	).Name = "Get course summary"
 
-	// industry insight route
+	// industry insight api route
 	publicIndustryInsightsGroup.GET(
 		"",
 		industryInsightController.GetIndustryInsights,
@@ -202,7 +204,7 @@ func InitRoutes(
 		industryInsightController.GetIndustryInsightById,
 	).Name = "Get industry insights By Id"
 
-	// expert route
+	// expert api route
 	publicExpertsGroup.GET(
 		ExpertIdPath,
 		expertController.GetExpertDetailById,
@@ -211,4 +213,10 @@ func InitRoutes(
 		ExpertIdPath+CourseURLPath,
 		expertController.GetExpertCoursesById,
 	).Name = "Get expert's courses by expert id"
+
+	// user api route
+	protectedUserRouteGroup.GET(
+		CourseURLPath,
+		userController.GetUserCourses,
+	).Name = "Get user courses"
 }
