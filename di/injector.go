@@ -15,6 +15,7 @@ import (
 	"online-learning-restful-api/controller/expert_controller"
 	"online-learning-restful-api/controller/industry_insight_controller"
 	"online-learning-restful-api/controller/quiz_controller"
+	"online-learning-restful-api/controller/user_controller"
 	"online-learning-restful-api/controller/webinar_session_controller"
 	"online-learning-restful-api/repository/account_repository"
 	"online-learning-restful-api/repository/category_repository"
@@ -31,14 +32,21 @@ import (
 	"online-learning-restful-api/service/expert_service"
 	"online-learning-restful-api/service/industry_insight_service"
 	"online-learning-restful-api/service/quiz_service"
+	"online-learning-restful-api/service/user_service"
 	"online-learning-restful-api/service/webinar_session_service"
 )
 
-var authenticationSet = wire.NewSet(
-	account_repository.NewAccountRepositoryImpl,
-	wire.Bind(new(account_repository.AccountRepository), new(*account_repository.AccountRepositoryImpl)),
+var userRepositorySet = wire.NewSet(
 	user_repository.NewUserRepositoryImpl,
 	wire.Bind(new(user_repository.UserRepository), new(*user_repository.UserRepositoryImpl)),
+)
+
+var accountRepositorySet = wire.NewSet(
+	account_repository.NewAccountRepositoryImpl,
+	wire.Bind(new(account_repository.AccountRepository), new(*account_repository.AccountRepositoryImpl)),
+)
+
+var authenticationSet = wire.NewSet(
 	authentication_service.NewAuthenticationServiceImpl,
 	wire.Bind(new(authentication_service.AuthenticationService), new(*authentication_service.AuthenticationServiceImpl)),
 	authentication_controller.NewAuthenticationControllerImpl,
@@ -139,9 +147,18 @@ var expertSet = wire.NewSet(
 	wire.Bind(new(expert_controller.ExpertController), new(*expert_controller.ExpertControllerImpl)),
 )
 
+var userSet = wire.NewSet(
+	user_service.NewUserServiceImpl,
+	wire.Bind(new(user_service.UserService), new(*user_service.UserServiceImpl)),
+	user_controller.NewUserCourseControllerImpl,
+	wire.Bind(new(user_controller.UserController), new(*user_controller.UserCourseControllerImpl)),
+)
+
 var completeSet = wire.NewSet(
 	app.InitServerWithEcho,
 	validator.New,
+	accountRepositorySet,
+	userRepositorySet,
 	authenticationSet,
 	courseRepositorySet,
 	courseCategorySet,
@@ -155,6 +172,7 @@ var completeSet = wire.NewSet(
 	courseSummarySet,
 	industryInsightSet,
 	expertSet,
+	userSet,
 )
 
 func InitializedEchoServer() *echo.Echo {
