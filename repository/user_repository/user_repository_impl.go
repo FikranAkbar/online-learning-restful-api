@@ -6,9 +6,11 @@ import (
 	"fmt"
 	"gorm.io/gorm"
 	"online-learning-restful-api/app/database/entity"
+	"online-learning-restful-api/app/router/middleware"
 	"online-learning-restful-api/exception"
 	"online-learning-restful-api/helper"
 	"online-learning-restful-api/model/domain"
+	"strings"
 )
 
 type UserRepositoryImpl struct {
@@ -52,4 +54,51 @@ func (repository *UserRepositoryImpl) CreateUserData(ctx context.Context, db *go
 		BirthDate: userEntity.BirthDate.Time,
 		Gender:    userEntity.Gender,
 	}, nil
+}
+
+func (repository *UserRepositoryImpl) GetUserCourses(ctx context.Context, db *gorm.DB, courseStatus string) ([]domain.Course, error) {
+	if courseStatus == "" {
+		return nil, exception.GenerateHTTPError(exception.BadRequest, "Type query can't be empty")
+	}
+
+	userTokenInfo, ok := ctx.Value(middleware.ContextUserInfoKey).(middleware.UserTokenInfo)
+	if !ok {
+		panic(middleware.UnauthorizedErrorInfo)
+	}
+
+	var userEntity entity.MasterUser
+	err := db.WithContext(ctx).
+		Where("id = ?", userTokenInfo.UserId).
+		Preload("Courses.Expert").
+		Preload("Courses.CourseStatus").
+		First(&userEntity).Error
+	if err != nil && exception.CheckErrorContains(err, exception.NotFound) {
+		logError := fmt.Sprintf("User with id %v not found", userTokenInfo.UserId)
+		return nil, exception.GenerateHTTPError(exception.NotFound, logError)
+	} else if err != nil {
+		return nil, err
+	}
+
+	courseEntities := userEntity.Courses
+	var courses []domain.Course
+	for _, courseEntity := range courseEntities {
+		if !courseEntity.IsPublished {
+			continue
+		}
+
+		if strings.ToLower(courseEntity.CourseStatus.Name) !=
+			strings.ToLower(courseStatus) {
+			continue
+		}
+
+		courses = append(courses, domain.Course{
+			Id:          courseEntity.ID,
+			ExpertName:  courseEntity.Expert.Name,
+			Name:        courseEntity.Name,
+			PhotoUrl:    courseEntity.PhotoURL.String,
+			AverageRate: courseEntity.AverageRate,
+		})
+	}
+
+	return courses, nil
 }
