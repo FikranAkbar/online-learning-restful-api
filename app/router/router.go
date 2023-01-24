@@ -230,4 +230,8 @@ func InitRoutes(
 		EditProfileURLPath+ProvincesURLPath+ProvinceIdPath+CitiesURLPath,
 		userController.GetCitiesByProvinceId,
 	).Name = "Get Cities By Province Id"
+	protectedUserRouteGroup.PUT(
+		EditProfileURLPath,
+		userController.EditUserProfile,
+	).Name = "Edit user profiles"
 }

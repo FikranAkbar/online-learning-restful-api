@@ -141,3 +141,110 @@ func (repository *UserRepositoryImpl) GetCitiesByProvinceId(ctx context.Context,
 
 	return cities, nil
 }
+
+func (repository *UserRepositoryImpl) EditUserProfile(ctx context.Context, db *gorm.DB, user domain.User) (domain.User, error) {
+	userTokenInfo, ok := ctx.Value(middleware.ContextUserInfoKey).(middleware.UserTokenInfo)
+	if !ok {
+		panic(middleware.UnauthorizedErrorInfo)
+	}
+
+	var userEntity entity.MasterUser
+	err := db.WithContext(ctx).
+		Where("id = ?", userTokenInfo.UserId).
+		First(&userEntity).Error
+	if err != nil && exception.CheckErrorContains(err, exception.NotFound) {
+		logError := fmt.Sprintf("User with id %v not found", userEntity.ID)
+		return user, exception.GenerateHTTPError(exception.NotFound, logError)
+	} else if err != nil {
+		return user, err
+	}
+
+	var provinceEntity entity.MasterProvince
+	if user.ProvinceName != "" {
+		err = db.WithContext(ctx).
+			Where("province_name = ?", user.ProvinceName).
+			First(&provinceEntity).Error
+		if err != nil && exception.CheckErrorContains(err, exception.NotFound) {
+			logError := fmt.Sprintf("Province with id %v not found", provinceEntity.ID)
+			return user, exception.GenerateHTTPError(exception.NotFound, logError)
+		} else if err != nil {
+			return user, err
+		}
+
+		err = db.WithContext(ctx).
+			Model(&userEntity).
+			Updates(map[string]any{
+				"province_id": provinceEntity.ID,
+			}).First(&userEntity).Error
+		if err != nil {
+			return user, err
+		}
+	}
+
+	// update user name
+	if user.Name != "" {
+		err = db.WithContext(ctx).
+			Model(&userEntity).
+			Where("id = ?", userTokenInfo.UserId).
+			Updates(map[string]any{
+				"name": user.Name,
+			}).Error
+		if err != nil {
+			return user, err
+		}
+	}
+
+	// update user gender
+	if user.Gender == "Male" || user.Gender == "Female" {
+		err = db.WithContext(ctx).
+			Model(&userEntity).
+			Where("id = ?", userTokenInfo.UserId).
+			Updates(map[string]any{
+				"gender": user.Gender,
+			}).Error
+		if err != nil {
+			return user, err
+		}
+	}
+
+	// update user phone
+	if user.Phone != "" {
+		err = db.WithContext(ctx).
+			Model(&userEntity).
+			Where("id = ?", userTokenInfo.UserId).
+			Updates(map[string]any{
+				"phone": user.Phone,
+			}).Error
+		if err != nil {
+			return user, err
+		}
+	}
+
+	// update user gender
+	if user.PhotoURL != "" {
+		err = db.WithContext(ctx).
+			Model(&userEntity).
+			Where("id = ?", userTokenInfo.UserId).
+			Updates(map[string]any{
+				"photo_url": user.PhotoURL,
+			}).Error
+		if err != nil {
+			return user, err
+		}
+	}
+
+	err = db.WithContext(ctx).Where("id = ?", userTokenInfo.UserId).First(&userEntity).Error
+	if err != nil {
+		return user, err
+	}
+
+	return domain.User{
+		Id:         userEntity.ID,
+		Name:       userEntity.Name,
+		BirthDate:  userEntity.BirthDate.Time,
+		Gender:     userEntity.Gender,
+		Phone:      userEntity.Phone.String,
+		PhotoURL:   userEntity.PhotoURL.String,
+		ProvinceId: *userEntity.ProvinceId,
+	}, nil
+}

@@ -6,4 +6,5 @@ type UserController interface {
 	GetUserCourses(c echo.Context) error
 	GetProvinces(c echo.Context) error
 	GetCitiesByProvinceId(c echo.Context) error
+	EditUserProfile(c echo.Context) error
 }

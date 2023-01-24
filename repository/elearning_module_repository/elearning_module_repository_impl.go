@@ -257,15 +257,12 @@ func (repository *ElearningModuleRepositoryImpl) SaveVideoProgressionInModule(ct
 		return userVideoProgression, err
 	}
 
-	userVideoProgressionEntity := entity.TrxUserVideoProgression{
-		Progression: userVideoProgression.Progression,
-		IsComplete:  userVideoProgression.IsComplete,
-	}
+	var userVideoProgressionEntity entity.TrxUserVideoProgression
 	rowsAffected := db.WithContext(ctx).
 		Model(&userVideoProgressionEntity).
 		Where("user_id = ?", userTokenInfo.UserId).
 		Where("video_id = ?", videoEntity.ID).
-		Updates(userVideoProgressionEntity).
+		Updates(map[string]any{"progression": userVideoProgression.Progression, "is_complete": userVideoProgression.IsComplete}).
 		First(&userVideoProgressionEntity).RowsAffected
 
 	if rowsAffected == 0 {

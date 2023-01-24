@@ -2379,7 +2379,7 @@
                 },
                 "message": {
                   "type": "string"
-                }
+                },
                 "data": {
                   "type": "string"
                 }
@@ -2770,7 +2770,7 @@
             "expert": {
               "id": 3,
               "name": "Brielle Hutchinson",
-              "photo": "https://thumbs.dreamstime.com/b/young-woman-avatar-cartoon-character-profile-picture-young-brunette-woman-short-hair-avatar-cartoon-character-vector-149728784.jpg",
+              "photo": "https://thumbs.dreamstime.com/b/young-woman-avatar-cartoon-character-profile-picture-young-brunette-woman-short-hair-avatar-cartoon-character-vector-149728784.jpg"
             }
           }
         }
