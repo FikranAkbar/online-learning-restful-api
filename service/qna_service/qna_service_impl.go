@@ -58,3 +58,33 @@ func (service *QnaServiceImpl) CreateNewQnaQuestion(ctx context.Context, courseI
 		Question:   qnaQuestion.Question,
 	}
 }
+
+func (service *QnaServiceImpl) GetDetailQnaQuestionByQnaQuestionId(ctx context.Context, courseId uint, qnaQuestionId uint) qna.DetailQnaQuestionResponse {
+	tx := service.DB.Begin()
+	defer helper.CommitOrRollback(tx)
+
+	qnaQuestion, qnaAnswers, err := service.QnaRepository.GetDetailQnaQuestionByQnaQuestionId(ctx, tx, courseId, qnaQuestionId)
+	helper.PanicIfError(err)
+
+	var qnaAnswersResponse []qna.DetailQnaAnswerResponse
+	for _, qnaAnswer := range qnaAnswers {
+		qnaAnswersResponse = append(qnaAnswersResponse, qna.DetailQnaAnswerResponse{
+			AnswerId:    qnaAnswer.Id,
+			Answer:      qnaAnswer.Answer,
+			CreatedTime: qnaAnswer.CreatedAt,
+			UserId:      qnaAnswer.UserId,
+			UserName:    qnaAnswer.UserName,
+			UserPhoto:   qnaAnswer.UserPhoto,
+		})
+	}
+
+	return qna.DetailQnaQuestionResponse{
+		QuestionId:  qnaQuestion.Id,
+		Question:    qnaQuestion.Question,
+		CreatedTime: qnaQuestion.CreatedAt,
+		UserName:    qnaQuestion.UserName,
+		UserPhoto:   qnaQuestion.UserPhoto,
+		Responses:   len(qnaAnswersResponse),
+		Answers:     qnaAnswersResponse,
+	}
+}

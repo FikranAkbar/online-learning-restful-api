@@ -9,5 +9,5 @@ type DetailQnaQuestionResponse struct {
 	UserName    string                    `json:"user_name" mapstructure:"user_name"`
 	UserPhoto   string                    `json:"user_photo" mapstructure:"user_photo"`
 	Responses   int                       `json:"responses" mapstructure:"responses"`
-	Answers     []DetailQnaAnswerResponse `json:"answers" mapstructure:"answers"`
+	Answers     []DetailQnaAnswerResponse `json:"answers,omitempty" mapstructure:"answers"`
 }

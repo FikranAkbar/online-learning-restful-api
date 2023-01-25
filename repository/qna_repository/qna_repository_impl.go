@@ -92,3 +92,53 @@ func (repository *QnaRepositoryImpl) CreateNewQnaQuestion(ctx context.Context, d
 		Responses: 0,
 	}, nil
 }
+
+func (repository *QnaRepositoryImpl) GetDetailQnaQuestionByQnaQuestionId(ctx context.Context, db *gorm.DB, courseId uint, qnaQuestionId uint) (domain.QnaQuestion, []domain.QnaAnswer, error) {
+	var courseEntity entity.MasterCourse
+	err := db.WithContext(ctx).
+		Where("id = ?", courseId).
+		Preload("QnaQuestions", "id = ?", qnaQuestionId).
+		Preload("QnaQuestions.User").
+		Preload("QnaQuestions.Answers", "qna_question_id = ?", qnaQuestionId).
+		Preload("QnaQuestions.Answers.User").
+		First(&courseEntity).Error
+	if err != nil && exception.CheckErrorContains(err, exception.NotFound) || !courseEntity.IsPublished {
+		logError := fmt.Sprintf("Course with id %v not found", courseId)
+		return domain.QnaQuestion{}, nil, exception.GenerateHTTPError(exception.NotFound, logError)
+	} else if err != nil {
+		return domain.QnaQuestion{}, nil, err
+	}
+
+	if len(courseEntity.QnaQuestions) <= 0 {
+		logError := fmt.Sprintf("Qna question with id %v not found", qnaQuestionId)
+		return domain.QnaQuestion{}, nil, exception.GenerateHTTPError(exception.NotFound, logError)
+	}
+
+	qnaQuestionEntity := courseEntity.QnaQuestions[0]
+	qnaQuestion := domain.QnaQuestion{
+		Id:        qnaQuestionEntity.ID,
+		CreatedAt: qnaQuestionEntity.CreatedAt,
+		CourseId:  qnaQuestionEntity.CourseId,
+		UserId:    qnaQuestionEntity.UserId,
+		UserName:  qnaQuestionEntity.User.Name,
+		UserPhoto: qnaQuestionEntity.User.PhotoURL.String,
+		Question:  qnaQuestionEntity.Question,
+		Responses: len(qnaQuestionEntity.Answers),
+	}
+
+	qnaAnswerEntities := qnaQuestionEntity.Answers
+	var qnaAnswers []domain.QnaAnswer
+	for _, qnaAnswerEntity := range qnaAnswerEntities {
+		qnaAnswers = append(qnaAnswers, domain.QnaAnswer{
+			Id:            qnaAnswerEntity.ID,
+			CreatedAt:     qnaAnswerEntity.CreatedAt,
+			QnaQuestionId: qnaAnswerEntity.QnaQuestionId,
+			UserId:        qnaAnswerEntity.UserId,
+			UserName:      qnaAnswerEntity.User.Name,
+			UserPhoto:     qnaAnswerEntity.User.PhotoURL.String,
+			Answer:        qnaAnswerEntity.Answer,
+		})
+	}
+
+	return qnaQuestion, qnaAnswers, nil
+}

@@ -7,6 +7,8 @@ type QnaQuestion struct {
 	CreatedAt time.Time
 	CourseId  uint
 	UserId    uint
+	UserName  string
+	UserPhoto string
 	Question  string
 	Responses int
 }

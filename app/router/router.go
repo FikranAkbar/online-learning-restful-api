@@ -51,6 +51,7 @@ var (
 	ComingSoonURLPath           = "/coming-soon"
 	SummaryURLPath              = "/summary"
 	QnaQuestionsURLPath         = "/qna-questions"
+	QnaQuestionIdPath           = "/:qnaQuestionId"
 )
 
 // Industry Insight URL
@@ -247,4 +248,8 @@ func InitRoutes(
 		CourseIdPath+QnaQuestionsURLPath,
 		qnaController.CreateNewQnaQuestion,
 	).Name = "Create new qna question"
+	protectedCourseRouteGroup.GET(
+		CourseIdPath+QnaQuestionsURLPath+QnaQuestionIdPath,
+		qnaController.GetDetailQnaQuestionByQnaQuestionId,
+	).Name = "Get detail qna question"
 }

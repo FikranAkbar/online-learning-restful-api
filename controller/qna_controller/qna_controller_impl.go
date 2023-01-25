@@ -51,3 +51,22 @@ func (controller *QnaControllerImpl) CreateNewQnaQuestion(c echo.Context) error 
 
 	return c.JSON(http.StatusOK, apiResponse)
 }
+
+func (controller *QnaControllerImpl) GetDetailQnaQuestionByQnaQuestionId(c echo.Context) error {
+	courseId, err := strconv.Atoi(c.Param("courseId"))
+	helper.PanicIfError(err)
+
+	qnaQuestionId, err := strconv.Atoi(c.Param("qnaQuestionId"))
+	helper.PanicIfError(err)
+
+	detailQnaQuestionResponse := controller.QnaService.GetDetailQnaQuestionByQnaQuestionId(
+		c.Request().Context(), uint(courseId), uint(qnaQuestionId))
+
+	apiResponse := web.APIResponse{
+		Status:  200,
+		Message: "OK",
+		Data:    detailQnaQuestionResponse,
+	}
+
+	return c.JSON(http.StatusOK, apiResponse)
+}

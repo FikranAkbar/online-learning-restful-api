@@ -5,7 +5,7 @@ import (
 )
 
 type TrxCourseQnaQuestion struct {
-	ID        uint `gorm:"column:id;primarykey"`
+	ID        uint `gorm:"column:id;primaryKey"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	CourseId  uint                 `gorm:"column:course_id;not null"`
