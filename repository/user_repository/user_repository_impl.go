@@ -102,3 +102,149 @@ func (repository *UserRepositoryImpl) GetUserCourses(ctx context.Context, db *go
 
 	return courses, nil
 }
+
+func (repository *UserRepositoryImpl) GetProvinces(ctx context.Context, db *gorm.DB) ([]domain.Province, error) {
+	var provinceEntities []entity.MasterProvince
+	err := db.WithContext(ctx).Find(&provinceEntities).Error
+	if err != nil {
+		return nil, err
+	}
+
+	var provinces []domain.Province
+	for _, provinceEntity := range provinceEntities {
+		provinces = append(provinces, domain.Province{
+			Id:           provinceEntity.ID,
+			ProvinceName: provinceEntity.ProvinceName,
+		})
+	}
+
+	return provinces, nil
+}
+
+func (repository *UserRepositoryImpl) GetCitiesByProvinceId(ctx context.Context, db *gorm.DB, provinceId uint) ([]domain.City, error) {
+	var cityEntities []entity.MasterCity
+	err := db.WithContext(ctx).
+		Where("province_id = ?", provinceId).
+		Find(&cityEntities).Error
+	if err != nil {
+		return nil, err
+	}
+
+	var cities []domain.City
+	for _, cityEntity := range cityEntities {
+		cities = append(cities, domain.City{
+			Id:         cityEntity.ID,
+			CityName:   cityEntity.CityName,
+			ProvinceId: cityEntity.ProvinceId,
+		})
+	}
+
+	return cities, nil
+}
+
+func (repository *UserRepositoryImpl) EditUserProfile(ctx context.Context, db *gorm.DB, user domain.User) (domain.User, error) {
+	userTokenInfo, ok := ctx.Value(middleware.ContextUserInfoKey).(middleware.UserTokenInfo)
+	if !ok {
+		panic(middleware.UnauthorizedErrorInfo)
+	}
+
+	var userEntity entity.MasterUser
+	err := db.WithContext(ctx).
+		Where("id = ?", userTokenInfo.UserId).
+		First(&userEntity).Error
+	if err != nil && exception.CheckErrorContains(err, exception.NotFound) {
+		logError := fmt.Sprintf("User with id %v not found", userEntity.ID)
+		return user, exception.GenerateHTTPError(exception.NotFound, logError)
+	} else if err != nil {
+		return user, err
+	}
+
+	var provinceEntity entity.MasterProvince
+	if user.ProvinceName != "" {
+		err = db.WithContext(ctx).
+			Where("province_name = ?", user.ProvinceName).
+			First(&provinceEntity).Error
+		if err != nil && exception.CheckErrorContains(err, exception.NotFound) {
+			logError := fmt.Sprintf("Province with id %v not found", provinceEntity.ID)
+			return user, exception.GenerateHTTPError(exception.NotFound, logError)
+		} else if err != nil {
+			return user, err
+		}
+
+		err = db.WithContext(ctx).
+			Model(&userEntity).
+			Updates(map[string]any{
+				"province_id": provinceEntity.ID,
+			}).First(&userEntity).Error
+		if err != nil {
+			return user, err
+		}
+	}
+
+	// update user name
+	if user.Name != "" {
+		err = db.WithContext(ctx).
+			Model(&userEntity).
+			Where("id = ?", userTokenInfo.UserId).
+			Updates(map[string]any{
+				"name": user.Name,
+			}).Error
+		if err != nil {
+			return user, err
+		}
+	}
+
+	// update user gender
+	if user.Gender == "Male" || user.Gender == "Female" {
+		err = db.WithContext(ctx).
+			Model(&userEntity).
+			Where("id = ?", userTokenInfo.UserId).
+			Updates(map[string]any{
+				"gender": user.Gender,
+			}).Error
+		if err != nil {
+			return user, err
+		}
+	}
+
+	// update user phone
+	if user.Phone != "" {
+		err = db.WithContext(ctx).
+			Model(&userEntity).
+			Where("id = ?", userTokenInfo.UserId).
+			Updates(map[string]any{
+				"phone": user.Phone,
+			}).Error
+		if err != nil {
+			return user, err
+		}
+	}
+
+	// update user gender
+	if user.PhotoURL != "" {
+		err = db.WithContext(ctx).
+			Model(&userEntity).
+			Where("id = ?", userTokenInfo.UserId).
+			Updates(map[string]any{
+				"photo_url": user.PhotoURL,
+			}).Error
+		if err != nil {
+			return user, err
+		}
+	}
+
+	err = db.WithContext(ctx).Where("id = ?", userTokenInfo.UserId).First(&userEntity).Error
+	if err != nil {
+		return user, err
+	}
+
+	return domain.User{
+		Id:         userEntity.ID,
+		Name:       userEntity.Name,
+		BirthDate:  userEntity.BirthDate.Time,
+		Gender:     userEntity.Gender,
+		Phone:      userEntity.Phone.String,
+		PhotoURL:   userEntity.PhotoURL.String,
+		ProvinceId: *userEntity.ProvinceId,
+	}, nil
+}

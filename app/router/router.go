@@ -25,6 +25,9 @@ var (
 	LogoutURLPath      = "/logout"
 	RegisterURLPath    = "/register"
 	EditProfileURLPath = "/edit-profile"
+	ProvincesURLPath   = "/provinces"
+	ProvinceIdPath     = "/:provinceId"
+	CitiesURLPath      = "/cities"
 )
 
 // Course URL
@@ -219,4 +222,16 @@ func InitRoutes(
 		CourseURLPath,
 		userController.GetUserCourses,
 	).Name = "Get user courses"
+	protectedUserRouteGroup.GET(
+		EditProfileURLPath+ProvincesURLPath,
+		userController.GetProvinces,
+	).Name = "Get Provinces Data"
+	protectedUserRouteGroup.GET(
+		EditProfileURLPath+ProvincesURLPath+ProvinceIdPath+CitiesURLPath,
+		userController.GetCitiesByProvinceId,
+	).Name = "Get Cities By Province Id"
+	protectedUserRouteGroup.PUT(
+		EditProfileURLPath,
+		userController.EditUserProfile,
+	).Name = "Edit user profiles"
 }

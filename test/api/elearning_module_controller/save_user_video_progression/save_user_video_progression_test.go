@@ -2,6 +2,7 @@ package save_user_video_progression
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/mitchellh/mapstructure"
 	"github.com/stretchr/testify/assert"
@@ -22,7 +23,7 @@ import (
 
 var userVideoProgressionRequestSuccess = video.UserVideoProgressionRequest{
 	Progression: 10000,
-	IsComplete:  true,
+	IsComplete:  false,
 }
 
 var userVideoProgressionRequestFailed = video.UserVideoProgressionRequest{}
@@ -72,6 +73,8 @@ func TestSaveUserVideoProgressionSuccess(t *testing.T) {
 	assert.Equal(t, http.StatusOK, responseBody.Status)
 	assert.Equal(t, test.MessageOk, responseBody.Message)
 	assert.NotNil(t, responseBody.Data)
+
+	fmt.Println(responseBody.Data)
 
 	_ = mapstructure.Decode(responseBody.Data, &userVideoProgressionResponse)
 	assert.Equal(t, userVideoProgressionRequestSuccess.Progression, userVideoProgressionResponse.Progressions)

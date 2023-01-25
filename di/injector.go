@@ -150,8 +150,8 @@ var expertSet = wire.NewSet(
 var userSet = wire.NewSet(
 	user_service.NewUserServiceImpl,
 	wire.Bind(new(user_service.UserService), new(*user_service.UserServiceImpl)),
-	user_controller.NewUserCourseControllerImpl,
-	wire.Bind(new(user_controller.UserController), new(*user_controller.UserCourseControllerImpl)),
+	user_controller.NewUserControllerImpl,
+	wire.Bind(new(user_controller.UserController), new(*user_controller.UserControllerImpl)),
 )
 
 var completeSet = wire.NewSet(

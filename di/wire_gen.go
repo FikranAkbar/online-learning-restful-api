@@ -78,7 +78,7 @@ func InitializedEchoServer() *echo.Echo {
 	expertServiceImpl := expert_service.NewExpertServiceImpl(expertRepositoryImpl, db)
 	expertControllerImpl := expert_controller.NewExpertControllerImpl(expertServiceImpl)
 	userServiceImpl := user_service.NewUserServiceImpl(userRepositoryImpl, db)
-	userCourseControllerImpl := user_controller.NewUserCourseControllerImpl(userServiceImpl)
+	userCourseControllerImpl := user_controller.NewUserControllerImpl(userServiceImpl)
 	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl, elearningModuleControllerImpl, quizControllerImpl, comingSoonCourseControllerImpl, courseSummaryControllerImpl, industryInsightControllerImpl, expertControllerImpl, userCourseControllerImpl)
 	return echoEcho
 }
@@ -120,7 +120,7 @@ func InitializedEchoServerForTest() *echo.Echo {
 	expertServiceImpl := expert_service.NewExpertServiceImpl(expertRepositoryImpl, db)
 	expertControllerImpl := expert_controller.NewExpertControllerImpl(expertServiceImpl)
 	userServiceImpl := user_service.NewUserServiceImpl(userRepositoryImpl, db)
-	userCourseControllerImpl := user_controller.NewUserCourseControllerImpl(userServiceImpl)
+	userCourseControllerImpl := user_controller.NewUserControllerImpl(userServiceImpl)
 	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl, elearningModuleControllerImpl, quizControllerImpl, comingSoonCourseControllerImpl, courseSummaryControllerImpl, industryInsightControllerImpl, expertControllerImpl, userCourseControllerImpl)
 	return echoEcho
 }
@@ -157,7 +157,7 @@ var industryInsightSet = wire.NewSet(industry_insight_repository.NewIndustryInsi
 
 var expertSet = wire.NewSet(expert_repository.NewExpertRepositoryImpl, wire.Bind(new(expert_repository.ExpertRepository), new(*expert_repository.ExpertRepositoryImpl)), expert_service.NewExpertServiceImpl, wire.Bind(new(expert_service.ExpertService), new(*expert_service.ExpertServiceImpl)), expert_controller.NewExpertControllerImpl, wire.Bind(new(expert_controller.ExpertController), new(*expert_controller.ExpertControllerImpl)))
 
-var userSet = wire.NewSet(user_service.NewUserServiceImpl, wire.Bind(new(user_service.UserService), new(*user_service.UserServiceImpl)), user_controller.NewUserCourseControllerImpl, wire.Bind(new(user_controller.UserController), new(*user_controller.UserCourseControllerImpl)))
+var userSet = wire.NewSet(user_service.NewUserServiceImpl, wire.Bind(new(user_service.UserService), new(*user_service.UserServiceImpl)), user_controller.NewUserControllerImpl, wire.Bind(new(user_controller.UserController), new(*user_controller.UserControllerImpl)))
 
 var completeSet = wire.NewSet(app.InitServerWithEcho, validator.New, accountRepositorySet,
 	userRepositorySet,
