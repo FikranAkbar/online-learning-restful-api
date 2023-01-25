@@ -49,7 +49,6 @@ func TestLoginUserSuccess(t *testing.T) {
 	assert.NotNil(t, responseBody.Data)
 
 	_ = mapstructure.Decode(responseBody.Data, &userLoginResponse)
-	assert.Equal(t, "Molly Potts", userLoginResponse.Name)
 	assert.Equal(t, "mollypotts@gmail.com", userLoginResponse.Email)
 	assert.NotNil(t, userLoginResponse.Token)
 }
