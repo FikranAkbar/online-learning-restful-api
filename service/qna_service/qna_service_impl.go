@@ -43,6 +43,9 @@ func (service *QnaServiceImpl) GetQnaQuestionsByCourseId(ctx context.Context, co
 }
 
 func (service *QnaServiceImpl) CreateNewQnaQuestion(ctx context.Context, courseId uint, request qna.CreateQnaQuestionRequest) qna.ShortQnaQuestionResponse {
+	err := service.Validate.Struct(request)
+	helper.PanicIfError(err)
+
 	tx := service.DB.Begin()
 	defer helper.CommitOrRollback(tx)
 
@@ -50,7 +53,7 @@ func (service *QnaServiceImpl) CreateNewQnaQuestion(ctx context.Context, courseI
 		Question: request.Question,
 	}
 
-	qnaQuestion, err := service.QnaRepository.CreateNewQnaQuestion(ctx, tx, courseId, qnaQuestion)
+	qnaQuestion, err = service.QnaRepository.CreateNewQnaQuestion(ctx, tx, courseId, qnaQuestion)
 	helper.PanicIfError(err)
 
 	return qna.ShortQnaQuestionResponse{
@@ -88,3 +91,24 @@ func (service *QnaServiceImpl) GetDetailQnaQuestionByQnaQuestionId(ctx context.C
 		Answers:     qnaAnswersResponse,
 	}
 }
+
+func (service *QnaServiceImpl) CreateNewQnaAnswer(ctx context.Context, courseId uint, qnaQuestionId uint, request qna.CreateQnaAnswerRequest) qna.ShortQnaAnswerResponse {
+	err := service.Validate.Struct(request)
+	helper.PanicIfError(err)
+
+	tx := service.DB.Begin()
+	defer helper.CommitOrRollback(tx)
+
+	qnaAnswer := domain.QnaAnswer{
+		Answer: request.Answer,
+	}
+
+	qnaAnswer, err = service.QnaRepository.CreateNewQnaAnswer(ctx, tx, courseId, qnaQuestionId, qnaAnswer)
+	helper.PanicIfError(err)
+
+	return qna.ShortQnaAnswerResponse{
+		AnswerId: qnaAnswer.Id,
+		Answer:   qnaAnswer.Answer,
+	}
+}
+

@@ -1,5 +1,5 @@
 package qna
 
 type CreateQnaQuestionRequest struct {
-	Question string
+	Question string `json:"question,omitempty" validate:"required"`
 }

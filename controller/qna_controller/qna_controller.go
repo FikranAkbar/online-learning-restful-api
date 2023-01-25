@@ -6,4 +6,5 @@ type QnaController interface {
 	GetQnaQuestionsByCourseId(c echo.Context) error
 	CreateNewQnaQuestion(c echo.Context) error
 	GetDetailQnaQuestionByQnaQuestionId(c echo.Context) error
+	CreateNewQnaAnswer(c echo.Context) error
 }

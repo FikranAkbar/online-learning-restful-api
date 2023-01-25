@@ -142,3 +142,51 @@ func (repository *QnaRepositoryImpl) GetDetailQnaQuestionByQnaQuestionId(ctx con
 
 	return qnaQuestion, qnaAnswers, nil
 }
+
+func (repository *QnaRepositoryImpl) CreateNewQnaAnswer(ctx context.Context, db *gorm.DB, courseId uint, qnaQuestionId uint, qnaAnswer domain.QnaAnswer) (domain.QnaAnswer, error) {
+	userTokenInfo, ok := ctx.Value(middleware.ContextUserInfoKey).(middleware.UserTokenInfo)
+	if !ok {
+		panic(middleware.UnauthorizedErrorInfo)
+	}
+
+	var courseEntity entity.MasterCourse
+	err := db.WithContext(ctx).
+		Where("id = ?", courseId).
+		Preload("QnaQuestions", "id = ?", qnaQuestionId).
+		First(&courseEntity).Error
+	if err != nil && exception.CheckErrorContains(err, exception.NotFound) || !courseEntity.IsPublished {
+		logError := fmt.Sprintf("Course with id %v not found", courseId)
+		return domain.QnaAnswer{}, exception.GenerateHTTPError(exception.NotFound, logError)
+	} else if err != nil {
+		return domain.QnaAnswer{}, err
+	}
+
+	if len(courseEntity.QnaQuestions) <= 0 {
+		logError := fmt.Sprintf("Qna question with id %v not found", qnaQuestionId)
+		return domain.QnaAnswer{}, exception.GenerateHTTPError(exception.NotFound, logError)
+	}
+
+	qnaAnswerEntity := entity.TrxCourseQnaAnswer{
+		QnaQuestionId: qnaQuestionId,
+		UserId:        userTokenInfo.UserId,
+		UserTypeId:    1,
+		Answer:        qnaAnswer.Answer,
+	}
+
+	err = db.WithContext(ctx).
+		Create(&qnaAnswerEntity).
+		Preload("User").Error
+	if err != nil {
+		return domain.QnaAnswer{}, err
+	}
+
+	return domain.QnaAnswer{
+		Id:            qnaAnswerEntity.ID,
+		CreatedAt:     qnaAnswerEntity.CreatedAt,
+		QnaQuestionId: qnaAnswerEntity.QnaQuestionId,
+		UserId:        qnaAnswerEntity.UserId,
+		UserName:      qnaAnswerEntity.User.Name,
+		UserPhoto:     qnaAnswerEntity.User.PhotoURL.String,
+		Answer:        qnaAnswerEntity.Answer,
+	}, nil
+}
