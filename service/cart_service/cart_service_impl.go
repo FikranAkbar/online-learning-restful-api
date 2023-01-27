@@ -1,4 +1,4 @@
-package payment_service
+package cart_service
 
 import (
 	"context"
@@ -9,20 +9,20 @@ import (
 	"online-learning-restful-api/config"
 	"online-learning-restful-api/helper"
 	"online-learning-restful-api/model/web/payment"
-	"online-learning-restful-api/repository/payment_repository"
+	"online-learning-restful-api/repository/cart_repository"
 )
 
-type PaymentServiceImpl struct {
-	payment_repository.PaymentRepository
+type CartServiceImpl struct {
+	cart_repository.CartRepository
 	*validator.Validate
 	*gorm.DB
 }
 
-func NewPaymentServiceImpl(paymentRepository payment_repository.PaymentRepository, validate *validator.Validate, DB *gorm.DB) *PaymentServiceImpl {
-	return &PaymentServiceImpl{PaymentRepository: paymentRepository, Validate: validate, DB: DB}
+func NewCartServiceImpl(paymentRepository cart_repository.CartRepository, validate *validator.Validate, DB *gorm.DB) *CartServiceImpl {
+	return &CartServiceImpl{CartRepository: paymentRepository, Validate: validate, DB: DB}
 }
 
-func (service *PaymentServiceImpl) CreateNewCourseOrder(ctx context.Context, courseIds []uint) payment.CourseOrderResponse {
+func (service *CartServiceImpl) CreateNewCourseOrder(ctx context.Context, courseIds []uint) payment.CourseOrderResponse {
 	tx := service.DB.Begin()
 	defer helper.CommitOrRollback(tx)
 
@@ -32,7 +32,7 @@ func (service *PaymentServiceImpl) CreateNewCourseOrder(ctx context.Context, cou
 		ServerKey: conf.MidtransServerKey,
 		Env:       midtrans.Sandbox,
 	}
-	paymentHistory, courses, user, err := service.PaymentRepository.CreateNewCourseOrder(ctx, tx, courseIds)
+	paymentHistory, courses, user, err := service.CartRepository.CreateNewCourseOrder(ctx, tx, courseIds)
 	helper.PanicIfError(err)
 
 	snapReq := helper.GenerateSnapReq(paymentHistory, user, courses)

@@ -1,7 +1,7 @@
-package payment_controller
+package cart_controller
 
 import "github.com/labstack/echo/v4"
 
-type PaymentController interface {
+type CartController interface {
 	CreateNewCourseOrder(c echo.Context) error
 }

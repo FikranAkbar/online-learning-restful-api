@@ -1,4 +1,4 @@
-package payment_repository
+package cart_repository
 
 import (
 	"context"
@@ -12,14 +12,14 @@ import (
 	"strings"
 )
 
-type PaymentRepositoryImpl struct {
+type CartRepositoryImpl struct {
 }
 
-func NewPaymentRepositoryImpl() *PaymentRepositoryImpl {
-	return &PaymentRepositoryImpl{}
+func NewCartRepositoryImpl() *CartRepositoryImpl {
+	return &CartRepositoryImpl{}
 }
 
-func (repository *PaymentRepositoryImpl) CreateNewCourseOrder(ctx context.Context, db *gorm.DB, courseIds []uint) (domain.PaymentHistory, []domain.Course, domain.User, error) {
+func (repository *CartRepositoryImpl) CreateNewCourseOrder(ctx context.Context, db *gorm.DB, courseIds []uint) (domain.PaymentHistory, []domain.Course, domain.User, error) {
 	userTokenInfo, ok := ctx.Value(middleware.ContextUserInfoKey).(middleware.UserTokenInfo)
 	if !ok {
 		panic(middleware.UnauthorizedErrorInfo)

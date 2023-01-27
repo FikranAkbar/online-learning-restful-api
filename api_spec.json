@@ -73,6 +73,10 @@
       "description": "API to get course module's summary"
     },
     {
+      "name": "Course - Order",
+      "description": "API to order the course"
+    },
+    {
       "name": "User - Edit Profile",
       "description": "API list to edit user profile"
     },
@@ -1882,6 +1886,8 @@
         }
       }
     },
+    "/course/{courseId}/order-course": {
+    },
     "/users/edit-profile": {
       "put": {
         "security": [{ "BearerAuth": []}],
@@ -2113,6 +2119,108 @@
           },
           "500": {
             "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      }
+    },
+    "/courses/{courseId}/order-course": {
+      "post": {
+        "tags": ["Course - Order"],
+        "security": [{ "BearerAuth": []}],
+        "description": "Create new course order",
+        "summary": "Create new course order",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CourseIdPathParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Create new course order successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "user_id": {
+                          "type": "number"
+                        },
+                        "course_id": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": {
+                    "user_id": 1,
+                    "course_id": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Course - Order"],
+        "security": [{ "BearerAuth": []}],
+        "description": "Delete course order",
+        "summary": "Delete course order",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CourseIdPathParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete course order successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "user_id": {
+                          "type": "number"
+                        },
+                        "course_id": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": {
+                    "user_id": 1,
+                    "course_id": 1
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -2368,98 +2476,6 @@
         }
       }
     },
-    "/course/{courseId}/order-course": {
-      "post": {
-        "tags": ["Payment"],
-        "security": [{ "BearerAuth": []}],
-        "description": "Create a new course order",
-        "summary": "Create a new course order",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/CourseIdPathParameter"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "courseIds": {
-                    "type": "array",
-                    "items": {
-                      "type": "number"
-                    }
-                  }
-                }
-              },
-              "example": {
-                "courseIds": [1]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Create new course order successful",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "number"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "order_id": {
-                          "type": "number"
-                        },
-                        "item_details": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "id": {
-                                "type": "number"
-                              },
-                              "name": {
-                                "type": "string"
-                              },
-                              "price": {
-                                "type": "number"
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-                "example": {
-                  "status": 200,
-                  "message": "OK",
-                  "data": {
-                    "order_id": 101010101,
-                    "item_details": [
-                      {
-                        "id": 1,
-                        "name": "course name",
-                        "price": 10000
-                      }
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
   },
   "components": {
     "securitySchemes": {

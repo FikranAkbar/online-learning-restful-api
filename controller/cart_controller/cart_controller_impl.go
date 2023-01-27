@@ -6,23 +6,23 @@ import (
 	"online-learning-restful-api/helper"
 	"online-learning-restful-api/model/web"
 	"online-learning-restful-api/model/web/payment"
-	"online-learning-restful-api/service/payment_service"
+	"online-learning-restful-api/service/cart_service"
 )
 
-type PaymentControllerImpl struct {
-	payment_service.PaymentService
+type CartControllerImpl struct {
+	cart_service.CartService
 }
 
-func NewPaymentControllerImpl(paymentService payment_service.PaymentService) *PaymentControllerImpl {
-	return &PaymentControllerImpl{PaymentService: paymentService}
+func NewCartControllerImpl(paymentService cart_service.CartService) *CartControllerImpl {
+	return &CartControllerImpl{CartService: paymentService}
 }
 
-func (controller *PaymentControllerImpl) CreateNewCourseOrder(c echo.Context) error {
+func (controller *CartControllerImpl) CreateNewCourseOrder(c echo.Context) error {
 	var courseOrderRequest payment.CourseOrderRequest
 	err := c.Bind(&courseOrderRequest)
 	helper.PanicIfError(err)
 
-	courseOrderResponse := controller.PaymentService.CreateNewCourseOrder(c.Request().Context(), courseOrderRequest.CourseIds)
+	courseOrderResponse := controller.CartService.CreateNewCourseOrder(c.Request().Context(), courseOrderRequest.CourseIds)
 
 	apiResponse := web.APIResponse{
 		Status:  200,

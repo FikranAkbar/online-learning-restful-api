@@ -1,10 +1,10 @@
-package payment_service
+package cart_service
 
 import (
 	"context"
 	"online-learning-restful-api/model/web/payment"
 )
 
-type PaymentService interface {
+type CartService interface {
 	CreateNewCourseOrder(ctx context.Context, courseIds []uint) payment.CourseOrderResponse
 }

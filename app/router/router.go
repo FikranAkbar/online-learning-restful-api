@@ -4,11 +4,11 @@ import (
 	"github.com/labstack/echo/v4"
 	"online-learning-restful-api/app/router/middleware"
 	"online-learning-restful-api/controller/authentication_controller"
+	"online-learning-restful-api/controller/cart_controller"
 	"online-learning-restful-api/controller/course_controller"
 	"online-learning-restful-api/controller/elearning_module_controller"
 	"online-learning-restful-api/controller/expert_controller"
 	"online-learning-restful-api/controller/industry_insight_controller"
-	"online-learning-restful-api/controller/payment_controller"
 	"online-learning-restful-api/controller/qna_controller"
 	"online-learning-restful-api/controller/quiz_controller"
 	"online-learning-restful-api/controller/user_controller"
@@ -80,11 +80,12 @@ func InitRoutes(
 	quizController quiz_controller.QuizController,
 	courseComingSoonController course_controller.ComingSoonCourseController,
 	courseSummaryController course_controller.CourseSummaryController,
+	orderCourseController course_controller.OrderCourseController,
 	industryInsightController industry_insight_controller.IndustryInsightController,
 	expertController expert_controller.ExpertController,
 	userController user_controller.UserController,
 	qnaController qna_controller.QnaController,
-	paymentController payment_controller.PaymentController,
+	cartController cart_controller.CartController,
 	e *echo.Echo,
 ) {
 	apiGroup := e.Group("/api")
@@ -205,6 +206,16 @@ func InitRoutes(
 		courseSummaryController.GetCourseSummary,
 	).Name = "Get course summary"
 
+	// course order api route
+	protectedCourseRouteGroup.POST(
+		CourseIdPath+OrderCourseURLPath,
+		orderCourseController.CreateNewCourseOrder,
+	).Name = "Create new course order"
+	protectedCourseRouteGroup.DELETE(
+		CourseIdPath+OrderCourseURLPath,
+		orderCourseController.DeleteCourseOrder,
+	).Name = "Delete course order"
+
 	// industry insight api route
 	publicIndustryInsightsGroup.GET(
 		"",
@@ -262,8 +273,5 @@ func InitRoutes(
 	).Name = "Create new qna answer"
 
 	// payment api route
-	protectedCourseRouteGroup.POST(
-		CourseIdPath+OrderCourseURLPath,
-		paymentController.CreateNewCourseOrder,
-	).Name = "Create new course order"
+
 }

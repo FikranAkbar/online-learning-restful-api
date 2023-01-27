@@ -14,4 +14,6 @@ type CourseRepository interface {
 	GetCourseReviewsByCourseId(ctx context.Context, db *gorm.DB, courseId uint) ([]domain.CourseReview, error)
 	GetComingSoonCourses(ctx context.Context, db *gorm.DB) ([]domain.Course, error)
 	GetCourseSummary(ctx context.Context, db *gorm.DB, courseId uint) (domain.CourseSummary, error)
+	CreateNewCourseOrder(ctx context.Context, db *gorm.DB, courseId uint) (domain.OrderCourse, error)
+	DeleteCourseOrder(ctx context.Context, db *gorm.DB, courseId uint) (domain.OrderCourse, error)
 }
