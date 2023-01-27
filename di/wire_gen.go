@@ -12,6 +12,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"online-learning-restful-api/app"
 	"online-learning-restful-api/app/database"
+	"online-learning-restful-api/config"
 	"online-learning-restful-api/controller/authentication_controller"
 	"online-learning-restful-api/controller/course_controller"
 	"online-learning-restful-api/controller/elearning_module_controller"
@@ -47,7 +48,8 @@ import (
 func InitializedEchoServer() *echo.Echo {
 	accountRepositoryImpl := account_repository.NewAccountRepositoryImpl()
 	userRepositoryImpl := user_repository.NewUserRepositoryImpl()
-	db := database.NewDB()
+	configConfig := config.LoadConfigFromEnv()
+	db := database.NewDB(configConfig)
 	validate := validator.New()
 	authenticationServiceImpl := authentication_service.NewAuthenticationServiceImpl(accountRepositoryImpl, userRepositoryImpl, db, validate)
 	authenticationControllerImpl := authentication_controller.NewAuthenticationControllerImpl(authenticationServiceImpl)
@@ -170,7 +172,7 @@ var userSet = wire.NewSet(user_service.NewUserServiceImpl, wire.Bind(new(user_se
 
 var qnaSet = wire.NewSet(qna_repository.NewQnaRepositoryImpl, wire.Bind(new(qna_repository.QnaRepository), new(*qna_repository.QnaRepositoryImpl)), qna_service.NewQnaServiceImpl, wire.Bind(new(qna_service.QnaService), new(*qna_service.QnaServiceImpl)), qna_controller.NewQnaControllerImpl, wire.Bind(new(qna_controller.QnaController), new(*qna_controller.QnaControllerImpl)))
 
-var completeSet = wire.NewSet(app.InitServerWithEcho, validator.New, accountRepositorySet,
+var completeSet = wire.NewSet(app.InitServerWithEcho, validator.New, config.LoadConfigFromEnv, accountRepositorySet,
 	userRepositorySet,
 	authenticationSet,
 	courseRepositorySet,

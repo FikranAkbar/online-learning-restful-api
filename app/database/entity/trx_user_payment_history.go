@@ -1,7 +1,7 @@
 package entity
 
 type TrxUserPaymentHistory struct {
-	PaymentId       string              `gorm:"column:payment_id;type:varchar(100);primaryKey"`
+	OrderId         string              `gorm:"column:order_id;type:varchar(100);primaryKey"`
 	UserId          uint                `gorm:"column:user_id;not null"`
 	CourseId        string              `gorm:"column:course_id;not null"`
 	DayId           uint                `gorm:"column:day_id;not null"`

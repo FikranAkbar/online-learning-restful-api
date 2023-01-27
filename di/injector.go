@@ -9,6 +9,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"online-learning-restful-api/app"
 	"online-learning-restful-api/app/database"
+	"online-learning-restful-api/config"
 	"online-learning-restful-api/controller/authentication_controller"
 	"online-learning-restful-api/controller/course_controller"
 	"online-learning-restful-api/controller/elearning_module_controller"
@@ -169,6 +170,7 @@ var qnaSet = wire.NewSet(
 var completeSet = wire.NewSet(
 	app.InitServerWithEcho,
 	validator.New,
+	config.LoadConfigFromEnv,
 	accountRepositorySet,
 	userRepositorySet,
 	authenticationSet,

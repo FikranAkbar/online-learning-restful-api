@@ -8,6 +8,7 @@ import (
 	"online-learning-restful-api/controller/elearning_module_controller"
 	"online-learning-restful-api/controller/expert_controller"
 	"online-learning-restful-api/controller/industry_insight_controller"
+	"online-learning-restful-api/controller/payment_controller"
 	"online-learning-restful-api/controller/qna_controller"
 	"online-learning-restful-api/controller/quiz_controller"
 	"online-learning-restful-api/controller/user_controller"
@@ -53,6 +54,7 @@ var (
 	QnaQuestionsURLPath         = "/qna-questions"
 	QnaQuestionIdPath           = "/:qnaQuestionId"
 	QnaAnswersURLPath           = "/answers"
+	OrderCourseURLPath          = "/order-course"
 )
 
 // Industry Insight URL
@@ -82,6 +84,7 @@ func InitRoutes(
 	expertController expert_controller.ExpertController,
 	userController user_controller.UserController,
 	qnaController qna_controller.QnaController,
+	paymentController payment_controller.PaymentController,
 	e *echo.Echo,
 ) {
 	apiGroup := e.Group("/api")
@@ -257,4 +260,10 @@ func InitRoutes(
 		CourseIdPath+QnaQuestionsURLPath+QnaQuestionIdPath+QnaAnswersURLPath,
 		qnaController.CreateNewQnaAnswer,
 	).Name = "Create new qna answer"
+
+	// payment api route
+	protectedCourseRouteGroup.POST(
+		CourseIdPath+OrderCourseURLPath,
+		paymentController.CreateNewCourseOrder,
+	).Name = "Create new course order"
 }

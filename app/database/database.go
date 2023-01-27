@@ -7,9 +7,8 @@ import (
 	"online-learning-restful-api/helper"
 )
 
-func NewDB() *gorm.DB {
-	dbConfig := config.BuildDBConfig()
-	db, err := gorm.Open(mysql.Open(dbConfig.DBUrl()), &gorm.Config{
+func NewDB(config *config.Config) *gorm.DB {
+	db, err := gorm.Open(mysql.Open(config.CreateDBURL()), &gorm.Config{
 		SkipDefaultTransaction: true,
 	})
 	helper.PanicIfError(err)
@@ -18,8 +17,7 @@ func NewDB() *gorm.DB {
 }
 
 func NewTestDB() *gorm.DB {
-	dbConfig := config.BuildDBConfigForTest()
-	db, err := gorm.Open(mysql.Open(dbConfig.DBUrl()), &gorm.Config{
+	db, err := gorm.Open(mysql.Open("root:password@tcp(localhost:3306)/online_learning_database_test?charset=utf8&parseTime=True&loc=Local"), &gorm.Config{
 		SkipDefaultTransaction: true,
 	})
 	helper.PanicIfError(err)
