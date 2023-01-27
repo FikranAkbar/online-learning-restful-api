@@ -3,12 +3,13 @@ package database
 import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"online-learning-restful-api/config"
 	"online-learning-restful-api/helper"
 )
 
 func NewDB() *gorm.DB {
-	dsn := "root:password@tcp(127.0.0.1:3306)/online_learning_database?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+	dbConfig := config.BuildDBConfig()
+	db, err := gorm.Open(mysql.Open(dbConfig.DBUrl()), &gorm.Config{
 		SkipDefaultTransaction: true,
 	})
 	helper.PanicIfError(err)
@@ -17,8 +18,8 @@ func NewDB() *gorm.DB {
 }
 
 func NewTestDB() *gorm.DB {
-	dsn := "root:password@tcp(127.0.0.1:3306)/online_learning_database_test?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+	dbConfig := config.BuildDBConfigForTest()
+	db, err := gorm.Open(mysql.Open(dbConfig.DBUrl()), &gorm.Config{
 		SkipDefaultTransaction: true,
 	})
 	helper.PanicIfError(err)
