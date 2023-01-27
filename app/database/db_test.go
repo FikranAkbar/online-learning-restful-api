@@ -2,22 +2,30 @@ package database
 
 import (
 	"online-learning-restful-api/app/database/seeder"
+	"online-learning-restful-api/config"
 	"testing"
 )
 
 func TestMigrateClearSeedSequentiallyDB(t *testing.T) {
+	c := &config.Config{
+		DBHost:     "localhost",
+		DBPort:     3306,
+		DBUser:     "root",
+		DBName:     "online_learning_database",
+		DBPassword: "password",
+	}
 	t.Run("Test Migrate DB", func(t *testing.T) {
-		Migrate(NewDB())
+		Migrate(NewDB(c))
 	})
 	t.Run("Test Clear DB", func(t *testing.T) {
-		seeder.ClearDB(NewDB())
+		seeder.ClearDB(NewDB(c))
 	})
 	t.Run("Test Seed DB", func(t *testing.T) {
-		seeder.SeedDB(NewDB())
+		seeder.SeedDB(NewDB(c))
 	})
 	t.Run("Test Clear And Seed DB", func(t *testing.T) {
-		seeder.ClearDB(NewDB())
-		seeder.SeedDB(NewDB())
+		seeder.ClearDB(NewDB(c))
+		seeder.SeedDB(NewDB(c))
 	})
 }
 

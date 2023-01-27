@@ -7,5 +7,5 @@ import (
 )
 
 type PaymentRepository interface {
-	CreateNewCourseOrder(ctx context.Context, db *gorm.DB, courseIds []uint) (domain.User, []domain.Course, error)
+	CreateNewCourseOrder(ctx context.Context, db *gorm.DB, courseIds []uint) (domain.PaymentHistory, []domain.Course, error)
 }
