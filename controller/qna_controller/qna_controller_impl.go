@@ -92,4 +92,3 @@ func (controller *QnaControllerImpl) CreateNewQnaAnswer(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, apiResponse)
 }
-

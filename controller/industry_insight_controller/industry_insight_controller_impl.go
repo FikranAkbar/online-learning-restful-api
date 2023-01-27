@@ -43,7 +43,3 @@ func (controller *IndustryInsightControllerImpl) GetIndustryInsightById(c echo.C
 
 	return c.JSON(http.StatusOK, apiResponse)
 }
-
-
-
-

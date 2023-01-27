@@ -55,4 +55,3 @@ func (service *ExpertServiceImpl) GetExpertCoursesById(ctx context.Context, expe
 
 	return coursesResponse
 }
-
