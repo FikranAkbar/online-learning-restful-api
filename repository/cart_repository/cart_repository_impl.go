@@ -19,7 +19,7 @@ func NewCartRepositoryImpl() *CartRepositoryImpl {
 	return &CartRepositoryImpl{}
 }
 
-func (repository *CartRepositoryImpl) CreateNewCourseOrder(ctx context.Context, db *gorm.DB, courseIds []uint) (domain.PaymentHistory, []domain.Course, domain.User, error) {
+func (repository *CartRepositoryImpl) BuyCartItems(ctx context.Context, db *gorm.DB, courseIds []uint) (domain.PaymentHistory, []domain.Course, domain.User, error) {
 	userTokenInfo, ok := ctx.Value(middleware.ContextUserInfoKey).(middleware.UserTokenInfo)
 	if !ok {
 		panic(middleware.UnauthorizedErrorInfo)
@@ -71,6 +71,7 @@ func (repository *CartRepositoryImpl) CreateNewCourseOrder(ctx context.Context, 
 		CourseIds:       courseIdsInString,
 		DayId:           1,
 		PaymentStatusId: 3,
+		PaymentMethodId: 1,
 		Price:           totalCoursesPrice,
 		TotalPrice:      totalCoursesPrice,
 		IsExpired:       false,
@@ -79,6 +80,21 @@ func (repository *CartRepositoryImpl) CreateNewCourseOrder(ctx context.Context, 
 	if err != nil {
 		return domain.PaymentHistory{}, nil, domain.User{}, err
 	}
+
+	for _, courseId := range courseIds {
+		var userCart entity.TrxUserCart
+		rowAffected := db.WithContext(ctx).
+			Model(&userCart).
+			Where("user_id = ?", userTokenInfo.UserId).
+			Where("course_id = ?", courseId).
+			Delete(&userCart).RowsAffected
+		if rowAffected <= 0 {
+			return domain.PaymentHistory{}, nil, domain.User{},
+				exception.GenerateHTTPError(exception.BadRequest, "The selected course is not found in user cart")
+		}
+	}
+
+	fmt.Println("Order Id 1:", paymentHistoryEntity.OrderId)
 
 	return domain.PaymentHistory{
 			OrderId:         paymentHistoryEntity.OrderId,
@@ -98,4 +114,34 @@ func (repository *CartRepositoryImpl) CreateNewCourseOrder(ctx context.Context, 
 			Gender:    userEntity.Gender,
 			Phone:     userEntity.Phone.String,
 		}, nil
+}
+
+func (repository *CartRepositoryImpl) SavePaymentRedirectionURL(ctx context.Context, db *gorm.DB, paymentHistory domain.PaymentHistory) (domain.PaymentHistory, error) {
+	var paymentHistoryEntity entity.TrxUserPaymentHistory
+	err := db.WithContext(ctx).
+		Model(&paymentHistoryEntity).
+		Where("order_id = ?", paymentHistory.OrderId).
+		Updates(map[string]any{
+			"payment_url": paymentHistory.PaymentUrl,
+		}).First(&paymentHistoryEntity).Error
+	if err != nil && exception.CheckErrorContains(err, exception.NotFound) {
+		logError := fmt.Sprintf("payment history with id %v not found", paymentHistory.OrderId)
+		return domain.PaymentHistory{}, exception.GenerateHTTPError(exception.NotFound, logError)
+	} else if err != nil {
+		return domain.PaymentHistory{}, err
+	}
+
+	fmt.Println("Order Id 2:", paymentHistoryEntity.OrderId)
+
+	return domain.PaymentHistory{
+		OrderId:         paymentHistoryEntity.OrderId,
+		UserId:          paymentHistoryEntity.UserId,
+		CourseIds:       paymentHistoryEntity.CourseIds,
+		DayId:           paymentHistoryEntity.DayId,
+		PaymentStatusId: paymentHistoryEntity.PaymentStatusId,
+		TotalPrice:      paymentHistoryEntity.TotalPrice,
+		PaymentMethodId: paymentHistoryEntity.PaymentMethodId,
+		PaymentUrl:      paymentHistoryEntity.PaymentUrl,
+		IsExpired:       false,
+	}, nil
 }

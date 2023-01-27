@@ -14,7 +14,7 @@ type TrxUserPaymentHistory struct {
 	TotalPrice      uint                `gorm:"column:total_price;not null"`
 	PaymentMethodId uint                `gorm:"column:payment_method;not null"`
 	PaymentMethod   MasterPaymentMethod `gorm:"foreignKey:PaymentMethodId;joinForeignKey:ID"`
-	PaymentUrl      string              `gorm:"column:payment_url"`
+	PaymentUrl      string              `gorm:"column:payment_url;type:text"`
 	IsExpired       bool                `gorm:"column:is_expired;default:false"`
 }
 

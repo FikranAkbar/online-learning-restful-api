@@ -69,6 +69,11 @@ var (
 	ExpertIdPath   = "/:expertId"
 )
 
+var (
+	CartsURLPath = "/carts"
+	BuyURLPath   = "/buy"
+)
+
 func InitRoutes(
 	authenticationController authentication_controller.AuthenticationController,
 	courseCategoryController course_controller.CourseCategoryController,
@@ -273,5 +278,8 @@ func InitRoutes(
 	).Name = "Create new qna answer"
 
 	// payment api route
-
+	protectedUserRouteGroup.POST(
+		CartsURLPath+BuyURLPath,
+		cartController.BuyCartItems,
+	).Name = "Buy cart items"
 }

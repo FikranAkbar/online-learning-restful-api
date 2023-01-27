@@ -7,5 +7,6 @@ import (
 )
 
 type CartRepository interface {
-	CreateNewCourseOrder(ctx context.Context, db *gorm.DB, courseIds []uint) (domain.PaymentHistory, []domain.Course, domain.User, error)
+	BuyCartItems(ctx context.Context, db *gorm.DB, courseIds []uint) (domain.PaymentHistory, []domain.Course, domain.User, error)
+	SavePaymentRedirectionURL(ctx context.Context, db *gorm.DB, paymentHistory domain.PaymentHistory) (domain.PaymentHistory, error)
 }

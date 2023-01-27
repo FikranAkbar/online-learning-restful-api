@@ -17,12 +17,12 @@ func NewCartControllerImpl(paymentService cart_service.CartService) *CartControl
 	return &CartControllerImpl{CartService: paymentService}
 }
 
-func (controller *CartControllerImpl) CreateNewCourseOrder(c echo.Context) error {
+func (controller *CartControllerImpl) BuyCartItems(c echo.Context) error {
 	var courseOrderRequest payment.CourseOrderRequest
 	err := c.Bind(&courseOrderRequest)
 	helper.PanicIfError(err)
 
-	courseOrderResponse := controller.CartService.CreateNewCourseOrder(c.Request().Context(), courseOrderRequest.CourseIds)
+	courseOrderResponse := controller.CartService.BuyCartItems(c.Request().Context(), courseOrderRequest.CourseIds)
 
 	apiResponse := web.APIResponse{
 		Status:  200,

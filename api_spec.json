@@ -2476,6 +2476,93 @@
         }
       }
     },
+    "/users/carts/buy": {
+      "post": {
+        "security": [{ "BearerAuth": []}],
+        "tags": ["Payment"],
+        "description": "Create new transaction in midtrans to buy course from user's cart",
+        "summary": "Create new transaction",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "courseIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                }
+              },
+              "example": {
+                "courseIds": [1]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Buy course successfully, and waiting for payment",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "order_id": {
+                          "type": "string"
+                        },
+                        "item_details": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "price": {
+                                "type": "number"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": {
+                    "order_id": 10101,
+                    "item_details": [
+                      {
+                        "id": 1,
+                        "name": "product name",
+                        "price": 10000
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   },
   "components": {
     "securitySchemes": {

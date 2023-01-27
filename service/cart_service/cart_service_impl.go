@@ -22,22 +22,23 @@ func NewCartServiceImpl(paymentRepository cart_repository.CartRepository, valida
 	return &CartServiceImpl{CartRepository: paymentRepository, Validate: validate, DB: DB}
 }
 
-func (service *CartServiceImpl) CreateNewCourseOrder(ctx context.Context, courseIds []uint) payment.CourseOrderResponse {
+func (service *CartServiceImpl) BuyCartItems(ctx context.Context, courseIds []uint) payment.CourseOrderResponse {
 	tx := service.DB.Begin()
 	defer helper.CommitOrRollback(tx)
 
 	conf := config.LoadConfigFromEnv()
 
-	var s = snap.Client{
-		ServerKey: conf.MidtransServerKey,
-		Env:       midtrans.Sandbox,
-	}
-	paymentHistory, courses, user, err := service.CartRepository.CreateNewCourseOrder(ctx, tx, courseIds)
+	var s snap.Client
+	s.New(conf.MidtransServerKey, midtrans.Sandbox)
+
+	paymentHistory, courses, user, err := service.CartRepository.BuyCartItems(ctx, tx, courseIds)
 	helper.PanicIfError(err)
 
 	snapReq := helper.GenerateSnapReq(paymentHistory, user, courses)
+	snapResp, _ := s.CreateTransaction(snapReq)
+	paymentHistory.PaymentUrl = snapResp.RedirectURL
 
-	_, err = s.CreateTransaction(snapReq)
+	_, err = service.CartRepository.SavePaymentRedirectionURL(ctx, tx, paymentHistory)
 	helper.PanicIfError(err)
 
 	var itemDetailsResponse []payment.ItemDetailResponse

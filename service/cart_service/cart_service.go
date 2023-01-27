@@ -6,5 +6,5 @@ import (
 )
 
 type CartService interface {
-	CreateNewCourseOrder(ctx context.Context, courseIds []uint) payment.CourseOrderResponse
+	BuyCartItems(ctx context.Context, courseIds []uint) payment.CourseOrderResponse
 }
