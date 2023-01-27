@@ -6,5 +6,5 @@ import (
 )
 
 type PaymentService interface {
-	CreateNewCourseOrder(ctx context.Context, courseIds []int) payment.CourseOrderResponse
+	CreateNewCourseOrder(ctx context.Context, courseIds []uint) payment.CourseOrderResponse
 }
