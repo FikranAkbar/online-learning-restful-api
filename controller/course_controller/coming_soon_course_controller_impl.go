@@ -26,4 +26,3 @@ func (controller *ComingSoonCourseControllerImpl) GetComingSoonCourses(c echo.Co
 
 	return c.JSON(http.StatusOK, apiResponse)
 }
-

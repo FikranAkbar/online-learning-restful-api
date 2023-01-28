@@ -46,4 +46,3 @@ func (controller *ExpertControllerImpl) GetExpertCoursesById(c echo.Context) err
 
 	return c.JSON(http.StatusOK, apiResponse)
 }
-

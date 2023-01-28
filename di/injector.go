@@ -9,7 +9,9 @@ import (
 	"github.com/labstack/echo/v4"
 	"online-learning-restful-api/app"
 	"online-learning-restful-api/app/database"
+	"online-learning-restful-api/config"
 	"online-learning-restful-api/controller/authentication_controller"
+	"online-learning-restful-api/controller/cart_controller"
 	"online-learning-restful-api/controller/course_controller"
 	"online-learning-restful-api/controller/elearning_module_controller"
 	"online-learning-restful-api/controller/expert_controller"
@@ -19,6 +21,7 @@ import (
 	"online-learning-restful-api/controller/user_controller"
 	"online-learning-restful-api/controller/webinar_session_controller"
 	"online-learning-restful-api/repository/account_repository"
+	"online-learning-restful-api/repository/cart_repository"
 	"online-learning-restful-api/repository/category_repository"
 	"online-learning-restful-api/repository/course_repository"
 	"online-learning-restful-api/repository/elearning_module_repository"
@@ -29,6 +32,7 @@ import (
 	"online-learning-restful-api/repository/user_repository"
 	"online-learning-restful-api/repository/webinar_session_repository"
 	"online-learning-restful-api/service/authentication_service"
+	"online-learning-restful-api/service/cart_service"
 	"online-learning-restful-api/service/course_service"
 	"online-learning-restful-api/service/elearning_module_service"
 	"online-learning-restful-api/service/expert_service"
@@ -132,6 +136,13 @@ var courseSummarySet = wire.NewSet(
 	wire.Bind(new(course_controller.CourseSummaryController), new(*course_controller.CourseSummaryControllerImpl)),
 )
 
+var orderCourseSet = wire.NewSet(
+	course_service.NewOrderCourseServiceImpl,
+	wire.Bind(new(course_service.OrderCourseService), new(*course_service.OrderCourseServiceImpl)),
+	course_controller.NewOrderCourseControllerImpl,
+	wire.Bind(new(course_controller.OrderCourseController), new(*course_controller.OrderCourseControllerImpl)),
+)
+
 var industryInsightSet = wire.NewSet(
 	industry_insight_repository.NewIndustryInsightRepositoryImpl,
 	wire.Bind(new(industry_insight_repository.IndustryInsightRepository), new(*industry_insight_repository.IndustryInsightRepositoryImpl)),
@@ -166,9 +177,19 @@ var qnaSet = wire.NewSet(
 	wire.Bind(new(qna_controller.QnaController), new(*qna_controller.QnaControllerImpl)),
 )
 
+var cartSet = wire.NewSet(
+	cart_repository.NewCartRepositoryImpl,
+	wire.Bind(new(cart_repository.CartRepository), new(*cart_repository.CartRepositoryImpl)),
+	cart_service.NewCartServiceImpl,
+	wire.Bind(new(cart_service.CartService), new(*cart_service.CartServiceImpl)),
+	cart_controller.NewCartControllerImpl,
+	wire.Bind(new(cart_controller.CartController), new(*cart_controller.CartControllerImpl)),
+)
+
 var completeSet = wire.NewSet(
 	app.InitServerWithEcho,
 	validator.New,
+	config.LoadConfigFromEnv,
 	accountRepositorySet,
 	userRepositorySet,
 	authenticationSet,
@@ -182,10 +203,12 @@ var completeSet = wire.NewSet(
 	quizSet,
 	comingSoonCourseSet,
 	courseSummarySet,
+	orderCourseSet,
 	industryInsightSet,
 	expertSet,
 	userSet,
 	qnaSet,
+	cartSet,
 )
 
 func InitializedEchoServer() *echo.Echo {

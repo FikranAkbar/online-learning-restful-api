@@ -4,6 +4,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"online-learning-restful-api/app/router/middleware"
 	"online-learning-restful-api/controller/authentication_controller"
+	"online-learning-restful-api/controller/cart_controller"
 	"online-learning-restful-api/controller/course_controller"
 	"online-learning-restful-api/controller/elearning_module_controller"
 	"online-learning-restful-api/controller/expert_controller"
@@ -53,6 +54,7 @@ var (
 	QnaQuestionsURLPath         = "/qna-questions"
 	QnaQuestionIdPath           = "/:qnaQuestionId"
 	QnaAnswersURLPath           = "/answers"
+	OrderCourseURLPath          = "/order-course"
 )
 
 // Industry Insight URL
@@ -67,6 +69,14 @@ var (
 	ExpertIdPath   = "/:expertId"
 )
 
+// payment URL
+var (
+	CartsURLPath    = "/carts"
+	BuyURLPath      = "/buy"
+	MidtransURLPath = "/midtrans"
+	WebhookURLPath  = "/webhook"
+)
+
 func InitRoutes(
 	authenticationController authentication_controller.AuthenticationController,
 	courseCategoryController course_controller.CourseCategoryController,
@@ -78,10 +88,12 @@ func InitRoutes(
 	quizController quiz_controller.QuizController,
 	courseComingSoonController course_controller.ComingSoonCourseController,
 	courseSummaryController course_controller.CourseSummaryController,
+	orderCourseController course_controller.OrderCourseController,
 	industryInsightController industry_insight_controller.IndustryInsightController,
 	expertController expert_controller.ExpertController,
 	userController user_controller.UserController,
 	qnaController qna_controller.QnaController,
+	cartController cart_controller.CartController,
 	e *echo.Echo,
 ) {
 	apiGroup := e.Group("/api")
@@ -99,6 +111,9 @@ func InitRoutes(
 
 	// experts group route
 	publicExpertsGroup := apiGroup.Group(ExpertsURLPath)
+
+	// payment group route
+	publicMidtransGroup := apiGroup.Group(MidtransURLPath)
 
 	// protected route group
 	for _, routeGroup := range []*echo.Group{
@@ -202,6 +217,16 @@ func InitRoutes(
 		courseSummaryController.GetCourseSummary,
 	).Name = "Get course summary"
 
+	// course order api route
+	protectedCourseRouteGroup.POST(
+		CourseIdPath+OrderCourseURLPath,
+		orderCourseController.CreateNewCourseOrder,
+	).Name = "Create new course order"
+	protectedCourseRouteGroup.DELETE(
+		CourseIdPath+OrderCourseURLPath,
+		orderCourseController.DeleteCourseOrder,
+	).Name = "Delete course order"
+
 	// industry insight api route
 	publicIndustryInsightsGroup.GET(
 		"",
@@ -257,4 +282,14 @@ func InitRoutes(
 		CourseIdPath+QnaQuestionsURLPath+QnaQuestionIdPath+QnaAnswersURLPath,
 		qnaController.CreateNewQnaAnswer,
 	).Name = "Create new qna answer"
+
+	// payment api route
+	protectedUserRouteGroup.POST(
+		CartsURLPath+BuyURLPath,
+		cartController.BuyCartItems,
+	).Name = "Buy cart items"
+	publicMidtransGroup.POST(
+		WebhookURLPath,
+		cartController.HandleMidtransPaymentNotification,
+	).Name = "Handle payment notification from midtrans"
 }

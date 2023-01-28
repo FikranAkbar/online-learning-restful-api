@@ -1,9 +1,9 @@
 package entity
 
 type TrxUserPaymentHistory struct {
-	PaymentId       string              `gorm:"column:payment_id;type:varchar(100);primaryKey"`
+	OrderId         string              `gorm:"column:order_id;type:varchar(100);primaryKey"`
 	UserId          uint                `gorm:"column:user_id;not null"`
-	CourseId        string              `gorm:"column:course_id;not null"`
+	CourseIds       string              `gorm:"column:course_ids;not null"`
 	DayId           uint                `gorm:"column:day_id;not null"`
 	Day             MasterDay           `gorm:"foreignKey:DayId;joinForeignKey:ID"`
 	PaymentStatusId uint                `gorm:"column:payment_status_id;not null"`
@@ -14,7 +14,7 @@ type TrxUserPaymentHistory struct {
 	TotalPrice      uint                `gorm:"column:total_price;not null"`
 	PaymentMethodId uint                `gorm:"column:payment_method;not null"`
 	PaymentMethod   MasterPaymentMethod `gorm:"foreignKey:PaymentMethodId;joinForeignKey:ID"`
-	PaymentNumber   string              `gorm:"column:payment_number"`
+	PaymentUrl      string              `gorm:"column:payment_url;type:text"`
 	IsExpired       bool                `gorm:"column:is_expired;default:false"`
 }
 

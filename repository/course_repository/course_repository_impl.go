@@ -232,3 +232,51 @@ func (repository *CourseRepositoryImpl) GetCourseSummary(ctx context.Context, db
 		DocURL:   courseSummaryEntity.DocURL,
 	}, nil
 }
+
+func (repository *CourseRepositoryImpl) CreateNewCourseOrder(ctx context.Context, db *gorm.DB, courseId uint) (domain.OrderCourse, error) {
+	userTokenInfo, ok := ctx.Value(middleware.ContextUserInfoKey).(middleware.UserTokenInfo)
+	if !ok {
+		panic(middleware.UnauthorizedErrorInfo)
+	}
+
+	courseOrder := entity.TrxUserCart{
+		UserId:   userTokenInfo.UserId,
+		CourseId: courseId,
+	}
+
+	err := db.WithContext(ctx).
+		Create(&courseOrder).Error
+	if err != nil {
+		fmt.Println(err)
+		return domain.OrderCourse{}, err
+	}
+
+	return domain.OrderCourse{
+		UserId:   courseOrder.UserId,
+		CourseId: courseOrder.CourseId,
+	}, nil
+}
+
+func (repository *CourseRepositoryImpl) DeleteCourseOrder(ctx context.Context, db *gorm.DB, courseId uint) (domain.OrderCourse, error) {
+	userTokenInfo, ok := ctx.Value(middleware.ContextUserInfoKey).(middleware.UserTokenInfo)
+	if !ok {
+		panic(middleware.UnauthorizedErrorInfo)
+	}
+
+	courseOrder := entity.TrxUserCart{
+		UserId:   userTokenInfo.UserId,
+		CourseId: courseId,
+	}
+
+	err := db.WithContext(ctx).
+		Delete(&courseOrder).Error
+	if err != nil {
+		fmt.Println(err)
+		return domain.OrderCourse{}, err
+	}
+
+	return domain.OrderCourse{
+		UserId:   courseOrder.UserId,
+		CourseId: courseOrder.CourseId,
+	}, nil
+}

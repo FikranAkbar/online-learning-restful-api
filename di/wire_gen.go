@@ -12,7 +12,9 @@ import (
 	"github.com/labstack/echo/v4"
 	"online-learning-restful-api/app"
 	"online-learning-restful-api/app/database"
+	"online-learning-restful-api/config"
 	"online-learning-restful-api/controller/authentication_controller"
+	"online-learning-restful-api/controller/cart_controller"
 	"online-learning-restful-api/controller/course_controller"
 	"online-learning-restful-api/controller/elearning_module_controller"
 	"online-learning-restful-api/controller/expert_controller"
@@ -22,6 +24,7 @@ import (
 	"online-learning-restful-api/controller/user_controller"
 	"online-learning-restful-api/controller/webinar_session_controller"
 	"online-learning-restful-api/repository/account_repository"
+	"online-learning-restful-api/repository/cart_repository"
 	"online-learning-restful-api/repository/category_repository"
 	"online-learning-restful-api/repository/course_repository"
 	"online-learning-restful-api/repository/elearning_module_repository"
@@ -32,6 +35,7 @@ import (
 	"online-learning-restful-api/repository/user_repository"
 	"online-learning-restful-api/repository/webinar_session_repository"
 	"online-learning-restful-api/service/authentication_service"
+	"online-learning-restful-api/service/cart_service"
 	"online-learning-restful-api/service/course_service"
 	"online-learning-restful-api/service/elearning_module_service"
 	"online-learning-restful-api/service/expert_service"
@@ -47,7 +51,8 @@ import (
 func InitializedEchoServer() *echo.Echo {
 	accountRepositoryImpl := account_repository.NewAccountRepositoryImpl()
 	userRepositoryImpl := user_repository.NewUserRepositoryImpl()
-	db := database.NewDB()
+	configConfig := config.LoadConfigFromEnv()
+	db := database.NewDB(configConfig)
 	validate := validator.New()
 	authenticationServiceImpl := authentication_service.NewAuthenticationServiceImpl(accountRepositoryImpl, userRepositoryImpl, db, validate)
 	authenticationControllerImpl := authentication_controller.NewAuthenticationControllerImpl(authenticationServiceImpl)
@@ -74,6 +79,8 @@ func InitializedEchoServer() *echo.Echo {
 	comingSoonCourseControllerImpl := course_controller.NewComingSoonCourseControllerImpl(comingSoonCourseServiceImpl)
 	courseSummaryServiceImpl := course_service.NewCourseSummaryServiceImpl(courseRepositoryImpl, db)
 	courseSummaryControllerImpl := course_controller.NewCourseSummaryControllerImpl(courseSummaryServiceImpl)
+	orderCourseServiceImpl := course_service.NewOrderCourseServiceImpl(courseRepositoryImpl, db)
+	orderCourseControllerImpl := course_controller.NewOrderCourseControllerImpl(orderCourseServiceImpl)
 	industryInsightRepositoryImpl := industry_insight_repository.NewIndustryInsightRepositoryImpl()
 	industryInsightServiceImpl := industry_insight_service.NewIndustryInsightServiceImpl(industryInsightRepositoryImpl, db)
 	industryInsightControllerImpl := industry_insight_controller.NewIndustryInsightControllerImpl(industryInsightServiceImpl)
@@ -85,7 +92,10 @@ func InitializedEchoServer() *echo.Echo {
 	qnaRepositoryImpl := qna_repository.NewQnaRepositoryImpl()
 	qnaServiceImpl := qna_service.NewQnaServiceImpl(qnaRepositoryImpl, validate, db)
 	qnaControllerImpl := qna_controller.NewQnaControllerImpl(qnaServiceImpl)
-	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl, elearningModuleControllerImpl, quizControllerImpl, comingSoonCourseControllerImpl, courseSummaryControllerImpl, industryInsightControllerImpl, expertControllerImpl, userControllerImpl, qnaControllerImpl)
+	cartRepositoryImpl := cart_repository.NewCartRepositoryImpl()
+	cartServiceImpl := cart_service.NewCartServiceImpl(cartRepositoryImpl, validate, db)
+	cartControllerImpl := cart_controller.NewCartControllerImpl(cartServiceImpl)
+	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl, elearningModuleControllerImpl, quizControllerImpl, comingSoonCourseControllerImpl, courseSummaryControllerImpl, orderCourseControllerImpl, industryInsightControllerImpl, expertControllerImpl, userControllerImpl, qnaControllerImpl, cartControllerImpl)
 	return echoEcho
 }
 
@@ -119,6 +129,8 @@ func InitializedEchoServerForTest() *echo.Echo {
 	comingSoonCourseControllerImpl := course_controller.NewComingSoonCourseControllerImpl(comingSoonCourseServiceImpl)
 	courseSummaryServiceImpl := course_service.NewCourseSummaryServiceImpl(courseRepositoryImpl, db)
 	courseSummaryControllerImpl := course_controller.NewCourseSummaryControllerImpl(courseSummaryServiceImpl)
+	orderCourseServiceImpl := course_service.NewOrderCourseServiceImpl(courseRepositoryImpl, db)
+	orderCourseControllerImpl := course_controller.NewOrderCourseControllerImpl(orderCourseServiceImpl)
 	industryInsightRepositoryImpl := industry_insight_repository.NewIndustryInsightRepositoryImpl()
 	industryInsightServiceImpl := industry_insight_service.NewIndustryInsightServiceImpl(industryInsightRepositoryImpl, db)
 	industryInsightControllerImpl := industry_insight_controller.NewIndustryInsightControllerImpl(industryInsightServiceImpl)
@@ -130,7 +142,10 @@ func InitializedEchoServerForTest() *echo.Echo {
 	qnaRepositoryImpl := qna_repository.NewQnaRepositoryImpl()
 	qnaServiceImpl := qna_service.NewQnaServiceImpl(qnaRepositoryImpl, validate, db)
 	qnaControllerImpl := qna_controller.NewQnaControllerImpl(qnaServiceImpl)
-	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl, elearningModuleControllerImpl, quizControllerImpl, comingSoonCourseControllerImpl, courseSummaryControllerImpl, industryInsightControllerImpl, expertControllerImpl, userControllerImpl, qnaControllerImpl)
+	cartRepositoryImpl := cart_repository.NewCartRepositoryImpl()
+	cartServiceImpl := cart_service.NewCartServiceImpl(cartRepositoryImpl, validate, db)
+	cartControllerImpl := cart_controller.NewCartControllerImpl(cartServiceImpl)
+	echoEcho := app.InitServerWithEcho(authenticationControllerImpl, courseCategoryControllerImpl, popularCourseControllerImpl, detailCourseControllerImpl, courseReviewControllerImpl, webinarSessionControllerImpl, elearningModuleControllerImpl, quizControllerImpl, comingSoonCourseControllerImpl, courseSummaryControllerImpl, orderCourseControllerImpl, industryInsightControllerImpl, expertControllerImpl, userControllerImpl, qnaControllerImpl, cartControllerImpl)
 	return echoEcho
 }
 
@@ -162,6 +177,8 @@ var comingSoonCourseSet = wire.NewSet(course_service.NewComingSoonCourseServiceI
 
 var courseSummarySet = wire.NewSet(course_service.NewCourseSummaryServiceImpl, wire.Bind(new(course_service.CourseSummaryService), new(*course_service.CourseSummaryServiceImpl)), course_controller.NewCourseSummaryControllerImpl, wire.Bind(new(course_controller.CourseSummaryController), new(*course_controller.CourseSummaryControllerImpl)))
 
+var orderCourseSet = wire.NewSet(course_service.NewOrderCourseServiceImpl, wire.Bind(new(course_service.OrderCourseService), new(*course_service.OrderCourseServiceImpl)), course_controller.NewOrderCourseControllerImpl, wire.Bind(new(course_controller.OrderCourseController), new(*course_controller.OrderCourseControllerImpl)))
+
 var industryInsightSet = wire.NewSet(industry_insight_repository.NewIndustryInsightRepositoryImpl, wire.Bind(new(industry_insight_repository.IndustryInsightRepository), new(*industry_insight_repository.IndustryInsightRepositoryImpl)), industry_insight_service.NewIndustryInsightServiceImpl, wire.Bind(new(industry_insight_service.IndustryInsightService), new(*industry_insight_service.IndustryInsightServiceImpl)), industry_insight_controller.NewIndustryInsightControllerImpl, wire.Bind(new(industry_insight_controller.IndustryInsightController), new(*industry_insight_controller.IndustryInsightControllerImpl)))
 
 var expertSet = wire.NewSet(expert_repository.NewExpertRepositoryImpl, wire.Bind(new(expert_repository.ExpertRepository), new(*expert_repository.ExpertRepositoryImpl)), expert_service.NewExpertServiceImpl, wire.Bind(new(expert_service.ExpertService), new(*expert_service.ExpertServiceImpl)), expert_controller.NewExpertControllerImpl, wire.Bind(new(expert_controller.ExpertController), new(*expert_controller.ExpertControllerImpl)))
@@ -170,7 +187,9 @@ var userSet = wire.NewSet(user_service.NewUserServiceImpl, wire.Bind(new(user_se
 
 var qnaSet = wire.NewSet(qna_repository.NewQnaRepositoryImpl, wire.Bind(new(qna_repository.QnaRepository), new(*qna_repository.QnaRepositoryImpl)), qna_service.NewQnaServiceImpl, wire.Bind(new(qna_service.QnaService), new(*qna_service.QnaServiceImpl)), qna_controller.NewQnaControllerImpl, wire.Bind(new(qna_controller.QnaController), new(*qna_controller.QnaControllerImpl)))
 
-var completeSet = wire.NewSet(app.InitServerWithEcho, validator.New, accountRepositorySet,
+var cartSet = wire.NewSet(cart_repository.NewCartRepositoryImpl, wire.Bind(new(cart_repository.CartRepository), new(*cart_repository.CartRepositoryImpl)), cart_service.NewCartServiceImpl, wire.Bind(new(cart_service.CartService), new(*cart_service.CartServiceImpl)), cart_controller.NewCartControllerImpl, wire.Bind(new(cart_controller.CartController), new(*cart_controller.CartControllerImpl)))
+
+var completeSet = wire.NewSet(app.InitServerWithEcho, validator.New, config.LoadConfigFromEnv, accountRepositorySet,
 	userRepositorySet,
 	authenticationSet,
 	courseRepositorySet,
@@ -183,8 +202,10 @@ var completeSet = wire.NewSet(app.InitServerWithEcho, validator.New, accountRepo
 	quizSet,
 	comingSoonCourseSet,
 	courseSummarySet,
+	orderCourseSet,
 	industryInsightSet,
 	expertSet,
 	userSet,
 	qnaSet,
+	cartSet,
 )

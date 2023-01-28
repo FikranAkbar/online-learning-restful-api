@@ -73,6 +73,10 @@
       "description": "API to get course module's summary"
     },
     {
+      "name": "Course - Order",
+      "description": "API to order the course"
+    },
+    {
       "name": "User - Edit Profile",
       "description": "API list to edit user profile"
     },
@@ -1501,7 +1505,7 @@
         }
       }
     },
-    "/courses/:courseId/qna-questions": {
+    "/courses/{courseId}/qna-questions": {
       "get": {
         "security": [{ "BearerAuth": []}],
         "tags": [
@@ -1645,7 +1649,7 @@
         }
       }
     },
-    "/courses/:courseId/qna-questions/{qnaQuestionId}": {
+    "/courses/{courseId}/qna-questions/{qnaQuestionId}": {
       "get": {
         "security": [{ "BearerAuth": []}],
         "tags": [
@@ -1656,6 +1660,9 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/QnaQuestionIdPathParameter"
+          },
+          {
+            "$ref": "#/components/parameters/CourseIdPathParameter"
           }
         ],
         "responses": {
@@ -1736,7 +1743,7 @@
         }
       }
     },
-    "/courses/:courseId/qna-questions/:qnaQuestionId/answers": {
+    "/courses/{courseId}/qna-questions/{qnaQuestionId}/answers": {
       "post": {
         "security": [{ "BearerAuth": []}],
         "tags": [
@@ -1879,8 +1886,10 @@
         }
       }
     },
+    "/course/{courseId}/order-course": {
+    },
     "/users/edit-profile": {
-      "post": {
+      "put": {
         "security": [{ "BearerAuth": []}],
         "tags": ["User - Edit Profile"],
         "description": "Edit user profile by sending minimum one changes",
@@ -1913,6 +1922,14 @@
                     "type": "string"
                   }
                 }
+              },
+              "example": {
+                "name": "Lala Potts",
+                "phone": "081231232",
+                "gender": "Female",
+                "photo": "https://www.google.com",
+                "province_name": "DAERAH ISTIMEWA YOGYAKARTA",
+                "city_name": "SLEMAN"
               }
             }
           }
@@ -2102,6 +2119,108 @@
           },
           "500": {
             "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      }
+    },
+    "/courses/{courseId}/order-course": {
+      "post": {
+        "tags": ["Course - Order"],
+        "security": [{ "BearerAuth": []}],
+        "description": "Create new course order",
+        "summary": "Create new course order",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CourseIdPathParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Create new course order successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "user_id": {
+                          "type": "number"
+                        },
+                        "course_id": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": {
+                    "user_id": 1,
+                    "course_id": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Course - Order"],
+        "security": [{ "BearerAuth": []}],
+        "description": "Delete course order",
+        "summary": "Delete course order",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CourseIdPathParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete course order successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "user_id": {
+                          "type": "number"
+                        },
+                        "course_id": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": {
+                    "user_id": 1,
+                    "course_id": 1
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -2353,6 +2472,93 @@
           },
           "500": {
             "$ref": "#/components/responses/500-InternalServerError"
+          }
+        }
+      }
+    },
+    "/users/carts/buy": {
+      "post": {
+        "security": [{ "BearerAuth": []}],
+        "tags": ["Payment"],
+        "description": "Create new transaction in midtrans to buy course from user's cart",
+        "summary": "Create new transaction",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "courseIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                }
+              },
+              "example": {
+                "courseIds": [1]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Buy course successfully, and waiting for payment",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "order_id": {
+                          "type": "string"
+                        },
+                        "item_details": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "price": {
+                                "type": "number"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "OK",
+                  "data": {
+                    "order_id": 10101,
+                    "item_details": [
+                      {
+                        "id": 1,
+                        "name": "product name",
+                        "price": 10000
+                      }
+                    ]
+                  }
+                }
+              }
+            }
           }
         }
       }

@@ -111,4 +111,3 @@ func (service *QnaServiceImpl) CreateNewQnaAnswer(ctx context.Context, courseId 
 		Answer:   qnaAnswer.Answer,
 	}
 }
-
