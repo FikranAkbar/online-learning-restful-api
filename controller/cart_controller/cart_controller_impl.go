@@ -32,3 +32,17 @@ func (controller *CartControllerImpl) BuyCartItems(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, apiResponse)
 }
+
+func (controller *CartControllerImpl) HandleMidtransPaymentNotification(c echo.Context) error {
+	var midtransPaymentNotificationRequest payment.MidtransPaymentNotificationRequest
+	err := c.Bind(&midtransPaymentNotificationRequest)
+	helper.PanicIfError(err)
+
+	controller.CartService.HandleMidtransPaymentNotification(c.Request().Context(), midtransPaymentNotificationRequest)
+
+	return c.JSON(http.StatusOK, web.APIResponse{
+		Status:  200,
+		Message: "OK",
+		Data:    nil,
+	})
+}

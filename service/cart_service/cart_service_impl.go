@@ -8,6 +8,7 @@ import (
 	"gorm.io/gorm"
 	"online-learning-restful-api/config"
 	"online-learning-restful-api/helper"
+	"online-learning-restful-api/model/domain"
 	"online-learning-restful-api/model/web/payment"
 	"online-learning-restful-api/repository/cart_repository"
 )
@@ -56,4 +57,29 @@ func (service *CartServiceImpl) BuyCartItems(ctx context.Context, courseIds []ui
 	}
 
 	return courseOrderResponse
+}
+
+func (service *CartServiceImpl) HandleMidtransPaymentNotification(ctx context.Context, request payment.MidtransPaymentNotificationRequest) {
+	tx := service.DB.Begin()
+	defer helper.CommitOrRollback(tx)
+
+	if request.TransactionStatus == "settlement" {
+		paymentNotification := domain.MidtransPaymentNotification{
+			TransactionStatus: request.TransactionStatus,
+			OrderId:           request.OrderId,
+			PaymentType:       request.PaymentType,
+		}
+		err := service.CartRepository.AddNewCourseToUser(ctx, tx, paymentNotification)
+		helper.PanicIfError(err)
+	} else if request.TransactionStatus == "cancel" ||
+		request.TransactionStatus == "deny" ||
+		request.TransactionStatus == "expire" {
+		paymentNotification := domain.MidtransPaymentNotification{
+			TransactionStatus: request.TransactionStatus,
+			OrderId:           request.OrderId,
+			PaymentType:       request.PaymentType,
+		}
+		err := service.CartRepository.ChangeUserPaymentHistoryToCancelled(ctx, tx, paymentNotification)
+		helper.PanicIfError(err)
+	}
 }

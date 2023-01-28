@@ -7,4 +7,5 @@ import (
 
 type CartService interface {
 	BuyCartItems(ctx context.Context, courseIds []uint) payment.CourseOrderResponse
+	HandleMidtransPaymentNotification(ctx context.Context, request payment.MidtransPaymentNotificationRequest)
 }

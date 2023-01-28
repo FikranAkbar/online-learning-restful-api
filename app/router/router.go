@@ -69,9 +69,12 @@ var (
 	ExpertIdPath   = "/:expertId"
 )
 
+// payment URL
 var (
-	CartsURLPath = "/carts"
-	BuyURLPath   = "/buy"
+	CartsURLPath    = "/carts"
+	BuyURLPath      = "/buy"
+	MidtransURLPath = "/midtrans"
+	WebhookURLPath  = "/webhook"
 )
 
 func InitRoutes(
@@ -108,6 +111,9 @@ func InitRoutes(
 
 	// experts group route
 	publicExpertsGroup := apiGroup.Group(ExpertsURLPath)
+
+	// payment group route
+	publicMidtransGroup := apiGroup.Group(MidtransURLPath)
 
 	// protected route group
 	for _, routeGroup := range []*echo.Group{
@@ -282,4 +288,8 @@ func InitRoutes(
 		CartsURLPath+BuyURLPath,
 		cartController.BuyCartItems,
 	).Name = "Buy cart items"
+	publicMidtransGroup.POST(
+		WebhookURLPath,
+		cartController.HandleMidtransPaymentNotification,
+	).Name = "Handle payment notification from midtrans"
 }

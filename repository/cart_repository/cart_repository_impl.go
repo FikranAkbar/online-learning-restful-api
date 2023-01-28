@@ -9,6 +9,7 @@ import (
 	"online-learning-restful-api/exception"
 	"online-learning-restful-api/helper"
 	"online-learning-restful-api/model/domain"
+	"strconv"
 	"strings"
 )
 
@@ -94,8 +95,6 @@ func (repository *CartRepositoryImpl) BuyCartItems(ctx context.Context, db *gorm
 		}
 	}
 
-	fmt.Println("Order Id 1:", paymentHistoryEntity.OrderId)
-
 	return domain.PaymentHistory{
 			OrderId:         paymentHistoryEntity.OrderId,
 			UserId:          userTokenInfo.UserId,
@@ -131,8 +130,6 @@ func (repository *CartRepositoryImpl) SavePaymentRedirectionURL(ctx context.Cont
 		return domain.PaymentHistory{}, err
 	}
 
-	fmt.Println("Order Id 2:", paymentHistoryEntity.OrderId)
-
 	return domain.PaymentHistory{
 		OrderId:         paymentHistoryEntity.OrderId,
 		UserId:          paymentHistoryEntity.UserId,
@@ -144,4 +141,60 @@ func (repository *CartRepositoryImpl) SavePaymentRedirectionURL(ctx context.Cont
 		PaymentUrl:      paymentHistoryEntity.PaymentUrl,
 		IsExpired:       false,
 	}, nil
+}
+
+func (repository *CartRepositoryImpl) AddNewCourseToUser(ctx context.Context, db *gorm.DB, paymentNotification domain.MidtransPaymentNotification) error {
+	var paymentHistoryEntity entity.TrxUserPaymentHistory
+	err := db.WithContext(ctx).
+		Model(&paymentHistoryEntity).
+		Where("order_id = ?", paymentNotification.OrderId).
+		Updates(map[string]any{"payment_status_id": 1}).
+		First(&paymentHistoryEntity).Error
+	if err != nil {
+		return err
+	}
+
+	for _, courseIdString := range strings.Split(paymentHistoryEntity.CourseIds, ",") {
+		courseId, err := strconv.Atoi(courseIdString)
+		if err != nil {
+			break
+		}
+
+		userCourse := domain.UserCourse{
+			UserId:   paymentHistoryEntity.UserId,
+			CourseId: uint(courseId),
+		}
+
+		userCourseEntity := entity.TrxUserCourse{
+			UserId:               userCourse.UserId,
+			CourseId:             userCourse.CourseId,
+			LastUnlockedModule:   1,
+			TotalWebinarAttended: 1,
+		}
+		err = db.WithContext(ctx).
+			Create(&userCourseEntity).Error
+		if err != nil {
+			break
+		}
+	}
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (repository *CartRepositoryImpl) ChangeUserPaymentHistoryToCancelled(ctx context.Context, db *gorm.DB, paymentNotification domain.MidtransPaymentNotification) error {
+	var paymentHistoryEntity entity.TrxUserPaymentHistory
+	err := db.WithContext(ctx).
+		Model(&paymentHistoryEntity).
+		Where("order_id = ?", paymentNotification.OrderId).
+		Updates(map[string]any{"payment_status_id": 2}).
+		First(&paymentHistoryEntity).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
