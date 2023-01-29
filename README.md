@@ -113,7 +113,7 @@ MIDTRANS_SERVER_KEY= <<YOUR MIDTRANS SERVER KEY>>
 
 1. Make file app.env and copy content from example.env
 
-2. Update DB_NAME_DEV, DB_USERNAME_DEV, and DB_PASSWORD_DEV based on your local
+2. Update the app.env fields based on your local
 
 3. Run the test in app/database/db_test.go
 
@@ -123,7 +123,7 @@ go test app/database/db_test.go
 
 <p align="right">(<a href="#top">back to table of contents</a>)</p>
 
-## Deployment and Documentation
+## Documentation
 
 - [API Documentation (Swagger)](api_spec.json)
 - [Database Documentation (DBDiagram)](https://dbdiagram.io/d/621f197f54f9ad109a438bf0)
